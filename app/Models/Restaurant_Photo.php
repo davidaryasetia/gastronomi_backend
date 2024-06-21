@@ -11,9 +11,9 @@ class Restaurant_Photo extends Model
     protected $table = 'restaurant_photo';
     protected $primaryKey = 'restaurant_photo_id';
     protected $fillable = [
-        'restaurant_id', 
-        'photo_path', 
-        'created_at', 
-        'updated_at', 
+        'restaurant_id',
+        'photo_path',
+        'created_at',
+        'updated_at',
     ];
 }

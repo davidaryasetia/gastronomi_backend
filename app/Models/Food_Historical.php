@@ -11,9 +11,9 @@ class Food_Historical extends Model
     protected $table = "food_historical";
     protected $primaryKey = "food_historical_id";
     protected $fillable = [
-        'food_id', 
-        'description', 
-        'created_at', 
-        'updated_at', 
+        'food_id',
+        'description',
+        'created_at',
+        'updated_at',
     ];
 }

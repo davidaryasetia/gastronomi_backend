@@ -11,16 +11,16 @@ class Food extends Model
     protected $table = "food";
     protected $primaryKey = "food_id";
     protected $fillable = [
-        'name', 
-        'photo_path', 
-        'category', 
-        'description', 
-        'ingredients', 
-        'url_youtube', 
+        'name',
+        'photo_path',
+        'category',
+        'description',
+        'ingredients',
+        'url_youtube',
         'directions',
-        'nutrition', 
-        'address', 
-        'created_at', 
+        'nutrition',
+        'address',
+        'created_at',
         'updated_at'
     ];
 }
