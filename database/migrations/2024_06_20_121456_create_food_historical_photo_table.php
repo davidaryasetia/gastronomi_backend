@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('food_historical_photo', function (Blueprint $table) {
             $table->id('food_historical_photo_id');
 
-            $table->unsignedBigInteger('food_historical_id');
-            $table->foreign('food_historical_id')
-                    ->references('food_historical_id')
-                    ->on('food_historical')
+            $table->unsignedBigInteger('food_id');
+            $table->foreign('food_id')
+                    ->references('food_id')
+                    ->on('food')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
             

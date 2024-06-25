@@ -15,15 +15,15 @@ class FoodHistoricalPhoto extends Seeder
     public function run(): void
     {
         Food_Historical_Photo::create([
-            'food_historical_id' => 1, 
+            'food_id' => 1, 
             'photo' => 'foto_1.jpg', 
         ]);
         Food_Historical_Photo::create([
-            'food_historical_id' => 1, 
+            'food_id' => 1, 
             'photo' => 'foto_2.jpg', 
         ]);
         Food_Historical_Photo::create([
-            'food_historical_id' => 1, 
+            'food_id' => 1, 
             'photo' => 'foto_3.jpg', 
         ]);
     }

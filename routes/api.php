@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\FoodController;
 use App\Http\Controllers\TestingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,4 +21,11 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
-Route::get('/testing', [TestingController::class, 'index']);
+Route::get( '/testing', [TestingController::class, 'index']);
+
+// Food 
+Route::get('/food', [FoodController::class, 'index']);
+Route::get('/food/{id}', [FoodController::class, 'show']);
+Route::post('/food', [FoodController::class, 'store']);
+Route::delete('/food/{id}', [FoodController::class, 'destroy']);
+Route::patch('/food/{id}', [FoodController::class, 'update']);

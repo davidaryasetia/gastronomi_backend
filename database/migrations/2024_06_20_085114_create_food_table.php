@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('photo_path')->nullable();
             $table->string('category');
             $table->longText('description');
+            $table->longText('food_historical');
             $table->longText('ingredients');
             $table->string('url_youtube');
             $table->longText('directions');

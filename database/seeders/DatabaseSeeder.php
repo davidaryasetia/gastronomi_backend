@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
         // ]);
         $this->call([
             FoodSeeder::class, 
-            FoodHistoricalSeeder::class, 
             FoodHistoricalPhoto::class, 
             CultureSeeder::class, 
             RestaurantSeeder::class, 

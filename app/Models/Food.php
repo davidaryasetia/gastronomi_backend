@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Food extends Model
 {
@@ -15,6 +16,7 @@ class Food extends Model
         'photo_path',
         'category',
         'description',
+        'food_historical', 
         'ingredients',
         'url_youtube',
         'directions',
@@ -23,4 +25,9 @@ class Food extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function photos(): HasMany
+    {
+        return $this->hasMany(Food_Historical_Photo::class, 'food_id', 'food_id');
+    }
 }
