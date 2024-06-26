@@ -130,7 +130,7 @@ class FoodController extends Controller
             $photo->delete();
         }
 
-        $foodResource = new FoodResource($food->load('photos'));
+        $foodResource = new FoodResource($food->loadMissing('photos:food_historical_photo_id,food_id,photo'));
 
         $food->delete();
 

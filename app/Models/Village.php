@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Village extends Model
 {
@@ -25,4 +26,9 @@ class Village extends Model
         'created_at', 
         'updated_at', 
     ];
+
+    public function village_photos(): HasMany
+    {
+        return $this->hasMany(Village_Photo::class, 'village_id', 'village_id');
+    }
 }

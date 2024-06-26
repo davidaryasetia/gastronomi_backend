@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Restaurant extends Model
 {
@@ -21,4 +22,9 @@ class Restaurant extends Model
         'created_at', 
         'updated_at', 
     ];
+
+    public function restaurant_photos(): HasMany
+    {
+        return $this->hasMany(Restaurant_Photo::class, 'restaurant_id', 'restaurant_id');
+    }
 }
