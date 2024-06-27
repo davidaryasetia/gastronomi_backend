@@ -15,7 +15,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('sections.dashboard.dashboard');
+    return view('sections.dashboard.dashboard', [
+        'title' => 'Dashboard', 
+    ]);
 });
 
 Route::resource('/food', FoodController::class);
