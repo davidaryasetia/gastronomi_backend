@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\BackendController\CultureController;
 use App\Http\Controllers\BackendController\FoodController;
+use App\Http\Controllers\BackendController\RestaurantController;
+use App\Http\Controllers\BackendController\VillageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,3 +24,6 @@ Route::get('/', function () {
 });
 
 Route::resource('/food', FoodController::class);
+Route::resource('/restaurant', RestaurantController::class);
+Route::resource('/village', VillageController::class);
+Route::resource('/culture', CultureController::class);

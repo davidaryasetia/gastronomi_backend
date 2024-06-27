@@ -3,21 +3,21 @@
 namespace App\Http\Controllers\BackendController;
 
 use App\Http\Controllers\Controller;
-use App\Models\Food;
+use App\Models\Culture;
 use Illuminate\Http\Request;
 
-class FoodController extends Controller
+class CultureController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $food = Food::with('photos:food_historical_photo_id,food_id,photo')->get();
+        $culture = Culture::get();
 
-        return view('sections.food.food', [
-            'title' => 'Food', 
-            'food' => $food, 
+        return view('sections.culture.culture', [
+            'title' => 'Culture', 
+            'culture' => $culture, 
         ]);
     }
 

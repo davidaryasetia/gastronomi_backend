@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\BackendController;
 
 use App\Http\Controllers\Controller;
+use App\Models\Restaurant;
 use Illuminate\Http\Request;
 
 class RestaurantController extends Controller
@@ -12,7 +13,12 @@ class RestaurantController extends Controller
      */
     public function index()
     {
-        //
+        $restaurant = Restaurant::with('restaurant_photos:restaurant_photo_id,restaurant_id,photo_path')->get();
+
+        return view('sections.restaurant.restaurant', [
+            'title' => 'Restaurant',  
+            'restaurant' => $restaurant, 
+        ]);
     }
 
     /**
