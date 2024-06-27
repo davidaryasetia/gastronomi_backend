@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\BackendController;
 
 use App\Http\Controllers\Controller;
+use App\Models\Village;
 use Illuminate\Http\Request;
 
 class VillageController extends Controller
@@ -12,8 +13,12 @@ class VillageController extends Controller
      */
     public function index()
     {
+        $village = Village::with('village_photos:village_photo_id,village_id,photo_path')->get();
+        
+
         return view('sections.village.village', [
             'title' => 'Village', 
+            'village' => $village, 
         ]);
     }
 
