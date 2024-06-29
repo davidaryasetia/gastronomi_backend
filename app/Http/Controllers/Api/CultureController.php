@@ -14,7 +14,7 @@ class CultureController extends Controller
     {
         $culture = Culture::all();
          
-        // Create JSON response
+        // hasil JSON response
         $response = response()->json([
             'data' => CultureResource::collection($culture),
         ]);
