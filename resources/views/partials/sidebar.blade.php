@@ -33,7 +33,7 @@
                     <span class="hide-menu">Sections</span>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="/food" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('food*') ? 'active' : '' }}" href="/food" aria-expanded="false">
                         <span>
                             <i class="ti ti-soup"></i>
                         </span>
@@ -41,7 +41,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="/restaurant" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('restaurant*') ? 'active' : '' }}" href="/restaurant" aria-expanded="false">
                         <span>
                             <i class="ti ti-tools-kitchen-2"></i>
                         </span>
@@ -49,7 +49,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="/culture" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('culture*') ? 'active' : '' }}" href="/culture" aria-expanded="false">
                         <span>
                             <i class="ti ti-steam"></i>
                         </span>
@@ -57,7 +57,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="/village" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('village*') ? 'active' : '' }}" href="/village" aria-expanded="false">
                         <span>
                             <i class="ti ti-home"></i>
                         </span>

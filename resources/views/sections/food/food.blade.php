@@ -13,7 +13,7 @@
                                     <span class="card-title fw-semibold">List Food Culinary</span>
                                 </div>
                                 <div class="me-2">
-                                    <a href="unit_kerja/create" type="button" class="btn btn-primary"><i
+                                    <a href="food/create" type="button" class="btn btn-primary"><i
                                             class="ti ti-plus me-1"></i>Add Food</a>
                                 </div>
 

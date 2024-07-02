@@ -4,6 +4,7 @@ namespace App\Http\Controllers\BackendController;
 
 use App\Http\Controllers\Controller;
 use App\Models\Food;
+use App\Models\Food_Historical_Photo;
 use Illuminate\Http\Request;
 
 class FoodController extends Controller
@@ -26,7 +27,9 @@ class FoodController extends Controller
      */
     public function create()
     {
-        //
+        return view('sections.food.create', [
+            'title' => 'Add Food', 
+        ]);
     }
 
     /**
@@ -34,7 +37,52 @@ class FoodController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required', 
+            'photo_path' => 'nullable', 
+            'category' => 'nullable|string', 
+            'description' => 'required', 
+            'food_historical' => 'required', 
+            'ingredients' => 'required', 
+            'url_youtube' => 'nullable', 
+            'directions' => 'required', 
+            'nutrition' => 'nullable', 
+            'address' => 'nullable', 
+            'photo.*' => 'nullable',
+        ]);
+
+
+        $food_photo = $request->file('photo_path')->store('food_photo','public');
+
+        $food = Food::create([
+            'name' => $request->name, 
+            'photo_path' => $food_photo, 
+            'category' => $request->category, 
+            'description' => $request->description, 
+            'food_historical' => $request->food_historical, 
+            'ingredients' => $request->ingredients, 
+            'url_youtube' => $request->url_youtube, 
+            'directions' => $request->directions, 
+            'nutrition' => $request->nutrition, 
+            'address' => $request->address, 
+        ]);
+
+        // Simpan Foto Historical Food
+        if($request->hasFile('photo')){
+            foreach($request->file('photo') as $photo){
+                $path = $photo->store('historical_food_photo', 'public');
+                Food_Historical_Photo::create([
+                    'food_id' => $food->food_id, 
+                    'photo' => $path,
+                ]);
+            }
+        }
+
+        if($food){
+            return redirect('/food')->with('success', 'Data Food Successfully Added!!!!');
+        } else {
+            return redirect('/food')->with('error', 'Data Food Failed To Added');
+        }
     }
 
     /**
