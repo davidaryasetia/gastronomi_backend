@@ -16,6 +16,7 @@ class Village extends Model
         'open_at', 
         'close_at', 
         'address', 
+        'description', 
         'fasility', 
         'mandatory_equipment', 
         'contact', 

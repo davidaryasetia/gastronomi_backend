@@ -37,6 +37,22 @@ class FoodResource extends JsonResource
                     ];
                 });
             }), 
+            'food_photos' => $this->whenLoaded('food_photos', function(){
+                return $this->food_photos->map(function($food_photo){
+                    return [
+                        'food_photo_id' => $food_photo->food_photo_id, 
+                        'photo_path' => Storage::url($food_photo->photo_path), 
+                    ];
+                });
+            }), 
+            'tag_foods' => $this->whenLoaded('tag_foods', function(){
+                return $this->tag_foods->map(function($tag_food){
+                    return [
+                        'tag_food_id' => $tag_food->tag_food_id, 
+                        'nametag' => $tag_food->nametag,
+                    ];
+                });
+            })
         ];
     }
 }

@@ -26,8 +26,23 @@ class Food extends Model
         'updated_at'
     ];
 
+    // History photo
     public function photos(): HasMany
     {
         return $this->hasMany(Food_Historical_Photo::class, 'food_id', 'food_id');
     }
+
+    // Food Photo
+    public function food_photos(): HasMany
+    {
+        return $this->hasMany(Food_Photo::class, 'food_id', 'food_id');
+    }
+
+    // Tag Food
+    public function tag_foods(): HasMany
+    {
+        return $this->hasMany(Tag_Food::class, 'food_id', 'food_id');
+    }
+
+
 }

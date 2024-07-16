@@ -15,12 +15,21 @@ class FoodController extends Controller
     public function index()
     {
         $food = Food::all();
-        return FoodResource::collection($food->loadMissing('photos:food_historical_photo_id,food_id,photo'));
+        return FoodResource::collection($food->loadMissing([
+            'photos:food_historical_photo_id,food_id,photo', 
+            'food_photos:food_photo_id,food_id,photo_path', 
+            'tag_foods:tag_food_id,food_id,nametag'
+        ]));
     }
 
     public function show($id)
     {
-        $food = Food::with('photos:food_historical_photo_id,food_id,photo')->findOrFail($id);
+        $food = Food::with([
+            'photos:food_historical_photo_id,food_id,photo', 
+            'food_photos:food_photo_id,food_id,photo_path',
+            'tag_foods:tag_food_id,food_id,nametag', 
+            ])
+            ->findOrFail($id);
         return new FoodResource($food->loadMissing('photos:food_historical_photo_id,food_id,photo')); 
     }
 

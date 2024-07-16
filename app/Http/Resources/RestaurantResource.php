@@ -21,7 +21,10 @@ class RestaurantResource extends JsonResource
             'description' => $this->description, 
             'list_food' => $this->list_food, 
             'list_drink' => $this->list_drink, 
-            'address' => $this->address, 
+            'address' => $this->address,
+            'url_link_map' => $this->url_link_map,
+            'latitude' => $this->latitude, 
+            'longitude' => $this->longitude, 
             'open_at' => $this->open_at, 
             'close_at' => $this->close_at, 
             'restaurant_photos' => $this->whenLoaded('restaurant_photos', function(){

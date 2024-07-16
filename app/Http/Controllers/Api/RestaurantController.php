@@ -23,7 +23,6 @@ class RestaurantController extends Controller
         return new RestaurantResource($restaurant->loadMissing('restaurant_photos:restaurant_photo_id,restaurant_id,photo_path'));
     }
 
-   
 
     public function store(Request $request)
     {

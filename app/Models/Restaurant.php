@@ -17,6 +17,9 @@ class Restaurant extends Model
         'list_food', 
         'list_drink', 
         'address', 
+        'url_link_map', 
+        'latitude', 
+        'longitude', 
         'open_at', 
         'close_at', 
         'created_at', 
@@ -26,5 +29,10 @@ class Restaurant extends Model
     public function restaurant_photos(): HasMany
     {
         return $this->hasMany(Restaurant_Photo::class, 'restaurant_id', 'restaurant_id');
+    }
+
+    public function menu(): HasMany
+    {
+        return $this->hasMany(Menu::class, 'restaurant_id', 'restaurant_id');
     }
 }
