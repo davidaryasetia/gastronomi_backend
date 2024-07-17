@@ -28,11 +28,8 @@ class RestaurantController extends Controller
             'menus:menu_id,restaurant_id,food_id,name,type_food,is_traditional', 
             'menus.foods:food_id,name,category', 
             ])->findOrFail($id);
-        return new RestaurantResource($restaurant->loadMissing([
-            'restaurant_photos:restaurant_photo_id,restaurant_id,photo_path', 
-            'menus:menu_id,restaurant_id,food_id,name,type_food,is_traditional', 
-            'menus.foods:food_id,name,category'
-        ]));
+            
+        return new RestaurantResource($restaurant);
     }
 
 

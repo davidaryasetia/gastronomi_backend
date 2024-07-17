@@ -36,6 +36,7 @@ Route::patch('/food/{id}', [FoodController::class, 'update']);
 
 // FoodRestaurant 
 Route::get('/foodRestaurant', [FoodRestaurantController::class, 'index']); 
+Route::get('/foodRestaurant/{id}', [FoodRestaurantController::class, 'show']);
 
 // Restaurant 
 Route::get('/restaurant', [RestaurantController::class, 'index']);

@@ -18,13 +18,12 @@ class FoodRestaurantResource extends JsonResource
             'menu_id' => $this->menu_id, 
             'restaurant_id' => $this->restaurant_id, 
             'food_id' => $this->food_id,
-            'restaurants' => $this->whenLoaded('restaurants', function(){
-                return $this->restaurants->map(function($restaurant){
-                    return [
-                        'restaurant_id' => $restaurant->restaurant_id, 
-                    ];
-                });
-            }), 
+            'name' => $this->name,
+            'restaurants' => [
+                'restaurant_id' => $this->restaurants->restaurant_id, 
+                'name_restaurant' => $this->restaurants->name_restaurant, 
+            ], 
+            'foods' => new FoodResource($this->foods), 
         ];
     }
 }

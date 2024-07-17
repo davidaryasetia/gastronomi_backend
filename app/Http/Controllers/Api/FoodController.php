@@ -30,7 +30,7 @@ class FoodController extends Controller
             'tag_foods:tag_food_id,food_id,nametag', 
             ])
             ->findOrFail($id);
-        return new FoodResource($food->loadMissing('photos:food_historical_photo_id,food_id,photo')); 
+        return new FoodResource($food); 
     }
 
 
