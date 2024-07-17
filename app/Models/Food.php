@@ -44,5 +44,4 @@ class Food extends Model
         return $this->hasMany(Tag_Food::class, 'food_id', 'food_id');
     }
 
-
 }

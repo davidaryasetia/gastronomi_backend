@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Restaurant extends Model
 {
@@ -31,8 +32,10 @@ class Restaurant extends Model
         return $this->hasMany(Restaurant_Photo::class, 'restaurant_id', 'restaurant_id');
     }
 
-    public function menu(): HasMany
+    public function menus(): HasMany
     {
         return $this->hasMany(Menu::class, 'restaurant_id', 'restaurant_id');
     }
+
+ 
 }

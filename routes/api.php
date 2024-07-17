@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\CultureController;
 use App\Http\Controllers\Api\FoodController;
+use App\Http\Controllers\Api\FoodRestaurantController;
 use App\Http\Controllers\Api\RestaurantController;
 use App\Http\Controllers\Api\VillageController;
 use App\Http\Controllers\TestingController;
@@ -32,6 +33,9 @@ Route::get('/food/{id}', [FoodController::class, 'show']);
 Route::post('/food', [FoodController::class, 'store']);
 Route::delete('/food/{id}', [FoodController::class, 'destroy']);
 Route::patch('/food/{id}', [FoodController::class, 'update']);
+
+// FoodRestaurant 
+Route::get('/foodRestaurant', [FoodRestaurantController::class, 'index']); 
 
 // Restaurant 
 Route::get('/restaurant', [RestaurantController::class, 'index']);
