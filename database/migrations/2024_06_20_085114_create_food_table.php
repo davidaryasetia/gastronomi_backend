@@ -16,12 +16,12 @@ return new class extends Migration
             $table->string('name');
             $table->string('photo_path')->nullable();
             $table->string('category');
-            $table->longText('description');
-            $table->longText('food_historical');
-            $table->longText('ingredients');
+            $table->text('description');
+            $table->text('food_historical');
+            $table->text('ingredients');
             $table->string('url_youtube');
-            $table->longText('directions');
-            $table->longText('nutrition');
+            $table->text('directions');
+            $table->text('nutrition');
             $table->string('address');
             $table->timestamps();
         });

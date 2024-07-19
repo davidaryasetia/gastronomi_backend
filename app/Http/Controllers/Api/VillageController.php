@@ -34,12 +34,15 @@ class VillageController extends Controller
             'fasility' => 'required',
             'mandatory_equipment' => 'required',
             'contact' => 'required',
+            'photo_path' => 'nullable', 
             'url_website' => 'nullable',
             'url_facebook' => 'nullable',
             'url_instagram' => 'nullable',
             'url_twitter' => 'nullable',
-            'photo_path.*' => 'nullable',
+            'detail_photo_path.*' => 'nullable',
         ]);
+
+        $village_photo = $request->file('photo_path')->store('village_photo','public');
 
         $village = Village::create([
             'name_village' => $request->name_village,
@@ -50,6 +53,7 @@ class VillageController extends Controller
             'fasility' => $request->fasility,
             'mandatory_equipment' => $request->mandatory_equipment,
             'contact' => $request->contact,
+            'photo_path' => $village_photo, 
             'url_website' => $request->url_website,
             'url_facebook' => $request->url_facebook,
             'url_instagram' => $request->url_instagram,
@@ -57,9 +61,9 @@ class VillageController extends Controller
         ]);
 
         // Simpan Foto Village
-        if ($request->hasFile('photo_path')) {
-            foreach ($request->file('photo_path') as $photo_path) {
-                $path = $photo_path->store('village_photo', 'public');
+        if ($request->hasFile('detail_photo_path')) {
+            foreach ($request->file('detail_photo_path') as $detail_photo_path) {
+                $path = $detail_photo_path ->store('detail_village_photo', 'public');
                 Village_Photo::create([
                     'village_id' => $village->village_id,
                     'photo_path' => $path,
@@ -111,13 +115,17 @@ class VillageController extends Controller
     {
         $village = Village::findOrFail($id);
 
-        // Hapus Foto di Village Photo
-        foreach ($village->village_photos as $village_photos) {
-            Storage::disk('public')->delete($village_photos->photo_path);
-            $village_photos->delete();
+        if ($village->photo_path){
+            Storage::disk('public')->delete($village->photo_path);
         }
 
-        $villageResource = new VillageResource($village->loadMissing('village_photos:village_photo_id,village_id,photo_path'));
+        // Hapus Foto di Village Photo
+        foreach ($village->village_photos as $village_photo) {
+            Storage::disk('public')->delete($village_photo->photo_path);
+            $village_photo->delete();
+        }
+
+        $villageResource = new VillageResource($village->loadMissing('village_photos:village_photo_id,photo_path'));
 
         $village->delete();
 

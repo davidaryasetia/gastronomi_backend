@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('culture', function (Blueprint $table) {
             $table->id('culture_id');
             $table->string('name_culture');
-            $table->longText('description');
+            $table->text('description');
             $table->string('url_youtube')->nullable('true');
             $table->string('photo_path')->nullable('true');
             $table->timestamps();

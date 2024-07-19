@@ -20,6 +20,7 @@ class Village extends Model
         'fasility', 
         'mandatory_equipment', 
         'contact', 
+        'photo_path',
         'url_website', 
         'url_facebook', 
         'url_instagram', 

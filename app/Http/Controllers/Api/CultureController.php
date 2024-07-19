@@ -96,7 +96,13 @@ class CultureController extends Controller
             Storage::disk('public')->delete($culture->photo_path);
         }
 
-        $cultureResource = new CultureResource($culture);
+        // Hapus Detail Photo
+        foreach($culture->culture_photos as $culture_photo){
+            Storage::disk('public')->delete($culture_photo->photo_path);
+            $culture_photo->delete();
+        }
+
+        $cultureResource = new CultureResource($culture->loadMissing('culture_photos:culture_photo_id,photo_path'));
 
         $culture->delete();
 

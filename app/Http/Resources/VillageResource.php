@@ -25,6 +25,7 @@ class VillageResource extends JsonResource
             'fasility' => $this->fasility, 
             'mandatory_equipment' => $this->mandatory_equipment, 
             'contact' => $this->contact, 
+            'photo_path' => Storage::url($this->photo_path), 
             'url_website' => $this->url_website, 
             'url_facebook' => $this->url_facebook, 
             'url_instagram' => $this->url_instagram, 

@@ -17,9 +17,10 @@ return new class extends Migration
             $table->time('open_at');
             $table->time('close_at');
             $table->string('address');
-            $table->longText('fasility');
-            $table->longText('mandatory_equipment');
+            $table->text('fasility');
+            $table->text('mandatory_equipment');
             $table->string('contact')->nullable(true);
+            $table->string('photo_path')->nullable(true);
             $table->string('url_website')->nullable(true);
             $table->string('url_facebook')->nullable(true);
             $table->string('url_instagram')->nullable(true);

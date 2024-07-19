@@ -29,30 +29,24 @@ class FoodResource extends JsonResource
             'address' => $this->address, 
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at, 
-            'photos' => $this->whenLoaded('photos', function(){
-                return $this->photos->map(function($photo){
-                    return[
-                        'food_historical_photo_id' => $photo->food_historical_photo_id, 
-                        'photo' => Storage::url($photo->photo), 
-                    ];
-                });
-            }), 
-            'food_photos' => $this->whenLoaded('food_photos', function(){
-                return $this->food_photos->map(function($food_photo){
-                    return [
-                        'food_photo_id' => $food_photo->food_photo_id, 
-                        'photo_path' => Storage::url($food_photo->photo_path), 
-                    ];
-                });
-            }), 
-            'tag_foods' => $this->whenLoaded('tag_foods', function(){
-                return $this->tag_foods->map(function($tag_food){
-                    return [
-                        'tag_food_id' => $tag_food->tag_food_id, 
-                        'nametag' => $tag_food->nametag,
-                    ];
-                });
-            })
+            'photos' => $this->photos->map(function($photo){
+                return [
+                    'food_historical_photo_id' => $photo->food_historical_photo_id, 
+                    'photo' => Storage::url($photo->photo), 
+                ];
+            }),
+            'food_photos' => $this->food_photos->map(function($food_photo){
+                return [
+                    'food_photo_id' => $food_photo->food_photo_id,
+                    'photo_path' => Storage::url($food_photo->photo_path), 
+                ];
+            }),
+            'tag_foods' => $this->tag_foods->map(function($tag_food){
+                return [
+                    'tag_food_id' => $tag_food->tag_food_id,
+                    'nametag' => $tag_food->nametag, 
+                ];
+            }),
         ];
     }
 }

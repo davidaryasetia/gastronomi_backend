@@ -14,7 +14,8 @@ class Restaurant extends Model
     protected $primaryKey = "restaurant_id";
     protected $fillable = [
         'name_restaurant', 
-        'description', 
+        'description',
+        'photo_path',  
         'list_food', 
         'list_drink', 
         'address', 
