@@ -3,14 +3,7 @@
 /public/build
 /public/hot
 /public/storage
-/storage/app/public
 /storage/*.key
-/storage/debugbar
-/storage/framework/cache/data
-/storage/framework/sessions
-/storage/framework/testing
-/storage/framework/views
-/storage/logs
 /vendor
 .env
 .env.backup
