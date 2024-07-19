@@ -13,8 +13,8 @@ class VillageController extends Controller
 {
     public function index()
     {
-        $village = Village::all();
-        return VillageResource::collection($village->loadMissing('village_photos:village_photo_id,village_id,photo_path'));
+        $village = Village::with('village_photos:village_photo_id,village_id,photo_path')->get();
+        return VillageResource::collection($village);
     }
 
     public function show($id)
@@ -30,6 +30,7 @@ class VillageController extends Controller
             'open_at' => 'required',
             'close_at' => 'required',
             'address' => 'required',
+            'description' => 'required', 
             'fasility' => 'required',
             'mandatory_equipment' => 'required',
             'contact' => 'required',
@@ -45,6 +46,7 @@ class VillageController extends Controller
             'open_at' => $request->open_at,
             'close_at' => $request->close_at,
             'address' => $request->address,
+            'description' => $request->description,
             'fasility' => $request->fasility,
             'mandatory_equipment' => $request->mandatory_equipment,
             'contact' => $request->contact,

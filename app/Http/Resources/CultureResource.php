@@ -22,7 +22,13 @@ class CultureResource extends JsonResource
             'url_youtube' => $this->url_youtube, 
             'photo_path' => Storage::url($this->photo_path), 
             'created_at' => $this->created_at, 
-            'updated_at' => $this->updated_at, 
+            'updated_at' => $this->updated_at,
+            'culture_photos' => $this->culture_photos->map(function($culture_photo){
+                return [
+                    'culture_photo_id' => $culture_photo->culture_photo_id, 
+                    'photo_path' => Storage::url($culture_photo->photo_path),   
+                ];
+            })
         ];
     }
 }

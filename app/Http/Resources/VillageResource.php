@@ -21,6 +21,7 @@ class VillageResource extends JsonResource
             'open_at' => $this->open_at, 
             'close_at' => $this->close_at, 
             'address' => $this->address, 
+            'description' => $this->description, 
             'fasility' => $this->fasility, 
             'mandatory_equipment' => $this->mandatory_equipment, 
             'contact' => $this->contact, 
@@ -30,14 +31,12 @@ class VillageResource extends JsonResource
             'url_twitter' => $this->url_twitter, 
             'created_at' => $this->created_at, 
             'updated_at' => $this->updated_at, 
-            'village_photos' => $this->whenLoaded('village_photos', function(){
-                return $this->village_photos->map(function($village_photo){
-                    return[
-                        'village_photo_id' => $village_photo->village_photo_id, 
-                        'photo_path' => Storage::url($village_photo->photo_path), 
-                    ];
-                });
-            }), 
+            'village_photos' => $this->village_photos->map(function($village_photo){
+                return [
+                    'village_photo_id' => $village_photo->village_photo_id, 
+                    'photo_path' => Storage::url($village_photo->photo_path),
+                ];
+            })
         ];
     }
 }
