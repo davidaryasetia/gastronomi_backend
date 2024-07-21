@@ -16,8 +16,6 @@ class Restaurant extends Model
         'name_restaurant', 
         'description',
         'photo_path',  
-        'list_food', 
-        'list_drink', 
         'address', 
         'url_link_map', 
         'latitude', 

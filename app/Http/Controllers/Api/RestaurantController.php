@@ -87,6 +87,7 @@ class RestaurantController extends Controller
     return new RestaurantResource($restaurant);
     }
 
+    
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
