@@ -5,6 +5,8 @@ namespace App\Http\Controllers\BackendController;
 use App\Http\Controllers\Controller;
 use App\Models\Food;
 use App\Models\Food_Historical_Photo;
+use App\Models\Food_Photo;
+use App\Models\Tag_Food;
 use Illuminate\Http\Request;
 
 class FoodController extends Controller
@@ -37,52 +39,50 @@ class FoodController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->toArray());
         $validated = $request->validate([
-            'name' => 'required', 
+            'name' => 'nullable', 
             'photo_path' => 'nullable', 
             'category' => 'nullable|string', 
-            'description' => 'required', 
-            'food_historical' => 'required', 
-            'ingredients' => 'required', 
+            'description' => 'nullable', 
+            'food_historical' => 'nullable', 
+            'ingredients' => 'nullable', 
             'url_youtube' => 'nullable', 
-            'directions' => 'required', 
+            'directions' => 'nullable', 
             'nutrition' => 'nullable', 
-            'address' => 'nullable', 
-            'photo.*' => 'nullable',
+            'detail_historical_photos.*' => 'nullable', 
+            'detail_food_photos.*' => 'nullable',
+            'tag_foods.*' => 'nullable', 
         ]);
 
+        $food_photo = $request->file('photo_path')->store('food_photo', 'public');
 
-        $food_photo = $request->file('photo_path')->store('food_photo','public');
-
-        $food = Food::create([
-            'name' => $request->name, 
+        $data_food = [
+            'name' => $request->input('name'), 
             'photo_path' => $food_photo, 
-            'category' => $request->category, 
-            'description' => $request->description, 
-            'food_historical' => $request->food_historical, 
-            'ingredients' => $request->ingredients, 
-            'url_youtube' => $request->url_youtube, 
-            'directions' => $request->directions, 
-            'nutrition' => $request->nutrition, 
-            'address' => $request->address, 
-        ]);
+            'category' => $request->input('category'),
+            'description' => $request->input('description'),
+            'food_historical' => $request->input('food_historical'), 
+            'ingredients' => $request->input('ingredients'), 
+            'url_youtube' => $request->input('url_youtube'), 
+            'directions' => $request->input('directions'), 
+            'nutrition' => $request->input('nutrition'), 
+        ];
 
-        // Simpan Foto Historical Food
-        if($request->hasFile('photo')){
-            foreach($request->file('photo') as $photo){
-                $path = $photo->store('historical_food_photo', 'public');
-                Food_Historical_Photo::create([
-                    'food_id' => $food->food_id, 
-                    'photo' => $path,
-                ]);
-            }
-        }
 
-        if($food){
-            return redirect('/food')->with('success', 'Data Food Successfully Added!!!!');
+        $insert_data_food = Food::insertGetId($data_food);
+
+        dd($insert_data_food);
+        
+        if($insert_data_food){
+            return redirect('/food')->with('success', 'Data Berhasi Insert');
         } else {
-            return redirect('/food')->with('error', 'Data Food Failed To Added');
+            return redirect('/food')->with('error', 'Sukses Upload Data');
         }
+
+       
+
+      
     }
 
     /**

@@ -15,14 +15,13 @@ return new class extends Migration
             $table->id('food_id');
             $table->string('name');
             $table->string('photo_path')->nullable();
-            $table->string('category');
-            $table->text('description');
-            $table->text('food_historical');
-            $table->text('ingredients');
-            $table->string('url_youtube');
-            $table->text('directions');
-            $table->text('nutrition');
-            $table->string('address');
+            $table->string('category')->nullable();;
+            $table->text('description')->nullable();;
+            $table->text('food_historical')->nullable();;
+            $table->text('ingredients')->nullable();;
+            $table->string('url_youtube')->nullable();;
+            $table->text('directions')->nullable();;
+            $table->text('nutrition')->nullable();;
             $table->timestamps();
         });
     }

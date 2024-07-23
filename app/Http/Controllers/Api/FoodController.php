@@ -47,7 +47,6 @@ class FoodController extends Controller
             'url_youtube' => 'nullable', 
             'directions' => 'required', 
             'nutrition' => 'required', 
-            'address' => 'nullable', 
             'detail_historical_photos.*' => 'nullable', 
             'detail_food_photos.*' => 'nullable',
             'tag_foods.*' => 'nullable', 
@@ -65,7 +64,6 @@ class FoodController extends Controller
             'url_youtube' => $request->url_youtube, 
             'directions' => $request->directions, 
             'nutrition' => $request->nutrition, 
-            'address' => $request->address, 
         ]);
 
         // Simpan Foto Historical Food

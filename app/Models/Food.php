@@ -21,7 +21,6 @@ class Food extends Model
         'url_youtube',
         'directions',
         'nutrition',
-        'address',
         'created_at',
         'updated_at'
     ];

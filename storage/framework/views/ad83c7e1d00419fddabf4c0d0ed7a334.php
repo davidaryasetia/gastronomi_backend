@@ -9,6 +9,15 @@
     <link rel="stylesheet" href="<?php echo e(asset('assets/css/styles.min.css')); ?>" />
     <link rel="stylesheet" href="<?php echo e(asset('assets/libs/quill/dist/quill.snow.css')); ?>">
 
+    <!-- Load FilePond library -->
+    <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />    
+    <link rel="stylesheet"
+        href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css">
+    <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+
+
     <style>
         .alert-container {
             position: fixed;
@@ -22,6 +31,7 @@
             margin-bottom: 10px;
         }
     </style>
+    <?php echo $__env->yieldPushContent('css'); ?>;
 </head>
 
 <body>
@@ -55,21 +65,12 @@
     <script src="<?php echo e(asset('assets/libs/simplebar/dist/simplebar.js')); ?>"></script>
     <script src="<?php echo e(asset('assets/js/dashboard.js')); ?>"></script>
     <script src="<?php echo e(asset('assets/libs/quill/dist/quill.min.js')); ?>"></script>
-    <script>
-        var editoringredients = new Quill("#ingredients", {
-          theme: "snow",
-        });
-        var editordirections = new Quill("#directions", {
-          theme: "snow",
-        });
-      </script>
-       <script>
-        document.getElementById('FoodForm').onsubmit = function() {
-            // Copy HTML content from Quill editor to hidden input
-            document.getElementById('ingredients').value = editoringredients.root.innerHTML;
-            document.getElementById('directions').value = editordirections.root.innerHTML;
-        };
-    </script>   
+
+    <!-- Load FilePond library -->
+    <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+    <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
+    <?php echo $__env->yieldPushContent('script'); ?>;
 </body>
 
 </html>
