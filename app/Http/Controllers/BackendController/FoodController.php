@@ -39,27 +39,27 @@ class FoodController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->toArray());
+
         $validated = $request->validate([
-            'name' => 'nullable', 
-            'photo_path' => 'nullable', 
-            'category' => 'nullable|string', 
-            'description' => 'nullable', 
+            'name' => 'required|string|max:3', 
+            // 'photo_path' => 'nullable', 
+            'category' => 'required|string', 
+            'description' => 'required', 
             'food_historical' => 'nullable', 
-            'ingredients' => 'nullable', 
+            'ingredients' => 'required', 
             'url_youtube' => 'nullable', 
-            'directions' => 'nullable', 
-            'nutrition' => 'nullable', 
-            'detail_historical_photos.*' => 'nullable', 
-            'detail_food_photos.*' => 'nullable',
+            'directions' => 'required', 
+            'nutrition' => 'required', 
+            // // 'detail_historical_photos.*' => 'nullable', 
+            // // 'detail_food_photos.*' => 'nullable',
             'tag_foods.*' => 'nullable', 
         ]);
 
-        $food_photo = $request->file('photo_path')->store('food_photo', 'public');
+        // $food_photo = $request->file('photo_path')->store('food_photo', 'public');
 
         $data_food = [
             'name' => $request->input('name'), 
-            'photo_path' => $food_photo, 
+            // 'photo_path' => $food_photo, 
             'category' => $request->input('category'),
             'description' => $request->input('description'),
             'food_historical' => $request->input('food_historical'), 
@@ -70,9 +70,8 @@ class FoodController extends Controller
         ];
 
 
-        $insert_data_food = Food::insertGetId($data_food);
-
-        dd($insert_data_food);
+        $insert_data_food = Food::create($data_food);
+        // dd($insert_data_food->food_id);
         
         if($insert_data_food){
             return redirect('/food')->with('success', 'Data Berhasi Insert');

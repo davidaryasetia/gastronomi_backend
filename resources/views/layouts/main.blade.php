@@ -11,12 +11,15 @@
 
     <!-- Load FilePond library -->
     <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
-    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />    
+    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
     <link rel="stylesheet"
         href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css">
     <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
     <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
 
+    <!-- Tagify -->
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+   
 
     <style>
         .alert-container {
@@ -31,7 +34,7 @@
             margin-bottom: 10px;
         }
     </style>
-    @stack('css');
+    @stack('css')
 </head>
 
 <body>
@@ -70,6 +73,9 @@
     <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
     <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
     <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
     @stack('script');
 </body>
 

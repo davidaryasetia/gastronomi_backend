@@ -1,5 +1,7 @@
 
 
+
+
 <?php $__env->startSection('row'); ?>
     <div class="container-fluid">
         <!--  Row 1 -->
