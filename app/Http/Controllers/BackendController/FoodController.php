@@ -19,8 +19,8 @@ class FoodController extends Controller
         $food = Food::with('photos:food_historical_photo_id,food_id,photo')->get();
 
         return view('sections.food.food', [
-            'title' => 'Food', 
-            'food' => $food, 
+            'title' => 'Food',
+            'food' => $food,
         ]);
     }
 
@@ -30,7 +30,7 @@ class FoodController extends Controller
     public function create()
     {
         return view('sections.food.create', [
-            'title' => 'Add Food', 
+            'title' => 'Add Food',
         ]);
     }
 
@@ -39,49 +39,67 @@ class FoodController extends Controller
      */
     public function store(Request $request)
     {
-
+        // Memeriksa jika file ada
+        if ($request->hasFile('detail_historical_photos')) {
+            $files = $request->file('detail_historical_photos');
+            dd($files); // Menampilkan file yang diunggah
+        } else {
+            dd('No files uploaded');
+        }
+        // dd($request->all());
         $validated = $request->validate([
-            'name' => 'required|string|max:3', 
+            'name' => 'required|string',
             // 'photo_path' => 'nullable', 
-            'category' => 'required|string', 
-            'description' => 'required', 
-            'food_historical' => 'nullable', 
-            'ingredients' => 'required', 
-            'url_youtube' => 'nullable', 
-            'directions' => 'required', 
-            'nutrition' => 'required', 
-            // // 'detail_historical_photos.*' => 'nullable', 
+            'category' => 'required|string',
+            'description' => 'required',
+            'food_historical' => 'nullable',
+            'ingredients' => 'required',
+            'url_youtube' => 'nullable',
+            'directions' => 'required',
+            'nutrition' => 'required',
+            'detail_historical_photos.*' => 'nullable|image',
             // // 'detail_food_photos.*' => 'nullable',
-            'tag_foods.*' => 'nullable', 
+            'tag_foods' => 'required',
         ]);
+
+        dd($request->file('detail_historical_photos'));
+        // Mengkorvesi tagify json ke array
+        $tagArray = json_decode($validated['tag_foods'], true);
+
+        if (!is_array($tagArray)) {
+            return redirect()->back()->withErrors(['tag_foods' => 'Invalid format for tags.']);
+        }
 
         // $food_photo = $request->file('photo_path')->store('food_photo', 'public');
 
         $data_food = [
-            'name' => $request->input('name'), 
+            'name' => $request->input('name'),
             // 'photo_path' => $food_photo, 
             'category' => $request->input('category'),
             'description' => $request->input('description'),
-            'food_historical' => $request->input('food_historical'), 
-            'ingredients' => $request->input('ingredients'), 
-            'url_youtube' => $request->input('url_youtube'), 
-            'directions' => $request->input('directions'), 
-            'nutrition' => $request->input('nutrition'), 
+            'food_historical' => $request->input('food_historical'),
+            'ingredients' => $request->input('ingredients'),
+            'url_youtube' => $request->input('url_youtube'),
+            'directions' => $request->input('directions'),
+            'nutrition' => $request->input('nutrition'),
         ];
 
-
+        // Simpan Data
         $insert_data_food = Food::create($data_food);
-        // dd($insert_data_food->food_id);
-        
-        if($insert_data_food){
+
+        // Simpan Data Tag Foods
+        foreach ($tagArray as $tag) {
+            Tag_Food::create([
+                'food_id' => $insert_data_food->food_id,
+                'nametag' => $tag['value'],
+            ]);
+        }
+
+        if ($insert_data_food) {
             return redirect('/food')->with('success', 'Data Berhasi Insert');
         } else {
             return redirect('/food')->with('error', 'Sukses Upload Data');
         }
-
-       
-
-      
     }
 
     /**

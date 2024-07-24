@@ -204,18 +204,18 @@
                                     <input type="hidden" name="directions" id="directions-input">
                                 </div>
 
-                                
-                               
+
+
                             </div>
 
-                            
+
                             {{-- Add Taggination --}}
                             <div class="row mb-3">
                                 <div class="mb-2 col-lg-6">
                                     <label for="ingredients" class="form-label">Foods Tags</label>
                                     {{-- This is FilePound --}}
                                     <div class="galery-container">
-                                        <input name='tag_foods[]' class='tagify--custom-dropdown'
+                                        <input name='tag_foods' class='tagify--custom-dropdown'
                                             placeholder='Type an English letter' value='Hallal'>
                                     </div>
                                 </div>
@@ -232,25 +232,7 @@
 
 
                             {{-- Upload Image File --}}
-                            <div class="row mb-3">
-                                <div class="mb-2 col-lg-6">
-                                    <label for="ingredients" class="form-label">Foods Fotos</label>
-                                    {{-- This is FilePound --}}
-                                    <div class="galery-container">
-                                        <input type="file" class="form-control-file filepond"
-                                            name="detail_food_photos[]" id="food_photos" multiple>
-                                    </div>
-                                </div>
 
-                                <div class="mb-2 col-lg-6">
-                                    <label for="ingredients" class="form-label">History Foods Fotos</label>
-                                    {{-- This is FilePound --}}
-                                    <div class="galery-container">
-                                        <input type="file" class="form-control-file filepond"
-                                            name="detail_historical_photos[]" id="historical_photos" multiple>
-                                    </div>
-                                </div>
-                            </div>
                             <hr>
 
                             <div class="mt-3">
@@ -289,38 +271,45 @@
         <script>
             FilePond.registerPlugin(FilePondPluginImagePreview);
 
-            // FilePond options (customize as needed)
+            // FilePond options
             const pondOptions = {
                 allowMultiple: true,
-
+                server: {
+                    process: 'food/store',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                    }
+                }
             };
 
-            FilePond.parse(document.body);
-            FilePond.create(document.querySelector('.filepond'), {
-                allowMultiple: true,
-            });
 
-            Filepond.create(document.querySelector('input[name="detail_food_photos[]"]'), pondOptions);
-            Filepond.create(document.querySelector('input[name="detail_historical_photos[]"]'), pondOptions);
+            // Initialize FilePond for specific file inputs
+            FilePond.create(document.querySelector('#historical_photos'), pondOptions);
         </script>
 
+
         {{-- Tagify Form Data --}}
+        <!-- Tagify Script -->
         <script>
-            var input = document.querySelector('input[name="tag_foods[]"]'),
-                // init Tagify script on the above inputs
+            var input = document.querySelector('input[name="tag_foods"]'),
                 tagify = new Tagify(input, {
                     whitelist: [
                         "Hallal", "Spicy", "Hot", "Vegetarian", "Vegan", "Gluten-Free", "Grilled", "Baked", "Fried",
-                        "Steamed", "Smooked", "Barbeque", "Gluten Free"
+                        "Steamed", "Smoked", "Barbeque", "Gluten Free"
                     ],
                     maxTags: 10,
                     dropdown: {
-                        maxItems: 20, // <- mixumum allowed rendered suggestions
-                        classname: 'tags-look', // <- custom classname for this dropdown, so it could be targeted
-                        enabled: 0, // <- show suggestions on focus
-                        closeOnSelect: false // <- do not hide the suggestions dropdown once an item has been selected
+                        maxItems: 20,
+                        classname: 'tags-look',
+                        enabled: 0,
+                        closeOnSelect: false
                     }
-                })
+                });
+
+            tagify.on('change', function(e) {
+                var tags = tagify.value.map(tag => tag.value);
+                input.value = JSON.stringify(tags);
+            });
         </script>
     @endpush
 @endsection
