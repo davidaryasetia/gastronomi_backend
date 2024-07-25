@@ -40,15 +40,10 @@ class FoodController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-        if ($request->hasFile('detail_historical_photos')) {
-            $files = $request->file('detail_historical_photos');
-            dd($files); // Menampilkan file yang diunggah
-        } else {
-            dd('No files uploaded');
-        }
+       
         $validated = $request->validate([
             'name' => 'required|string',
-            // 'photo_path' => 'nullable', 
+            'photo_path' => 'nullable', 
             'category' => 'required|string',
             'description' => 'required',
             'food_historical' => 'nullable',
@@ -56,24 +51,20 @@ class FoodController extends Controller
             'url_youtube' => 'nullable',
             'directions' => 'required',
             'nutrition' => 'required',
-            'detail_historical_photos.*' => 'nullable|image',
-            // // 'detail_food_photos.*' => 'nullable',
+            'detail_historical_photos.*' => 'nullable',
+            'detail_food_photos.*' => 'nullable',
             'tag_foods' => 'required',
         ]);
 
-        dd($request->file('detail_historical_photos'));
-        // Mengkorvesi tagify json ke array
-        $tagArray = json_decode($validated['tag_foods'], true);
-
-        if (!is_array($tagArray)) {
-            return redirect()->back()->withErrors(['tag_foods' => 'Invalid format for tags.']);
+        $food_photo = null;
+        if($request->hasFile('photo_path')){
+            $food_photo = $request->file('photo_path')->store('food_photo', 'public');
         }
 
-        // $food_photo = $request->file('photo_path')->store('food_photo', 'public');
 
         $data_food = [
             'name' => $request->input('name'),
-            // 'photo_path' => $food_photo, 
+            'photo_pat  h' => $food_photo, 
             'category' => $request->input('category'),
             'description' => $request->input('description'),
             'food_historical' => $request->input('food_historical'),
@@ -86,12 +77,40 @@ class FoodController extends Controller
         // Simpan Data
         $insert_data_food = Food::create($data_food);
 
+        // Mengkorvesi tagify json ke array
+        $tagArray = json_decode($validated['tag_foods'], true);
+        if (!is_array($tagArray)) {
+            return redirect()->back()->withErrors(['tag_foods' => 'Invalid format for tags.']);
+        }
+
         // Simpan Data Tag Foods
         foreach ($tagArray as $tag) {
             Tag_Food::create([
                 'food_id' => $insert_data_food->food_id,
                 'nametag' => $tag['value'],
             ]);
+        }
+
+        // Simpan Foto Historical Food
+        if($request->hasFile('detail_historical_photos')){
+            foreach($request->file('detail_historical_photos') as $detail_historical_photo){
+                $path = $detail_historical_photo->store('historical_food_photo', 'public');
+                Food_Historical_Photo::create([
+                    'food_id' => $insert_data_food->food_id,
+                    'photo' => $path, 
+                ]);
+            }
+        }
+
+        // Simpan Foto Detail Food
+        if($request->hasFile('detail_food_photos')){
+            foreach($request->file('detail_food_photos') as $detail_food_photo){
+                $path = $detail_food_photo->store('detail_food_photo', 'public');
+                Food_Photo::create([
+                    'food_id' => $insert_data_food->food_id,
+                    'photo_path' => $path, 
+                ]);
+            }
         }
 
         if ($insert_data_food) {

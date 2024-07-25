@@ -7,14 +7,14 @@
     <title>Gastronomi Lombok - {{ $title }} </title>
     <link rel="shortcut icon" type="image/png" href="{{ asset('assets/images/asset_gastronomi/ic_icon.png') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/styles.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/customize.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/libs/quill/dist/quill.snow.css') }}">
-
-    <!-- Load FilePond library -->
-    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
-
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/simple-pagination.js/1.6/simplePagination.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-pagination.js/1.6/jquery.simplePagination.min.js"></script>
     <!-- Tagify -->
     <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
-   
+
 
     <style>
         .alert-container {

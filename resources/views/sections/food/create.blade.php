@@ -233,6 +233,7 @@
                                         </div>
                                     @enderror
                                 </div>
+
                                 <div class="mb-2 col-lg-6">
                                     <label for="history" class="form-label">History of Food</label>
                                     <textarea type="text" class="form-control @error('food_historical') is-invalid @enderror" id="food_historical"
@@ -319,8 +320,7 @@
                                 <div class="mb-2 col-lg-6">
                                     <label for="ingredients" class="form-label">Food Cover Photo</label>
                                     <div class="file-input-container">
-                                        <input type="file" name="photo_path" id="fileInput2"
-                                            class="file-input" />
+                                        <input type="file" name="photo_path" id="fileInput2" class="file-input" />
                                         <label for="fileInput2" class="file-input-label">
                                             Drag & Drop your files or <span>Browse</span>
                                         </label>
@@ -331,7 +331,7 @@
                                 <div class="mb-2 col-lg-6">
                                     <label for="ingredients" class="form-label">Detail Food Photo</label>
                                     <div class="file-input-container">
-                                        <input type="file" name="detail_food_photos" id="fileInput3"
+                                        <input type="file" name="detail_food_photos[]" id="fileInput3"
                                             class="file-input" multiple />
                                         <label for="fileInput3" class="file-input-label">
                                             Drag & Drop your files or <span>Browse</span>
@@ -400,19 +400,26 @@
             })
         </script>
         <script>
+            // Create an object to hold files for each input
+            const fileInputsState = {};
+
             document.querySelectorAll('.file-input').forEach(input => {
+                // Initialize file state for each input
+                fileInputsState[input.id] = [];
+
                 input.addEventListener('change', function() {
                     const fileListId = 'fileList' + this.id.replace('fileInput', '');
                     const fileList = document.getElementById(fileListId);
-                    let allFiles = [];
 
+                    // Add new files to the existing files array
                     Array.from(this.files).forEach(file => {
                         if (file.type.startsWith('image/')) {
-                            allFiles.push(file); // Add new files to the global array for this input
+                            fileInputsState[this.id].push(
+                                file); // Add new files to the corresponding input
                         }
                     });
 
-                    renderFileList(fileList, allFiles); // Render the updated file list
+                    renderFileList(fileList, fileInputsState[this.id]); // Render the updated file list
                 });
             });
 
