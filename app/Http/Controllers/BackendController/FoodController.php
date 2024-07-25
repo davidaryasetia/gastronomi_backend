@@ -39,14 +39,13 @@ class FoodController extends Controller
      */
     public function store(Request $request)
     {
-        // Memeriksa jika file ada
+        // dd($request->all());
         if ($request->hasFile('detail_historical_photos')) {
             $files = $request->file('detail_historical_photos');
             dd($files); // Menampilkan file yang diunggah
         } else {
             dd('No files uploaded');
         }
-        // dd($request->all());
         $validated = $request->validate([
             'name' => 'required|string',
             // 'photo_path' => 'nullable', 

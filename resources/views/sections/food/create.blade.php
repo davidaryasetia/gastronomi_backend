@@ -53,6 +53,91 @@
         .col-lg-6 .tagify {
             width: 100%;
         }
+
+        /* Upload Image */
+        .file-input-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 4px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .file-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .file-input-label {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .file-input-label span {
+            color: #007bff;
+            text-decoration: none;
+            /* Remove underline */
+            cursor: pointer;
+        }
+
+        .file-input:focus+.file-input-label {
+            outline: 2px solid #007bff;
+            outline-offset: -10px;
+        }
+
+        .file-list {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .file-item {
+            position: relative;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 120px;
+        }
+
+        .file-item img {
+            max-width: 80px;
+            max-height: 80px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: white;
+            color: red;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 20px;
+            padding: 0;
+        }
     </style>
 @endpush
 
@@ -203,30 +288,56 @@
                                     </div>
                                     <input type="hidden" name="directions" id="directions-input">
                                 </div>
-
-
-
                             </div>
-
 
                             {{-- Add Taggination --}}
                             <div class="row mb-3">
                                 <div class="mb-2 col-lg-6">
                                     <label for="ingredients" class="form-label">Foods Tags</label>
-                                    {{-- This is FilePound --}}
                                     <div class="galery-container">
                                         <input name='tag_foods' class='tagify--custom-dropdown'
                                             placeholder='Type an English letter' value='Hallal'>
                                     </div>
                                 </div>
 
+                                {{-- Input File Image --}}
                                 <div class="mb-2 col-lg-6">
                                     <label for="ingredients" class="form-label">History Foods Fotos</label>
-                                    {{-- This is FilePound --}}
-                                    <div class="galery-container">
-                                        <input type="file" class="form-control-file filepond"
-                                            name="detail_historical_photos[]" id="historical_photos" multiple>
+                                    <div class="file-input-container">
+                                        <input type="file" name="detail_historical_photos[]" id="fileInput1"
+                                            class="file-input" multiple />
+                                        <label for="fileInput1" class="file-input-label">
+                                            Drag & Drop your files or <span>Browse</span>
+                                        </label>
                                     </div>
+                                    <div id="fileList1" class="file-list"></div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                {{-- Input File Image --}}
+                                <div class="mb-2 col-lg-6">
+                                    <label for="ingredients" class="form-label">Food Cover Photo</label>
+                                    <div class="file-input-container">
+                                        <input type="file" name="photo_path" id="fileInput2"
+                                            class="file-input" />
+                                        <label for="fileInput2" class="file-input-label">
+                                            Drag & Drop your files or <span>Browse</span>
+                                        </label>
+                                    </div>
+
+                                    <div id="fileList2" class="file-list"></div>
+                                </div>
+                                <div class="mb-2 col-lg-6">
+                                    <label for="ingredients" class="form-label">Detail Food Photo</label>
+                                    <div class="file-input-container">
+                                        <input type="file" name="detail_food_photos" id="fileInput3"
+                                            class="file-input" multiple />
+                                        <label for="fileInput3" class="file-input-label">
+                                            Drag & Drop your files or <span>Browse</span>
+                                        </label>
+                                    </div>
+                                    <div id="fileList3" class="file-list"></div>
                                 </div>
                             </div>
 
@@ -267,29 +378,6 @@
             };
         </script>
 
-        {{-- Filepond Input Image Data --}}
-        <script>
-            FilePond.registerPlugin(FilePondPluginImagePreview);
-
-            // FilePond options
-            const pondOptions = {
-                allowMultiple: true,
-                server: {
-                    process: 'food/store',
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken,
-                    }
-                }
-            };
-
-
-            // Initialize FilePond for specific file inputs
-            FilePond.create(document.querySelector('#historical_photos'), pondOptions);
-        </script>
-
-
-        {{-- Tagify Form Data --}}
-        <!-- Tagify Script -->
         <script>
             var input = document.querySelector('input[name="tag_foods"]'),
                 tagify = new Tagify(input, {
@@ -309,7 +397,53 @@
             tagify.on('change', function(e) {
                 var tags = tagify.value.map(tag => tag.value);
                 input.value = JSON.stringify(tags);
+            })
+        </script>
+        <script>
+            document.querySelectorAll('.file-input').forEach(input => {
+                input.addEventListener('change', function() {
+                    const fileListId = 'fileList' + this.id.replace('fileInput', '');
+                    const fileList = document.getElementById(fileListId);
+                    let allFiles = [];
+
+                    Array.from(this.files).forEach(file => {
+                        if (file.type.startsWith('image/')) {
+                            allFiles.push(file); // Add new files to the global array for this input
+                        }
+                    });
+
+                    renderFileList(fileList, allFiles); // Render the updated file list
+                });
             });
+
+            function renderFileList(fileList, files) {
+                fileList.innerHTML = ''; // Clear the previous file list
+
+                files.forEach((file, index) => {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'file-item';
+
+                    const img = document.createElement('img');
+                    img.src = URL.createObjectURL(file);
+                    img.onload = () => URL.revokeObjectURL(img.src); // Free memory
+
+                    const fileName = document.createElement('span');
+                    fileName.textContent = file.name;
+
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.className = 'delete-btn';
+                    deleteBtn.innerHTML = '&times;';
+                    deleteBtn.addEventListener('click', () => {
+                        files.splice(index, 1); // Remove the file from the files array
+                        renderFileList(fileList, files); // Re-render the file list
+                    });
+
+                    fileItem.appendChild(img);
+                    fileItem.appendChild(fileName);
+                    fileItem.appendChild(deleteBtn);
+                    fileList.appendChild(fileItem);
+                });
+            }
         </script>
     @endpush
 @endsection

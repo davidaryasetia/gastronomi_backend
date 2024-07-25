@@ -26,7 +26,9 @@ class CultureController extends Controller
      */
     public function create()
     {
-        //
+        return view('sections.culture.create', [
+            'title' => 'Add Culture', 
+        ]);
     }
 
     /**
