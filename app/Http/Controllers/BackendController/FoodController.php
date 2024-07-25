@@ -8,6 +8,7 @@ use App\Models\Food_Historical_Photo;
 use App\Models\Food_Photo;
 use App\Models\Tag_Food;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FoodController extends Controller
 {
@@ -114,9 +115,9 @@ class FoodController extends Controller
         }
 
         if ($insert_data_food) {
-            return redirect('/food')->with('success', 'Data Berhasi Insert');
+            return redirect('/food')->with('success', 'Data Berhasil Di Tambahkan !!!');
         } else {
-            return redirect('/food')->with('error', 'Sukses Upload Data');
+            return redirect('/food')->with('error', 'Data Gagal Di tambahkan !!!');
         }
     }
 
@@ -149,6 +150,29 @@ class FoodController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $food = Food::findOrFail($id);
+
+        // Delete Photo Path
+        if($food->photo_path){
+            Storage::disk('public')->delete($food->photo_path);
+        }
+
+        // Hapus Foto Food Historical 
+        foreach($food->photos as $food_photo){
+            Storage::disk('public')->delete($food_photo->photo_path);
+            $food_photo->delete();
+        }
+
+        // Hapus Tags Foods
+        foreach($food->tag_foods as $tag_food){
+            $tag_food->delete();
+        }
+
+        
+        if($food){
+            return redirect('/food')->with('success', 'Data Food Berhasil Dihapus !!!');
+        } else {
+            return redirect('/food')->with('error', 'Data Food Gagal Dihapus !!!');
+        }
     }
 }

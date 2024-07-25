@@ -1,5 +1,20 @@
+/* Customize CSS Page */
+
 .divider{
     border-left: 1px solid black;
     height: 20px;
     margin: 0 8px;
+}
+
+.alert-container{
+    position: fixed;
+    top: 90px;
+    right: 54px;
+    width: auto;
+    max-width: 90%;
+    z-index: 9999;
+}
+
+.alert{
+    margin-bottom: 10px;
 }
