@@ -59,7 +59,8 @@
                                                     </h5>
                                                 </div>
                                                 <p class="card-text"> {{ Str::limit($data_food->description, 140) }} </p>
-                                                <span><a href="">Detail Food......</a></span>
+                                                <span><a href="{{ route('food.show', $data_food->food_id) }}">Detail
+                                                        Food......</a></span>
                                             </div>
                                             <div class="col-md-1 text-center d-flex align-items-center">
                                                 <p class="mb-0 fw-normal me-2"><a href=""><i
@@ -83,7 +84,6 @@
                                     </div>
                                 @endforeach
                             </div>
-                            <div id="pagination" class="mt-3"></div>
                         </div>
                         <!-- END Main Section -->
                     </div>
@@ -94,26 +94,5 @@
 
     </div>
     @push('script')
-        <script>
-            $(document).ready(function() {
-                // Initialize pagination
-                const itemsPerPage = 5;
-                const items = $(".food-item");
-                const numItems = items.length;
-
-                items.slice(itemsPerPage).hide();
-
-                $("#pagination").pagination({
-                    items: numItems,
-                    itemsOnPage: itemsPerPage,
-                    cssStyle: 'light-theme',
-                    onPageClick: function(pageNumber) {
-                        const start = (pageNumber - 1) * itemsPerPage;
-                        const end = start + itemsPerPage;
-                        items.hide().slice(start, end).show();
-                    }
-                });
-            });
-        </script>
     @endpush
 @endsection

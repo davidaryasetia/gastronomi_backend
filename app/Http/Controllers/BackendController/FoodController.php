@@ -41,10 +41,10 @@ class FoodController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-       
+
         $validated = $request->validate([
             'name' => 'required|string',
-            'photo_path' => 'nullable', 
+            'photo_path' => 'nullable',
             'category' => 'required|string',
             'description' => 'required',
             'food_historical' => 'nullable',
@@ -58,14 +58,14 @@ class FoodController extends Controller
         ]);
 
         $food_photo = null;
-        if($request->hasFile('photo_path')){
+        if ($request->hasFile('photo_path')) {
             $food_photo = $request->file('photo_path')->store('food_photo', 'public');
         }
 
 
         $data_food = [
             'name' => $request->input('name'),
-            'photo_pat  h' => $food_photo, 
+            'photo_path' => $food_photo,
             'category' => $request->input('category'),
             'description' => $request->input('description'),
             'food_historical' => $request->input('food_historical'),
@@ -93,23 +93,23 @@ class FoodController extends Controller
         }
 
         // Simpan Foto Historical Food
-        if($request->hasFile('detail_historical_photos')){
-            foreach($request->file('detail_historical_photos') as $detail_historical_photo){
+        if ($request->hasFile('detail_historical_photos')) {
+            foreach ($request->file('detail_historical_photos') as $detail_historical_photo) {
                 $path = $detail_historical_photo->store('historical_food_photo', 'public');
                 Food_Historical_Photo::create([
                     'food_id' => $insert_data_food->food_id,
-                    'photo' => $path, 
+                    'photo' => $path,
                 ]);
             }
         }
 
         // Simpan Foto Detail Food
-        if($request->hasFile('detail_food_photos')){
-            foreach($request->file('detail_food_photos') as $detail_food_photo){
+        if ($request->hasFile('detail_food_photos')) {
+            foreach ($request->file('detail_food_photos') as $detail_food_photo) {
                 $path = $detail_food_photo->store('detail_food_photo', 'public');
                 Food_Photo::create([
                     'food_id' => $insert_data_food->food_id,
-                    'photo_path' => $path, 
+                    'photo_path' => $path,
                 ]);
             }
         }
@@ -126,7 +126,16 @@ class FoodController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $food = Food::with([
+            'photos:food_historical_photo_id,food_id,photo', 
+            'food_photos:food_photo_id,food_id,photo_path', 
+            'tag_foods:tag_food_id,food_id,nametag', 
+        ])->findOrFail($id);
+
+        return view('sections.food.detail', [
+            'title' => 'Detail Food', 
+            'food' => $food, 
+        ]);
     }
 
     /**
@@ -153,23 +162,35 @@ class FoodController extends Controller
         $food = Food::findOrFail($id);
 
         // Delete Photo Path
-        if($food->photo_path){
+        if (!empty($food->photo_path)) {
             Storage::disk('public')->delete($food->photo_path);
         }
 
         // Hapus Foto Food Historical 
-        foreach($food->photos as $food_photo){
-            Storage::disk('public')->delete($food_photo->photo_path);
+        foreach ($food->photos as $photo) {
+            if (!empty($photo->photo)) {
+                Storage::disk('public')->delete($photo->photo);
+            }
+            $photo->delete();
+        }
+
+        // Hapus Foto Detail Food
+        foreach($food->food_photos as $food_photo){
+            if(!empty($food_photo->photo_path)){
+                Storage::disk('public')->delete($food_photo->photo_path);
+            }
             $food_photo->delete();
         }
 
         // Hapus Tags Foods
-        foreach($food->tag_foods as $tag_food){
+        foreach ($food->tag_foods as $tag_food) {
             $tag_food->delete();
         }
 
-        
-        if($food){
+        $food->delete();
+
+
+        if ($food) {
             return redirect('/food')->with('success', 'Data Food Berhasil Dihapus !!!');
         } else {
             return redirect('/food')->with('error', 'Data Food Gagal Dihapus !!!');
