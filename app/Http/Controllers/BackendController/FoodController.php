@@ -143,7 +143,16 @@ class FoodController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $food = Food::with([
+            'photos:food_historical_photo_id,food_id,photo',
+            'food_photos:food_photo_id,food_id,photo_path',
+            'tag_foods:tag_food_id,food_id,nametag', 
+        ])->findOrFail($id);
+
+        return view('sections.food.edit', [
+            'title' => 'Edit Data', 
+            'food' => $food, 
+        ]);
     }
 
     /**

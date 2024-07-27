@@ -1,3 +1,7 @@
+@php 
+dump($food->toArray())
+@endphp
+
 @push('css')
     <style>
         .justified-text{
@@ -23,18 +27,18 @@
                                     </a>
                                 </div>
                                 <div>
-                                    <span class="card-title fw-semibold me-3">Detail Food : {{ $food->name }} </span>
+                                    <span class="card-title fw-semibold me-3">Detail Food : {{ $food->name }} | @foreach($food->tag_foods as $tag_food) {{$tag_food->nametag}},  @endforeach | </span>
                                 </div>
-
                             </div>
                         </div>
 
                         {{-- Main Section --}}
+                        
                             <div class="row mb-4">
-                                <div class="col-12">
+                                <div class="col-lg-2 text-center text-lg-left">
                                     @if ($food->photo_path)
                                         <img src="{{ asset('storage/' . $food->photo_path) }}" alt="Food Photo"
-                                            class="img-fluid rounded" width="128px">
+                                            class="img-fluid rounded" width="164px">
                                     @else
                                         <p>No Photo Available</p>
                                     @endif
@@ -67,7 +71,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <h5>URL Youtube Direction Of Food</h5>
-                                    <p> {{ $food->url_youtube }} </p>
+                                    <p> <a href="{{ $food->url_youtube }}" target="_blank">{{ $food->url_youtube }}</a> </p>
                                 </div>
                             </div>
                             <div class="row mb-2 justified-text">
@@ -80,6 +84,22 @@
                                     <p> {!! $food->directions !!} </p>
                                 </div>
                             </div>
+                            <div class="row mb-2 justified-text">
+                                <div class="col-md-6">
+                                    <h5>Detail Food Foto</h5>
+                                    @foreach($food->food_photos as $food_photo)
+                                        <img src="{{asset('storage/' . $food_photo->photo_path)}}" alt="Food Photo" width="128px">
+                                    @endforeach
+                                </div>
+
+                                <div class="col-md-6">
+                                    <h5>Detail Historical Photo</h5>
+                                    @foreach($food->photos as $photo)
+                                    <img src="{{asset('storage/' . $photo->photo)}}" alt="History foto" width="128px">
+                                    @endforeach
+                                </div>
+                            </div>
+                          
                         {{-- END Main Section --}}
 
                     </div>
@@ -87,9 +107,7 @@
             </div>
 
         </div>
-
     </div>
 
-    @push('script')
-    @endpush
+   
 @endsection

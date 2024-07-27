@@ -63,7 +63,8 @@
                                                         Food......</a></span>
                                             </div>
                                             <div class="col-md-1 text-center d-flex align-items-center">
-                                                <p class="mb-0 fw-normal me-2"><a href=""><i
+                                                <p class="mb-0 fw-normal me-2"><a
+                                                        href="{{ route('food.edit', $data_food->food_id) }}"><i
                                                             class="ti ti-pencil"></i></a>
                                                 <div class="divider"></div>
                                                 {{-- <p class="mb-0 fw-normal ms-2"><a href=""><i class="ti ti-trash"

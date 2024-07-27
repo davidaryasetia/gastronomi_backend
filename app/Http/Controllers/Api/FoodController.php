@@ -180,5 +180,4 @@ class FoodController extends Controller
             'data' => $foodResource
         ], 200);
     }
-
 }

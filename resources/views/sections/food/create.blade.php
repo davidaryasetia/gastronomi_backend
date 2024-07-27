@@ -224,7 +224,7 @@
                                 <div class="mb-2 col-lg-6">
                                     <label for="description" class="form-label">Description</label>
                                     <textarea type="text" class="form-control @error('description') is-invalid @enderror" id="description"
-                                        name="description" rows="4" aria-describedby="emailHelp" placeholder="Input Food Culinary..." required
+                                        name="description" rows="6" aria-describedby="emailHelp" placeholder="Input Food Culinary..." required
                                         autofocus>{{ old('description') }}</textarea>
 
                                     @error('description')
@@ -237,7 +237,7 @@
                                 <div class="mb-2 col-lg-6">
                                     <label for="history" class="form-label">History of Food</label>
                                     <textarea type="text" class="form-control @error('food_historical') is-invalid @enderror" id="food_historical"
-                                        name="food_historical" rows="4" aria-describedby="emailHelp" placeholder="Input Food History..." required
+                                        name="food_historical" rows="6" aria-describedby="emailHelp" placeholder="Input Food History..." required
                                         autofocus>{{ old('food_historical') }}</textarea>
                                     @error('food_historical')
                                         <div class="invalid-feedback">
