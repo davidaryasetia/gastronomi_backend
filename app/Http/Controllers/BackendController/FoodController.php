@@ -127,14 +127,14 @@ class FoodController extends Controller
     public function show(string $id)
     {
         $food = Food::with([
-            'photos:food_historical_photo_id,food_id,photo', 
-            'food_photos:food_photo_id,food_id,photo_path', 
-            'tag_foods:tag_food_id,food_id,nametag', 
+            'photos:food_historical_photo_id,food_id,photo',
+            'food_photos:food_photo_id,food_id,photo_path',
+            'tag_foods:tag_food_id,food_id,nametag',
         ])->findOrFail($id);
 
         return view('sections.food.detail', [
-            'title' => 'Detail Food', 
-            'food' => $food, 
+            'title' => 'Detail Food',
+            'food' => $food,
         ]);
     }
 
@@ -146,12 +146,12 @@ class FoodController extends Controller
         $food = Food::with([
             'photos:food_historical_photo_id,food_id,photo',
             'food_photos:food_photo_id,food_id,photo_path',
-            'tag_foods:tag_food_id,food_id,nametag', 
+            'tag_foods:tag_food_id,food_id,nametag',
         ])->findOrFail($id);
 
         return view('sections.food.edit', [
-            'title' => 'Edit Data', 
-            'food' => $food, 
+            'title' => 'Edit Data',
+            'food' => $food,
         ]);
     }
 
@@ -160,7 +160,43 @@ class FoodController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        dd($request->all());
+        $validated = $request->validate([
+            'name' => 'required',
+            // 'photo_path' => 'nullable', 
+            'category' => 'required|string',
+            'description' => 'required',
+            'food_historical' => 'nullable',
+            'ingredients' => 'required',
+            'url_youtube' => 'nullable',
+            'directions' => 'required',
+            'nutrition' => 'required',
+            // 'detail_historical_photos*' => 'nullable', 
+            // 'detail_food_photos.*' => 'nullable', 
+            // 'tag_foods.*' => 'required',
+        ]);
+
+        $food = Food::findOrFail($id);
+
+
+        $food->update([
+            'name' => $request->input('name'),
+            // 'photo_path' => $request->input('photo_path'),
+            'category' => $request->input('category'),
+            'description' => $request->input('description'),
+            'food_historical' => $request->input('food_historical'),
+            'ingredients' => $request->input('ingredients'),
+            'url_youtube' => $request->input('url_youtube'),
+            'directions' => $request->input('directions'),
+            'nutrition' => $request->input('nutrition'),
+        ]);
+
+
+        if ($food) {
+            return redirect('/food')->with('success', 'Data Food berhasil Di Update !!!');
+        } else {
+            return redirect('/food')->with('error', 'Data Food Gagal Di Update !!!');
+        }
     }
 
     /**
@@ -184,8 +220,8 @@ class FoodController extends Controller
         }
 
         // Hapus Foto Detail Food
-        foreach($food->food_photos as $food_photo){
-            if(!empty($food_photo->photo_path)){
+        foreach ($food->food_photos as $food_photo) {
+            if (!empty($food_photo->photo_path)) {
                 Storage::disk('public')->delete($food_photo->photo_path);
             }
             $food_photo->delete();

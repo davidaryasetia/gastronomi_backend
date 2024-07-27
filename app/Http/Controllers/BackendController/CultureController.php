@@ -4,6 +4,7 @@ namespace App\Http\Controllers\BackendController;
 
 use App\Http\Controllers\Controller;
 use App\Models\Culture;
+use App\Models\Culture_Photo;
 use Illuminate\Http\Request;
 
 class CultureController extends Controller
@@ -36,7 +37,47 @@ class CultureController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->toArray());
+        $validated = $request->validate([
+            'name_culture' => 'required',
+            'description' => 'required', 
+            'url_youtube' => 'required', 
+            'photo_path' => 'nullable', 
+            'detail_culture_photos.*' => 'nullable', 
+        ]);
+
+        $food_photo = null;
+        if ($request->hasFile('photo_path')){
+            $food_photo = $request->file('photo_path')->store('culture_photo', 'public');
+        }
+
+        $data_culture = [
+            'name_culture' => $request->input('name_culture'), 
+            'description' => $request->input('description'), 
+            'url_youtube' => $request->input('url_youtube'), 
+            'photo_path' => $food_photo,
+        ];
+
+        // Simpan Data 
+        $insert_data_culture = Culture::create($data_culture);
+
+        // Simpan Detail Culture Photo
+        if($request->hasFile('detail_culture_photos')){
+            foreach($request->file('detail_culture_photos') as $detail_culture_photo){
+                $path = $detail_culture_photo->store('detail_culture_photo', 'public');
+                Culture_Photo::create([
+                    'culture_id' => $insert_data_culture->culture_id, 
+                    'photo_path' => $path, 
+                ]);
+            }
+        }
+
+        if($insert_data_culture){
+            return redirect('/culture')->with('success', 'Data Culture Successfully Added !!!');
+        } else {
+            return redirect('/culture')->with('error', 'Data Culture Failed To AddeddS');
+        }
+
     }
 
     /**

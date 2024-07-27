@@ -67,9 +67,6 @@
                                                         href="{{ route('food.edit', $data_food->food_id) }}"><i
                                                             class="ti ti-pencil"></i></a>
                                                 <div class="divider"></div>
-                                                {{-- <p class="mb-0 fw-normal ms-2"><a href=""><i class="ti ti-trash"
-                                                            style="color: red"></i></a>
-                                                </p> --}}
                                                 <form action="{{ route('food.destroy', $data_food->food_id) }}"
                                                     method="POST"
                                                     onsubmit="return confirm('Can You Sure To Delete This Food : {{ $data_food->name }} ? ')">

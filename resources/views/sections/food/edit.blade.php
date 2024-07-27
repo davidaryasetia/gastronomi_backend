@@ -1,6 +1,6 @@
-@php 
-dump($food->toArray());
-@endphp
+{{-- @php
+    dump($food->toArray());
+@endphp --}}
 
 @push('css')
     <style>
@@ -191,16 +191,17 @@ dump($food->toArray());
                         </div>
 
                         {{-- Main Section --}}
-                        <form action="{{ route('food.store') }}" method="POST" enctype="multipart/form-data"
-                            id="FoodForm">
+                        <form action="{{ route('food.update', $food->food_id) }}" method="POST"
+                            enctype="multipart/form-data" id="FoodForm">
                             @csrf
+                            @method('PATCH')
 
                             <div class="row mb-2">
                                 <div class="mb-2 col-lg-6">
                                     <label for="name" class="form-label">Food Name</label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
                                         id="name" name="name" aria-describedby="emailHelp"
-                                        value="{{$food->name}}" placeholder="Input Food Name..." required autofocus>
+                                        value="{{ $food->name }}" placeholder="Input Food Name..." required autofocus>
                                     @error('name')
                                         <div class="invalid-feedback"> {{ $message }} </div>
                                     @enderror
@@ -242,7 +243,7 @@ dump($food->toArray());
                                     <label for="history" class="form-label">History of Food</label>
                                     <textarea type="text" class="form-control @error('food_historical') is-invalid @enderror" id="food_historical"
                                         name="food_historical" rows="6" aria-describedby="emailHelp" placeholder="Input Food History..." required
-                                        autofocus> {{$food->food_historical}} </textarea>
+                                        autofocus> {{ $food->food_historical }} </textarea>
                                     @error('food_historical')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -256,7 +257,7 @@ dump($food->toArray());
                                 <div class="mb-2 col-lg-6">
                                     <label for="nutrition" class="form-label">Nutrition</label>
                                     <textarea type="text" class="form-control @error('nutrition') is-invalid @enderror" id="nutrition" name="nutrition"
-                                        aria-describedby="emailHelp" placeholder="Input Nutrition Of Food..." required autofocus> {{$food->nutrition}} </textarea>
+                                        aria-describedby="emailHelp" placeholder="Input Nutrition Of Food..." required autofocus> {{ $food->nutrition }} </textarea>
                                     @error('nutrition')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -267,7 +268,7 @@ dump($food->toArray());
                                 <div class="mb-2 col-lg-6">
                                     <label for="url_youtube" class="form-label">URL Youtube Directions</label>
                                     <textarea type="text" class="form-control @error('url_youtube') is-invalid @enderror" id="url_youtube"
-                                        name="url_youtube" aria-describedby="emailHelp" placeholder="Input Url Youtube" required autofocus> {{$food->url_youtube}} </textarea>
+                                        name="url_youtube" aria-describedby="emailHelp" placeholder="Input Url Youtube" required autofocus> {{ $food->url_youtube }} </textarea>
                                     @error('url_youtube')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -301,7 +302,7 @@ dump($food->toArray());
                                     <label for="ingredients" class="form-label">Foods Tags</label>
                                     <div class="galery-container">
                                         <input name='tag_foods' class='tagify--custom-dropdown'
-                                            placeholder='Type an English letter' value='Hallal'>
+                                            placeholder='Type an English letter' value=''>
                                     </div>
                                 </div>
 
@@ -351,7 +352,7 @@ dump($food->toArray());
                             <hr>
 
                             <div class="mt-3">
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-primary">Update</button>
                             </div>
                         </form>
                         {{-- END Main Section --}}
@@ -389,6 +390,12 @@ dump($food->toArray());
         </script>
 
         <script>
+            var initialTags = [
+                @foreach ($food->tag_foods as $tag_food)
+                    "{{ $tag_food->nametag }}",
+                @endforeach
+            ];
+
             var input = document.querySelector('input[name="tag_foods"]'),
                 tagify = new Tagify(input, {
                     whitelist: [
@@ -404,37 +411,35 @@ dump($food->toArray());
                     }
                 });
 
+            tagify.addTags(initialTags);
+
             tagify.on('change', function(e) {
                 var tags = tagify.value.map(tag => tag.value);
                 input.value = JSON.stringify(tags);
             })
         </script>
         <script>
-            // Create an object to hold files for each input
             const fileInputsState = {};
 
             document.querySelectorAll('.file-input').forEach(input => {
-                // Initialize file state for each input
                 fileInputsState[input.id] = [];
 
                 input.addEventListener('change', function() {
                     const fileListId = 'fileList' + this.id.replace('fileInput', '');
                     const fileList = document.getElementById(fileListId);
 
-                    // Add new files to the existing files array
                     Array.from(this.files).forEach(file => {
                         if (file.type.startsWith('image/')) {
-                            fileInputsState[this.id].push(
-                                file); // Add new files to the corresponding input
+                            fileInputsState[this.id].push(file);
                         }
                     });
 
-                    renderFileList(fileList, fileInputsState[this.id]); // Render the updated file list
+                    renderFileList(fileList, fileInputsState[this.id]);
                 });
             });
 
             function renderFileList(fileList, files) {
-                fileList.innerHTML = ''; // Clear the previous file list
+                fileList.innerHTML = '';
 
                 files.forEach((file, index) => {
                     const fileItem = document.createElement('div');
@@ -442,7 +447,7 @@ dump($food->toArray());
 
                     const img = document.createElement('img');
                     img.src = URL.createObjectURL(file);
-                    img.onload = () => URL.revokeObjectURL(img.src); // Free memory
+                    img.onload = () => URL.revokeObjectURL(img.src);
 
                     const fileName = document.createElement('span');
                     fileName.textContent = file.name;
@@ -451,14 +456,41 @@ dump($food->toArray());
                     deleteBtn.className = 'delete-btn';
                     deleteBtn.innerHTML = '&times;';
                     deleteBtn.addEventListener('click', () => {
-                        files.splice(index, 1); // Remove the file from the files array
-                        renderFileList(fileList, files); // Re-render the file list
+                        files.splice(index, 1);
+                        renderFileList(fileList, files);
+                    });
+
+                    const editBtn = document.createElement('button');
+                    editBtn.className = 'edit-btn';
+                    editBtn.innerHTML = '✎';
+                    editBtn.addEventListener('click', () => {
+                        const newFile = promptForFile();
+                        if (newFile) {
+                            files[index] = newFile;
+                            renderFileList(fileList, files);
+                        }
                     });
 
                     fileItem.appendChild(img);
                     fileItem.appendChild(fileName);
                     fileItem.appendChild(deleteBtn);
+                    fileItem.appendChild(editBtn);
                     fileList.appendChild(fileItem);
+                });
+            }
+
+            function promptForFile() {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'image/*';
+                input.click();
+                return new Promise(resolve => {
+                    input.onchange = () => {
+                        const file = input.files[0];
+                        if (file && file.type.startsWith('image/')) {
+                            resolve(file);
+                        }
+                    };
                 });
             }
         </script>
