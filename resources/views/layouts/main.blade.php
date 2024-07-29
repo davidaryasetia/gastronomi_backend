@@ -14,6 +14,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-pagination.js/1.6/jquery.simplePagination.min.js"></script>
     <!-- Tagify -->
     <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ asset('node_modules/bootstrap-timepicker/css/bootstrap-timepicker.min.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
+
 
 
     <style>
@@ -67,6 +72,15 @@
     <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+    <!-- JS -->
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('node_modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js') }}"></script>
+
+    {{-- Customize JS Function --}}
+    <script src="{{ asset('assets/js/customize-input-image.js') }}"></script>
+
+    {{-- Customize JS In Blade Page --}}
     @stack('script');
 </body>
 

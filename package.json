@@ -11,6 +11,7 @@
         "vite": "^5.0.0"
     },
     "dependencies": {
+        "bootstrap-timepicker": "^0.5.2",
         "filepond": "^4.31.1",
         "filepond-plugin-image-preview": "^4.6.12"
     }

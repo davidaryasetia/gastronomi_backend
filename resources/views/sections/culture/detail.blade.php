@@ -22,12 +22,12 @@ dump($culture->toArray())
                         <div class="d-sm-flex d-block align-items-center justify-content-between align-items-center mb-9">
                             <div class="d-flex align-items-center mb-4">
                                 <div>
-                                    <a href="/food" class="d-flex align-items-center"><i class="ti ti-arrow-left me-3"
+                                    <a href="/culture" class="d-flex align-items-center"><i class="ti ti-arrow-left me-3"
                                             style="font-size: 20px; color: black"></i>
                                     </a>
                                 </div>
                                 <div>
-                                    <span class="card-title fw-semibold me-3">Detail Food : {{ $culture->name_culture }} </span>
+                                    <span class="card-title fw-semibold me-3">Detail Culture : {{ $culture->name_culture }} </span>
                                 </div>
                             </div>
                         </div>
@@ -49,7 +49,7 @@ dump($culture->toArray())
                                     <p> {{ $culture->name_culture }} </p>
                                 </div>
                                 <div class="col-md-6">
-                                    <h5>Category Of Food</h5>
+                                    <h5>Youtube About Culture</h5>
                                     <p> <a href="{{ $culture->url_youtube }}" target="_blank">{{ $culture->url_youtube }}</a> </p>
                                 </div>
                             </div>
@@ -62,7 +62,7 @@ dump($culture->toArray())
                             </div>
                             
                             <div class="row mb-2 justified-text">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <h5>Detail Culture Foto</h5>
                                     @foreach($culture->culture_photos as $culture_photo)
                                         <img src="{{asset('storage/' . $culture_photo->photo_path)}}" alt="Food Photo" width="128px">
