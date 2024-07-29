@@ -27,13 +27,12 @@ dump($food->toArray())
                                     </a>
                                 </div>
                                 <div>
-                                    <span class="card-title fw-semibold me-3">Detail Food : {{ $food->name }} | @foreach($food->tag_foods as $tag_food) {{$tag_food->nametag}},  @endforeach | </span>
+                                    <span class="card-title fw-semibold me-3">Detail Food : {{ $food->name }} | @foreach($food->tag_foods as $tag_food) {{$tag_food->nametag}},  @endforeach </span>
                                 </div>
                             </div>
                         </div>
 
                         {{-- Main Section --}}
-                        
                             <div class="row mb-4">
                                 <div class="col-lg-2 text-center text-lg-left">
                                     @if ($food->photo_path)
@@ -101,7 +100,6 @@ dump($food->toArray())
                             </div>
                           
                         {{-- END Main Section --}}
-
                     </div>
                 </div>
             </div>

@@ -70,7 +70,6 @@
                                                         href="<?php echo e(route('food.edit', $data_food->food_id)); ?>"><i
                                                             class="ti ti-pencil"></i></a>
                                                 <div class="divider"></div>
-                                                
                                                 <form action="<?php echo e(route('food.destroy', $data_food->food_id)); ?>"
                                                     method="POST"
                                                     onsubmit="return confirm('Can You Sure To Delete This Food : <?php echo e($data_food->name); ?> ? ')">

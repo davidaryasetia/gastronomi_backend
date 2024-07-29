@@ -191,7 +191,6 @@ class FoodController extends Controller
             'nutrition' => $request->input('nutrition'),
         ]);
 
-
         if ($food) {
             return redirect('/food')->with('success', 'Data Food berhasil Di Update !!!');
         } else {

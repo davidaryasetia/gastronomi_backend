@@ -60,15 +60,15 @@
                                                     </h5>
                                                 </div>
                                                 <p class="card-text"> {{ Str::limit($data_culture->description, 140) }} </p>
-                                                <span><a href="{{ route('food.show', $data_culture->culture_id) }}">Detail
-                                                        Food......</a></span>
+                                                <span><a href="{{ route('culture.show', $data_culture->culture_id) }}">Detail
+                                                        Culture......</a></span>
                                             </div>
                                             <div class="col-md-1 text-center d-flex align-items-center">
                                                 <p class="mb-0 fw-normal me-2"><a
-                                                        href="{{ route('food.edit', $data_culture->culture_id) }}"><i
+                                                        href="{{ route('culture.edit', $data_culture->culture_id) }}"><i
                                                             class="ti ti-pencil"></i></a>
                                                 <div class="divider"></div>
-                                                <form action="{{ route('food.destroy', $data_culture->culture_id) }}"
+                                                <form action="{{ route('culture.destroy', $data_culture->culture_id) }}"
                                                     method="POST"
                                                     onsubmit="return confirm('Can You Sure To Delete This Culture : {{ $data_culture->name_culture }} ? ')">
                                                     @csrf

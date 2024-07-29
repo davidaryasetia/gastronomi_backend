@@ -63,15 +63,15 @@
                                                     </h5>
                                                 </div>
                                                 <p class="card-text"> <?php echo e(Str::limit($data_culture->description, 140)); ?> </p>
-                                                <span><a href="<?php echo e(route('food.show', $data_culture->culture_id)); ?>">Detail
-                                                        Food......</a></span>
+                                                <span><a href="<?php echo e(route('culture.show', $data_culture->culture_id)); ?>">Detail
+                                                        Culture......</a></span>
                                             </div>
                                             <div class="col-md-1 text-center d-flex align-items-center">
                                                 <p class="mb-0 fw-normal me-2"><a
-                                                        href="<?php echo e(route('food.edit', $data_culture->culture_id)); ?>"><i
+                                                        href="<?php echo e(route('culture.edit', $data_culture->culture_id)); ?>"><i
                                                             class="ti ti-pencil"></i></a>
                                                 <div class="divider"></div>
-                                                <form action="<?php echo e(route('food.destroy', $data_culture->culture_id)); ?>"
+                                                <form action="<?php echo e(route('culture.destroy', $data_culture->culture_id)); ?>"
                                                     method="POST"
                                                     onsubmit="return confirm('Can You Sure To Delete This Culture : <?php echo e($data_culture->name_culture); ?> ? ')">
                                                     <?php echo csrf_field(); ?>
