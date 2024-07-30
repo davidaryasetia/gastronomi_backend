@@ -317,19 +317,19 @@
                                         </label>
                                     </div>
                                     <div id="fileList1" class="file-list">
-                                        @foreach ($food->photos as $historical_photo)
+                                        {{-- @foreach ($food->photos as $historical_photo)
                                             <div class="file-item existing-file-item">
                                                 <img src="{{ asset('storage/' . $historical_photo->photo) }}"
                                                     alt="Food Photo" width="164px">
                                                 <button type="button" class="delete-btn"
-                                                    data-id="{{ $historical_photo->food_historical_photo_id }}">&times;</button>
+                                                    data-id="{{ $historical_photo->id }}">&times;</button>
                                                 <button type="button" class="edit-btn"
-                                                    data-id="{{ $historical_photo->food_historical_photo_id }}"><i
+                                                    data-id="{{ $historical_photo->id }}"><i
                                                         class="ti ti-pencil"></i></button>
                                                 <input type="hidden" name="existing_photos[]"
-                                                    value="{{ $historical_photo->food_historical_photo_id }}">
+                                                    value="{{ $historical_photo->id }}">
                                             </div>
-                                        @endforeach
+                                        @endforeach --}}
                                     </div>
                                 </div>
                             </div>
@@ -434,38 +434,41 @@
         </script>
 
         {{-- JS For Image Process --}}
+        {{-- <script src="{{ asset('assets/js/customize-edit-image.js') }}"></script> --}}
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('DOMContentLoaded', () => {
                 const fileInputsState = {};
 
                 // Initialize fileInputsState with existing files
                 document.querySelectorAll('.file-input').forEach(input => {
                     const fileListId = 'fileList' + input.id.replace('fileInput', '');
-                    const existingFiles = Array.from(document.querySelectorAll(
-                        `#${fileListId} .existing-file-item img`)).map(img => ({
-                        name: img.src.split('/').pop(), // Get the filename from the URL
-                        url: img.src
-                    }));
+                    fileInputsState[input.id] = Array.from(document.querySelectorAll(
+                            `#${fileListId} .existing-file-item img`))
+                        .map(img => ({
+                            name: img.src.split('/').pop(), // Get the filename from the URL
+                            url: img.src
+                        }));
 
-                    fileInputsState[input.id] = existingFiles;
-
-                    input.addEventListener('change', function() {
-                        const fileListId = 'fileList' + this.id.replace('fileInput', '');
-                        const fileList = document.getElementById(fileListId);
-
-                        Array.from(this.files).forEach(file => {
-                            if (file.type.startsWith('image/') && !fileInputsState[this.id]
-                                .some(existingFile => existingFile.name === file.name)) {
-                                fileInputsState[this.id].push({
-                                    name: file.name,
-                                    url: URL.createObjectURL(file)
-                                });
-                            }
-                        });
-
-                        renderFileList(fileList, fileInputsState[this.id]);
-                    });
+                    input.addEventListener('change', () => handleFileInputChange(input));
                 });
+
+                function handleFileInputChange(input) {
+                    const fileListId = 'fileList' + input.id.replace('fileInput', '');
+                    const fileList = document.getElementById(fileListId);
+
+                    // Add new files to fileInputsState without removing existing ones
+                    Array.from(input.files).forEach(file => {
+                        if (file.type.startsWith('image/') && !fileInputsState[input.id].some(existingFile =>
+                                existingFile.name === file.name)) {
+                            fileInputsState[input.id].push({
+                                name: file.name,
+                                url: URL.createObjectURL(file)
+                            });
+                        }
+                    });
+
+                    renderFileList(fileList, fileInputsState[input.id]);
+                }
 
                 function renderFileList(fileList, files) {
                     fileList.innerHTML = '';
@@ -476,35 +479,34 @@
 
                         const img = document.createElement('img');
                         img.src = file.url;
-                        img.onload = () => URL.revokeObjectURL(img.src); // Clean up URL
+                        img.onload = () => URL.revokeObjectURL(img.src); // Clean up URL after load
 
-                        const deleteBtn = document.createElement('button');
-                        deleteBtn.className = 'delete-btn';
-                        deleteBtn.innerHTML = '&times;';
-                        deleteBtn.addEventListener('click', () => {
+                        const deleteBtn = createButton('delete-btn', '&times;', () => {
                             files.splice(index, 1);
                             renderFileList(fileList, files);
                         });
 
-                        const editBtn = document.createElement('button');
-                        editBtn.className = 'edit-btn';
-                        editBtn.innerHTML = '✎';
-                        editBtn.addEventListener('click', () => {
-                            const newFile = promptForFile();
-                            newFile.then(file => {
+                        const editBtn = createButton('edit-btn', '✎', () => {
+                            promptForFile().then(newFile => {
                                 files[index] = {
-                                    name: file.name,
-                                    url: URL.createObjectURL(file)
+                                    name: newFile.name,
+                                    url: URL.createObjectURL(newFile)
                                 };
                                 renderFileList(fileList, files);
                             });
                         });
 
-                        fileItem.appendChild(img);
-                        fileItem.appendChild(deleteBtn);
-                        fileItem.appendChild(editBtn);
+                        fileItem.append(img, deleteBtn, editBtn);
                         fileList.appendChild(fileItem);
                     });
+                }
+
+                function createButton(className, innerHTML, onClick) {
+                    const button = document.createElement('button');
+                    button.className = className;
+                    button.innerHTML = innerHTML;
+                    button.addEventListener('click', onClick);
+                    return button;
                 }
 
                 function promptForFile() {
@@ -512,44 +514,51 @@
                         const input = document.createElement('input');
                         input.type = 'file';
                         input.accept = 'image/*';
-                        input.click();
-                        input.onchange = () => {
+                        input.style.display = 'none';
+                        document.body.appendChild(input);
+
+                        input.addEventListener('change', () => {
                             const file = input.files[0];
+                            document.body.removeChild(input);
                             if (file && file.type.startsWith('image/')) {
                                 resolve(file);
                             }
-                        };
+                        });
+
+                        input.click();
                     });
                 }
 
-                // Add event listener for existing delete buttons
-                document.querySelectorAll('.existing-file-item .delete-btn').forEach(button => {
-                    button.addEventListener('click', function() {
-                        const fileId = this.getAttribute('data-id');
-                        this.parentElement.remove();
-                        const hiddenInput = document.createElement('input');
-                        hiddenInput.type = 'hidden';
-                        hiddenInput.name = 'delete_photos[]';
-                        hiddenInput.value = fileId;
-                        document.querySelector('form').appendChild(hiddenInput);
-                    });
-                });
-
-                // Add event listener for existing edit buttons
-                document.querySelectorAll('.existing-file-item .edit-btn').forEach(button => {
-                    button.addEventListener('click', function() {
-                        const fileId = this.getAttribute('data-id');
-                        const newFile = promptForFile();
-                        newFile.then(file => {
-                            const img = this.parentElement.querySelector('img');
-                            img.src = URL.createObjectURL(file);
-                            img.onload = () => URL.revokeObjectURL(img.src);
-                            // Update the file state if needed
+                function setupExistingFileListeners() {
+                    document.querySelectorAll('.existing-file-item .delete-btn').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const fileId = this.getAttribute('data-id');
+                            this.parentElement.remove();
+                            const hiddenInput = document.createElement('input');
+                            hiddenInput.type = 'hidden';
+                            hiddenInput.name = 'delete_photos[]';
+                            hiddenInput.value = fileId;
+                            document.querySelector('form').appendChild(hiddenInput);
                         });
                     });
-                });
+
+                    document.querySelectorAll('.existing-file-item .edit-btn').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const fileId = this.getAttribute('data-id');
+                            promptForFile().then(file => {
+                                const img = this.parentElement.querySelector('img');
+                                img.src = URL.createObjectURL(file);
+                                img.onload = () => URL.revokeObjectURL(img.src);
+                                // Update the file state if needed
+                            });
+                        });
+                    });
+                }
+
+                setupExistingFileListeners();
             });
         </script>
+
         {{-- JS For Image Process  --}}
     @endpush
 @endsection

@@ -78,7 +78,7 @@
     <script src="<?php echo e(asset('node_modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js')); ?>"></script>
 
     
-    <script src="<?php echo e(asset('assets/js/customize-input-image.js')); ?>"></script>
+    
 
     
     <?php echo $__env->yieldPushContent('script'); ?>;
