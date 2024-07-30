@@ -160,7 +160,7 @@ class FoodController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        dd($request->all());
+        // dd($request->all());
         $validated = $request->validate([
             'name' => 'required',
             // 'photo_path' => 'nullable', 
@@ -173,12 +173,10 @@ class FoodController extends Controller
             'nutrition' => 'required',
             // 'detail_historical_photos*' => 'nullable', 
             // 'detail_food_photos.*' => 'nullable', 
-            // 'tag_foods.*' => 'required',
+            'tag_foods' => 'required',
         ]);
 
         $food = Food::findOrFail($id);
-
-
         $food->update([
             'name' => $request->input('name'),
             // 'photo_path' => $request->input('photo_path'),
@@ -190,6 +188,22 @@ class FoodController extends Controller
             'directions' => $request->input('directions'),
             'nutrition' => $request->input('nutrition'),
         ]);
+
+        // Update Tags
+        $tagArray = json_decode($validated['tag_foods'], true);
+        if (!is_array($tagArray)){
+            return redirect()->back()->withErrors(['error' => 'Invalid Format A Tags']);
+        }
+        // Hapus Tag Lama
+        Tag_Food::where('food_id', $food->food_id)->delete();
+
+        // Simpan Tag Baru 
+        foreach($tagArray as $tag){
+            Tag_Food::create([
+                'food_id' => $food->food_id, 
+                'nametag' => $tag['value'], 
+            ]);
+        }
 
         if ($food) {
             return redirect('/food')->with('success', 'Data Food berhasil Di Update !!!');

@@ -13,12 +13,17 @@ class RestaurantController extends Controller
      */
     public function index()
     {
-        $restaurant = Restaurant::with('restaurant_photos:restaurant_photo_id,restaurant_id,photo_path')->get();
+        $restaurant = Restaurant::with([
+            'restaurant_photos:restaurant_photo_id,restaurant_id,photo_path', 
+            'menus:menu_id,restaurant_id,food_id,name,type_food,is_traditional', 
+            'menus.foods:food_id,name,category'
+        ])->get();
 
         return view('sections.restaurant.restaurant', [
-            'title' => 'Restaurant',  
-            'restaurant' => $restaurant, 
+            'title' => 'Restaurant Data', 
+            'restaurant' => $restaurant,
         ]);
+        
     }
 
     /**
