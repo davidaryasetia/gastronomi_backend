@@ -415,7 +415,7 @@
                     Array.from(this.files).forEach(file => {
                         if (file.type.startsWith('image/')) {
                             fileInputsState[this.id].push(
-                                file); // Add new files to the corresponding input
+                            file); // Add new files to the corresponding input
                         }
                     });
 

@@ -171,7 +171,11 @@ class FoodController extends Controller
             'url_youtube' => 'nullable',
             'directions' => 'required',
             'nutrition' => 'required',
-            // 'detail_historical_photos*' => 'nullable', 
+            'existing_photos' => 'nullable|array',
+            'existing_photos.*' => 'integer', 
+            'delete_photos' => 'nullable|array', 
+            'delete_photos.*' => 'integer', 
+            'detail_historical_photos*' => 'nullable', 
             // 'detail_food_photos.*' => 'nullable', 
             'tag_foods' => 'required',
         ]);
@@ -204,6 +208,28 @@ class FoodController extends Controller
                 'nametag' => $tag['value'], 
             ]);
         }
+
+        // Hapus Foto yang Dihapus Pengguna 
+        if ($request->has('delete_photos')){
+            foreach($request->input('delete_photos') as $photoId){
+                $photo = Food_Historical_Photo::find($photoId);
+                if($photo){
+                    Storage::delete('public/' . $photo->photo);
+                    $photo->delete();
+                }
+            }
+        }
+
+        // Tambah atau ubah photo 
+       if($request->hasFile('detail_historical_photos')){
+        foreach($request->file('detail_historical_photos') as $photo){
+            $path = $photo->store('historical_food_photo', 'public');
+            Food_Historical_Photo::create([
+                'food_id' => $food->food_id, 
+                'photo' => $path, 
+            ]);
+        }
+       }
 
         if ($food) {
             return redirect('/food')->with('success', 'Data Food berhasil Di Update !!!');
