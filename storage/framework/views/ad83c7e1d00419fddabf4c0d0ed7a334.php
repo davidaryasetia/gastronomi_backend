@@ -77,9 +77,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="<?php echo e(asset('node_modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js')); ?>"></script>
 
-    
-    
-
+   
     
     <?php echo $__env->yieldPushContent('script'); ?>;
 </body>

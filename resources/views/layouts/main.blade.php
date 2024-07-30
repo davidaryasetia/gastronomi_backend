@@ -77,9 +77,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ asset('node_modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js') }}"></script>
 
-    {{-- Customize JS Function --}}
-    <script src="{{ asset('assets/js/customize-input-image.js') }}"></script>
-
+   
     {{-- Customize JS In Blade Page --}}
     @stack('script');
 </body>

@@ -1,7 +1,3 @@
-@php 
-dump($restaurant->toArray());
-@endphp
-@dd($restaurant->toArray());
 @extends('layouts.main')
 
 @section('row')

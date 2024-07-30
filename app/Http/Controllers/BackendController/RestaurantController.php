@@ -31,7 +31,9 @@ class RestaurantController extends Controller
      */
     public function create()
     {
-        //
+      return view('sections.restaurant.create', [
+        'title' => 'Add Restaurant', 
+      ]);
     }
 
     /**
@@ -47,7 +49,16 @@ class RestaurantController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $restaurant = Restaurant::with([
+            'restaurant_photos:restaurant_photo_id,photo_path', 
+            'menus:menu_id,restaurant_id,food_id,name,type_food,is_traditional', 
+            'menus.foods:food_id,name,category', 
+        ])->findOrFail($id);
+
+        return view('sections.restaurant.detail', [
+            'title' => 'Detail Restaurant', 
+            'restaurant' => $restaurant, 
+        ]);
     }
 
     /**
@@ -55,7 +66,16 @@ class RestaurantController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $restaurant = Restaurant::with([
+            'restaurant_photos:restaurant_photo_id,photo_path',
+            'menus:menu_id,restaurant_id,food_id,name,type_food,is_traditional', 
+            'menus.foods:food_id,name,category',
+        ])->findOrFail($id);
+
+        return view('sections.restaurant.edit', [
+            'title' => 'Edit Restaurant', 
+            'restaurant' => $restaurant, 
+        ]);
     }
 
     /**

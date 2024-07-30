@@ -1,7 +1,3 @@
-<?php 
-dump($restaurant->toArray());
-?>
-<?php dd($restaurant->toArray()); ?>;
 
 
 <?php $__env->startSection('row'); ?>

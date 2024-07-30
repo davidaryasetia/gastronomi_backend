@@ -41,12 +41,15 @@ class RestaurantController extends Controller
             'description' => 'required',
             'photo_path' => 'nullable',
             'address' => 'required',
+            'url_link_map' => 'nullable', 
+            'latitude' => 'nullable', 
+            'longitude' => 'nullable', 
             'open_at' => 'required',
             'close_at' => 'required',
             'detail_restaurant_photos.*' => 'nullable',
-            'menus.*.name' => 'nullable',
-            'menus.*.type_food' => 'nullable', 
-            'menus.*.is_traditional' => 'nullable', 
+            // 'menus.*.name' => 'nullable',
+            // 'menus.*.type_food' => 'nullable', 
+            // 'menus.*.is_traditional' => 'nullable', 
         ]);
 
         $restaurant_photo = $request->file('photo_path')->store('restaurant_photo','public');
@@ -56,6 +59,9 @@ class RestaurantController extends Controller
             'description' => $request->description,
             'photo_path' => $restaurant_photo, 
             'address' => $request->address,
+            'url_link_map' => $request->url_link_map, 
+            'latitude' => $request->latitude, 
+            'longitude' => $request->longitude, 
             'open_at' => $request->open_at,
             'close_at' => $request->close_at,
         ]);
