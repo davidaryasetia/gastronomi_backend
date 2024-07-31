@@ -19,9 +19,11 @@
                                             style="font-size: 20px; color: black"></i>
                                     </a>
                                 </div>
+
                                 <div>
-                                    <span class="card-title fw-semibold me-3">Add Restaurant</span>
+                                    <span class="card-title fw-semibold me-3">Tambah Data Menu</span>
                                 </div>
+
 
                             </div>
                         </div>
@@ -34,18 +36,19 @@
                             <div class="row mb-2">
                                 <div class="mb-2 col-lg-6">
                                     <label for="name_restaurant" class="form-label">Name Restaurant</label>
-                                    <input type="text" class="form-control @error('name_restaurant') is-invalid @enderror"
-                                    id="name_restaurant" name="name_restaurant" aria-describedby="emailHelp"
-                                    value="{{ old('name_restaurant') }}" placeholder="Input Name Of Restaurant...." required />
-                                    
-                                     
+                                    <input type="text"
+                                        class="form-control @error('name_restaurant') is-invalid @enderror"
+                                        id="name_restaurant" name="name_restaurant" aria-describedby="emailHelp"
+                                        value="{{ old('name_restaurant') }}" placeholder="Input Name Of Restaurant...."
+                                        required />
                                 </div>
 
                                 <div class="mb-2 col-lg-6">
                                     <label for="address" class="form-label">address Of Restaurant</label>
                                     <input type="text" class="form-control @error('address') is-invalid @enderror"
-                                        id="address" name=" " aria-describedby="emailHelp"
-                                        value="{{ old('address') }}" placeholder="Input Address Of Restaurant...." required />
+                                        id="address" name="address" aria-describedby="emailHelp"
+                                        value="{{ old('address') }}" placeholder="Input Address Of Restaurant...."
+                                        required />
                                     @error('address')
                                         <div class="invalid-feedback"> {{ $message }} </div>
                                     @enderror
@@ -54,32 +57,57 @@
 
                             <div class="row mb-2">
                                 <div class="mb-2 col-lg-6">
+                                    <label for="open_at" class="form-label">Open At</label>
+                                    <div class="form-group">
+                                        <div class="input-group time" id="timepicker1">
+                                            <input type="text" class="form-control" name="open_at" id="timepicker-input1"
+                                                placeholder="Select Input Time Open Village...." required />
+                                            <span class="input-group-text"><i class="ti ti-clock"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-2 col-lg-6">
+                                    <label for="open at" class="form-label">Close At</label>
+                                    <div class="form-group">
+                                        <div class="input-group time" id="timepicker2">
+                                            <input type="text" class="form-control" name="close_at"
+                                                id="timepicker-input2" placeholder="Select Input Time Close Village...."
+                                                required />
+                                            <span class="input-group-text"><i class="ti ti-clock"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="mb-2 col-lg-6">
                                     <label for="latitude" class="form-label">Latitude Of Restaurant</label>
                                     <input type="text" class="form-control @error('latitude') is-invalid @enderror"
-                                    id="latitude" name="latitude" aria-describedby="emailHelp"
-                                    value="{{ old('latitude') }}" placeholder="Input Latitude Location Of Restaurant...." required />
-                                    
-                                     
+                                        id="latitude" name="latitude" aria-describedby="emailHelp"
+                                        value="{{ old('latitude') }}"
+                                        placeholder="Input Latitude Location Of Restaurant...." required />
+
+
                                 </div>
 
                                 <div class="mb-2 col-lg-6">
                                     <label for="longitude" class="form-label">Longitude Of Restaurant</label>
                                     <input type="text" class="form-control @error('longitude') is-invalid @enderror"
                                         id="longitude" name="longitude" aria-describedby="emailHelp"
-                                        value="{{ old('longitude') }}" placeholder="Input Longitude Location Of Restaurant...." required />
+                                        value="{{ old('longitude') }}"
+                                        placeholder="Input Longitude Location Of Restaurant...." required />
                                     @error('longitude')
                                         <div class="invalid-feedback"> {{ $message }} </div>
                                     @enderror
                                 </div>
                             </div>
 
-
                             <div class="row mb-2">
                                 <div class="mb-2 col-lg-6">
                                     <label for="description" class="form-label">Description Of Restaurant</label>
                                     <textarea type="text" class="form-control @error('description') is-invalid @enderror" id="description"
-                                        name="description" rows="6" aria-describedby="emailHelp" placeholder="Input Description About This Restaurant..."
-                                        required autofocus>{{ old('description') }}</textarea>
+                                        name="description" rows="6" aria-describedby="emailHelp"
+                                        placeholder="Input Description About This Restaurant..." required autofocus>{{ old('description') }}</textarea>
 
                                     @error('description')
                                         <div class="invalid-feedback">
@@ -89,9 +117,9 @@
                                 </div>
                                 <div class="mb-2 col-lg-6">
                                     <label for="url_link_map" class="form-label">URL Link Map Restaurant</label>
-                                    <textarea type="text" class="form-control @error('url_link_map') is-invalid @enderror" id="url_link_map" name="url_link_map"
-                                        rows="6" aria-describedby="emailHelp" placeholder="Input URL Link Map About Restaurant..."
-                                        required autofocus>{{ old('url_link_map') }}</textarea>
+                                    <textarea type="text" class="form-control @error('url_link_map') is-invalid @enderror" id="url_link_map"
+                                        name="url_link_map" rows="6" aria-describedby="emailHelp"
+                                        placeholder="Input URL Link Map About Restaurant..." required autofocus>{{ old('url_link_map') }}</textarea>
                                     @error('url_link_map')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -99,6 +127,73 @@
                                     @enderror
                                 </div>
                             </div>
+                            <hr>
+
+                            {{-- Restaurant Menus.* --}}
+                            {{-- Restaurant Menus.* --}}
+                            <div class="ikuk-fields">
+                                <div class="d-flex align-items-center mb-4">
+                                    <span for="menus" class="me-2" style="color: black">List Of Menu
+                                        Restaurant</span>
+                                    <button type="button" class="btn btn-sm rounded-pill btn-primary" id="addData">
+                                        <span class=""><i class="ti ti-plus me-1"></i>Add Menu</span>
+                                    </button>
+                                </div>
+                                <div class="ikuk-template">
+                                    <div class="row mb-3edddxx align-items-center">
+                                        <div class="mb-2 col-lg-4">
+                                            <label for="menu" class="form-label">Menu</label>
+                                            <input type="text" class="form-control @error('menu') is-invalid @enderror"
+                                                id="menu" name="menu[]" aria-describedby="emailHelp"
+                                                value="{{ old('menu') }}" placeholder="Input menu......." required />
+                                            @error('menu')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                        <div class="mb-2 col-lg-4">
+                                            <label for="type_food" class="form-label">Type Food</label>
+                                            <select id="type_food" name="type_food[]"
+                                                class="form-select @error('type_food') is-invalid @enderror">
+                                                <option value="">Choice Type Food....</option>
+                                                <option value="Food" {{ old('type_food') == 'Food' ? 'selected' : '' }}>
+                                                    Food
+                                                </option>
+                                                <option value="Drink"
+                                                    {{ old('type_food') == 'Drink' ? 'selected' : '' }}>
+                                                    Drink
+                                                </option>
+                                            </select>
+                                            @error('type_food')
+                                                <div class="invalid-feedback"> {{ $message }} </div>
+                                            @enderror
+                                        </div>
+                                        <div class="mb-2 col-lg-2">
+                                            <label for="type_food" class="form-label">Is Traditional Food ?</label>
+                                            <div class="form-check form-check-inline me-2">
+                                                <input
+                                                    class="form-check-input @error('is_traditional') is-invalid @enderror"
+                                                    type="radio" name="is_traditional[0]" id="is_traditional"
+                                                    value="true ">
+                                                <label class="form-check-label" for="true">True</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input
+                                                    class="form-check-input @error('is_traditional') is-invalid @enderror"
+                                                    type="radio" name="is_traditional[0]" id="is_traditional"
+                                                    value="false">
+                                                <label class="form-check-label" for="false">False</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <button type="button" class="btn btn-danger remove-btn">x</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
                             <hr>
 
                             <div class="row mb-3">
@@ -114,9 +209,10 @@
                                     <div id="fileList2" class="file-list"></div>
                                 </div>
                                 <div class="mb-2 col-lg-6">
-                                    <label for="detail_village_photos" class="form-label">Detail Restaurant Photo</label>
+                                    <label for="detail_restaurant_photos" class="form-label">Detail Restaurant
+                                        Photo</label>
                                     <div class="file-input-container">
-                                        <input type="file" name="detail_village_photos[]" id="fileInput3"
+                                        <input type="file" name="detail_restaurant_photos[]" id="fileInput3"
                                             class="file-input" multiple />
                                         <label for="fileInput3" class="file-input-label">
                                             Drag & Drop your files or <span>Browse</span>
@@ -163,5 +259,6 @@
             });
         </script>
         <script src="{{ asset('assets/js/customize-input-image.js') }}"></script>
+        <script src="{{ asset('assets/js/customize-form-repeater.js') }}"></script>
     @endpush
 @endsection
