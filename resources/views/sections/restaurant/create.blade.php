@@ -34,15 +34,18 @@
                             <div class="row mb-2">
                                 <div class="mb-2 col-lg-6">
                                     <label for="name_restaurant" class="form-label">Name Restaurant</label>
+                                    <input type="text" class="form-control @error('name_restaurant') is-invalid @enderror"
+                                    id="name_restaurant" name="name_restaurant" aria-describedby="emailHelp"
+                                    value="{{ old('name_restaurant') }}" placeholder="Input Name Of Restaurant...." required />
+                                    
                                      
                                 </div>
 
                                 <div class="mb-2 col-lg-6">
                                     <label for="address" class="form-label">address Of Restaurant</label>
                                     <input type="text" class="form-control @error('address') is-invalid @enderror"
-                                        id="address" name="address" aria-describedby="emailHelp"
-                                        value="{{ old('address') }}" placeholder="Input Address Of Restaurant...." required
-                                        autofocus>
+                                        id="address" name=" " aria-describedby="emailHelp"
+                                        value="{{ old('address') }}" placeholder="Input Address Of Restaurant...." required />
                                     @error('address')
                                         <div class="invalid-feedback"> {{ $message }} </div>
                                     @enderror
@@ -51,33 +54,31 @@
 
                             <div class="row mb-2">
                                 <div class="mb-2 col-lg-6">
-                                    <label for="latitude" class="form-label">Latitude</label>
-                                    <div class="form-group">
-                                        <div class="input-group time" id="timepicker1">
-                                            <input type="text" class="form-control" name="latitude" id="timepicker-input1"
-                                                placeholder="Select Input Time Open Village...." required />
-                                            <span class="input-group-text"><i class="ti ti-clock"></i></span>
-                                        </div>
-                                    </div>
+                                    <label for="latitude" class="form-label">Latitude Of Restaurant</label>
+                                    <input type="text" class="form-control @error('latitude') is-invalid @enderror"
+                                    id="latitude" name="latitude" aria-describedby="emailHelp"
+                                    value="{{ old('latitude') }}" placeholder="Input Latitude Location Of Restaurant...." required />
+                                    
+                                     
                                 </div>
+
                                 <div class="mb-2 col-lg-6">
-                                    <label for="open at" class="form-label">Close At</label>
-                                    <div class="form-group">
-                                        <div class="input-group time" id="timepicker2">
-                                            <input type="text" class="form-control" name="close_at"
-                                                id="timepicker-input2" placeholder="Select Input Time Close Village...."
-                                                required />
-                                            <span class="input-group-text"><i class="ti ti-clock"></i></span>
-                                        </div>
-                                    </div>
+                                    <label for="longitude" class="form-label">Longitude Of Restaurant</label>
+                                    <input type="text" class="form-control @error('longitude') is-invalid @enderror"
+                                        id="longitude" name="longitude" aria-describedby="emailHelp"
+                                        value="{{ old('longitude') }}" placeholder="Input Longitude Location Of Restaurant...." required />
+                                    @error('longitude')
+                                        <div class="invalid-feedback"> {{ $message }} </div>
+                                    @enderror
                                 </div>
                             </div>
 
+
                             <div class="row mb-2">
                                 <div class="mb-2 col-lg-6">
-                                    <label for="description" class="form-label">Description</label>
+                                    <label for="description" class="form-label">Description Of Restaurant</label>
                                     <textarea type="text" class="form-control @error('description') is-invalid @enderror" id="description"
-                                        name="description" rows="8" aria-describedby="emailHelp" placeholder="Input Description About This Village..."
+                                        name="description" rows="6" aria-describedby="emailHelp" placeholder="Input Description About This Restaurant..."
                                         required autofocus>{{ old('description') }}</textarea>
 
                                     @error('description')
@@ -87,77 +88,14 @@
                                     @enderror
                                 </div>
                                 <div class="mb-2 col-lg-6">
-                                    <label for="fasility" class="form-label">Fasility Description</label>
-                                    <textarea type="text" class="form-control @error('fasility') is-invalid @enderror" id="fasility" name="fasility"
-                                        rows="8" aria-describedby="emailHelp" placeholder="Input Description Of Fasility About This Village..."
-                                        required autofocus>{{ old('fasility') }}</textarea>
-                                    @error('fasility')
+                                    <label for="url_link_map" class="form-label">URL Link Map Restaurant</label>
+                                    <textarea type="text" class="form-control @error('url_link_map') is-invalid @enderror" id="url_link_map" name="url_link_map"
+                                        rows="6" aria-describedby="emailHelp" placeholder="Input URL Link Map About Restaurant..."
+                                        required autofocus>{{ old('url_link_map') }}</textarea>
+                                    @error('url_link_map')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="row mb-2">
-                                <div class="mb-2 col-lg-12">
-                                    <label for="mandatory equipment" class="form-label">Mandatory Equipment</label>
-                                    <textarea type="text" class="form-control @error('mandatory_equipment') is-invalid @enderror"
-                                        id="mandatory_equipment" name="mandatory_equipment" aria-describedby="emailHelp"
-                                        placeholder="Input Mandatory Equipment About This Village..." required autofocus>{{ old('mandatory_equipment') }}</textarea>
-                                    @error('mandatory_equipment')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <hr>
-
-                            <div class="row mb-2">
-                                <span>
-                                    <p>Village Social Media Information</p>
-                                </span>
-
-                                <div class="mb-2 col-lg-6">
-                                    <label for="url_website" class="form-label">URL Of Website</label>
-                                    <input type="text" class="form-control @error('url_website') is-invalid @enderror"
-                                        id="url_website" name="url_website" aria-describedby="emailHelp"
-                                        value="{{ old('url_website') }}" placeholder="Input Website Of Village..."
-                                        required autofocus>
-                                    @error('url_website')
-                                        <div class="invalid-feedback"> {{ $message }} </div>
-                                    @enderror
-                                </div>
-                                <div class="mb-2 col-lg-6">
-                                    <label for="url_facebook" class="form-label">URL Of Facebook</label>
-                                    <input type="text" class="form-control @error('url_facebook') is-invalid @enderror"
-                                        id="url_facebook" name="url_facebook" aria-describedby="emailHelp"
-                                        value="{{ old('url_facebook') }}"
-                                        placeholder="Input URL Facebook This Village..." required autofocus>
-                                    @error('url_facebook')
-                                        <div class="invalid-feedback"> {{ $message }} </div>
-                                    @enderror
-                                </div>
-                                <div class="mb-2 col-lg-6">
-                                    <label for="url_instagram" class="form-label">URL Of Instagram</label>
-                                    <input type="text"
-                                        class="form-control @error('url_instagram') is-invalid @enderror"
-                                        id="url_instagram" name="url_instagram" aria-describedby="emailHelp"
-                                        value="{{ old('url_instagram') }}" placeholder="Input URL Of Instagram...."
-                                        required autofocus>
-                                    @error('url_instagram')
-                                        <div class="invalid-feedback"> {{ $message }} </div>
-                                    @enderror
-                                </div>
-                                <div class="mb-2 col-lg-6">
-                                    <label for="url_twitter" class="form-label">URL Of twitter</label>
-                                    <input type="text" class="form-control @error('url_twitter') is-invalid @enderror"
-                                        id="url_twitter" name="url_twitter" aria-describedby="emailHelp"
-                                        value="{{ old('url_twitter') }}" placeholder="Input URL Of Twitter...." required
-                                        autofocus>
-                                    @error('url_twitter')
-                                        <div class="invalid-feedback"> {{ $message }} </div>
                                     @enderror
                                 </div>
                             </div>
@@ -166,7 +104,7 @@
                             <div class="row mb-3">
                                 {{-- Input File Image --}}
                                 <div class="mb-2 col-lg-6">
-                                    <label for="photo_path" class="form-label">Village Cover Photo</label>
+                                    <label for="photo_path" class="form-label">Restaurant Cover Photo</label>
                                     <div class="file-input-container">
                                         <input type="file" name="photo_path" id="fileInput2" class="file-input" />
                                         <label for="fileInput2" class="file-input-label">
@@ -176,7 +114,7 @@
                                     <div id="fileList2" class="file-list"></div>
                                 </div>
                                 <div class="mb-2 col-lg-6">
-                                    <label for="detail_village_photos" class="form-label">Detail Village Photo</label>
+                                    <label for="detail_village_photos" class="form-label">Detail Restaurant Photo</label>
                                     <div class="file-input-container">
                                         <input type="file" name="detail_village_photos[]" id="fileInput3"
                                             class="file-input" multiple />
