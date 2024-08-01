@@ -140,7 +140,7 @@
                                     </button>
                                 </div>
                                 <div class="ikuk-template">
-                                    <div class="row mb-3edddxx align-items-center">
+                                    <div class="row mb-3 align-items-center">
                                         <div class="mb-2 col-lg-4">
                                             <label for="menu" class="form-label">Menu</label>
                                             <input type="text" class="form-control @error('menu') is-invalid @enderror"
@@ -170,21 +170,21 @@
                                             @enderror
                                         </div>
                                         <div class="mb-2 col-lg-2">
-                                            <label for="type_food" class="form-label">Is Traditional Food ?</label>
-                                            <div class="form-check form-check-inline me-2">
-                                                <input
-                                                    class="form-check-input @error('is_traditional') is-invalid @enderror"
-                                                    type="radio" name="is_traditional[0]" id="is_traditional"
-                                                    value="true ">
-                                                <label class="form-check-label" for="true">True</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input
-                                                    class="form-check-input @error('is_traditional') is-invalid @enderror"
-                                                    type="radio" name="is_traditional[0]" id="is_traditional"
-                                                    value="false">
-                                                <label class="form-check-label" for="false">False</label>
-                                            </div>
+                                            <label for="is_traditional" class="form-label">Is Traditional Food ?</label>
+                                            <select id="is_traditional" name="is_traditional[]"
+                                                class="form-select @error('is_traditional') is-invalid @enderror">
+                                                <option value="">Select Option....</option>
+                                                <option value="1" {{ old('is_traditional') == true ? 'selected' : '' }}>
+                                                    True
+                                                </option>
+                                                <option value="0"
+                                                    {{ old('is_traditional') == false ? 'selected' : '' }}>
+                                                    False
+                                                </option>
+                                            </select>
+                                            @error('is_traditional')
+                                                <div class="invalid-feedback"> {{ $message }} </div>
+                                            @enderror
                                         </div>
                                         <div class="col-lg-2">
                                             <button type="button" class="btn btn-danger remove-btn">x</button>

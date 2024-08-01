@@ -11,10 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
         var inputs = newTemplate.querySelectorAll('input, select');
         inputs.forEach(function(input) {
             input.value = '';
-            if (input.type === 'radio') {
-                input.checked = false;
-                input.name = `is_traditional[${newIndex}]`;
-            }
         });
 
         fieldsContainer.appendChild(newTemplate);
