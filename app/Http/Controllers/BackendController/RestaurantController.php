@@ -7,6 +7,7 @@ use App\Models\Menu;
 use App\Models\Restaurant;
 use App\Models\Restaurant_Photo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class RestaurantController extends Controller
 {
@@ -124,7 +125,7 @@ class RestaurantController extends Controller
         $restaurant = Restaurant::with([
             'restaurant_photos:restaurant_photo_id,restaurant_id,photo_path',
             'menus:menu_id,restaurant_id,food_id,name,type_food,is_traditional',
-            'menus.foods:food_id,name,category',
+            'menus.foods:menu_id,food_id,name,category',
         ])->findOrFail($id);
 
         return view('sections.restaurant.detail', [
@@ -163,6 +164,32 @@ class RestaurantController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $restaurant = Restaurant::findOrFail($id);
+        
+        if(!empty($restaurant->photo_path)){
+            Storage::disk('public')->delete($restaurant->photo_path);
+        }
+
+        // Hapus Foto Restaurant
+        foreach($restaurant->restaurant_photos as $restaurant_photo){
+            if(!empty($restaurant_photo->photo_path)){
+                Storage::disk('public')->delete($restaurant_photo->photo_path);
+            }
+            $restaurant_photo->delete();
+        }
+
+        // Hapus Menus 
+        foreach($restaurant->menus as $menu){
+            $menu->delete();
+        }
+
+        $restaurant->delete();
+
+        if($restaurant){
+            return redirect('/restaurant')->with('success', 'Data Restaurant Successfully Deleted !!!');
+        } else {
+            return redirect('/restaurant')->with('error', 'Data Restaurant Failed To Deleted !!!');
+        }
+
     }
 }

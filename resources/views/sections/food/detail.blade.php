@@ -1,6 +1,6 @@
-@php 
+{{-- @php 
 dump($food->toArray())
-@endphp
+@endphp --}}
 
 @push('css')
     <style>
