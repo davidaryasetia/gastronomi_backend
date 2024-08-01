@@ -27,3 +27,5 @@ Route::resource('/food', FoodController::class);
 Route::resource('/restaurant', RestaurantController::class);
 Route::resource('/village', VillageController::class);
 Route::resource('/culture', CultureController::class);
+
+Route::get('/food-suggestion', [FoodController::class, 'suggestion']);

@@ -35,6 +35,16 @@ class FoodController extends Controller
         ]);
     }
 
+      /**
+     * Suggestion Recomendation For Form
+     */
+    public function suggestion(Request $request)
+    {
+        $query = $request->get('query');
+        $foods = Food::where('name', 'LIKE', "%{$query}%")->get();
+        return response()->json($foods);
+    }
+
     /**
      * Store a newly created resource in storage.
      */

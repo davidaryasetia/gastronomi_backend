@@ -45,6 +45,7 @@ Route::post('/restaurant', [RestaurantController::class, 'store']);
 Route::delete('/restaurant/{id}', [RestaurantController::class, 'destroy']);
 Route::patch('/restaurant/{id}', [RestaurantController::class, 'update']);
 
+
 // Culture  
 Route::get('/culture', [CultureController::class, 'index']);
 Route::get('/culture/{id}', [CultureController::class, 'show']);

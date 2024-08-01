@@ -38,6 +38,8 @@ class RestaurantController extends Controller
         ]);
     }
 
+
+
     /**
      * Store a newly created resource in storage.
      */
@@ -156,7 +158,65 @@ class RestaurantController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // dd($request->toArray());
+
+        $validated = $request->validate([
+            'name_restaurant' => 'required',
+            'description' => 'required',
+            'address' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
+            'url_link_map' => 'required',
+            'open_at' => 'required',
+            'close_at' => 'required',
+            // 'photo_path' => 'nullable',
+            // 'detail_restaurant_photos.*' => 'nullable',
+
+            // Update Menu
+            'menu' => 'required|array',
+            'type_food' => 'required|array',
+            'is_tradition' => 'required|array',
+        ]);
+
+        $restaurant = Restaurant::findOrFail($id);
+        $restaurant->update([
+            'name_restaurant' => $request->input('name_restaurant'),
+            'description' => $request->input('description'),
+            'address' => $request->input('address'),
+            'latitude' => $request->input('latitude'),
+            'longitude' => $request->input('longitude'),
+            'url_link_map' => $request->input('url_link_map'),
+            'open_at' => $request->input('open_at'),
+            'close_at' => $request->input('close_at'),
+        ]);
+
+        // Update Data Menu
+        // $menu = $request->input('menu');
+        // $type_food = $request->input('type_food');
+        // $is_traditional = $request->input('is_traditional');
+
+        // Hapus Data Menu Lama
+        Menu::where('restaurant_id', $restaurant->restaurant_id)->delete();
+
+        // Simpan Data Menu Baru 
+        // $data_menu = [];
+        // foreach ($menu as $index => $menus) {
+        //     $data_menu[] = [
+        //         'restaurant_id' => $restaurant->restaurant_id,
+        //         'name' => $menus,
+        //         'type_food' => $type_food[$index],
+        //         'is_traditional' => $is_traditional[$index],
+        //     ];
+        // }
+
+        // $insert_menu = Menu::insert($data_menu);
+
+        if ($restaurant)     {
+            return redirect('/restaurant')->with('success', 'Data Restaurant Successfully Addeed !!!');
+        } else {
+            return redirect('restaurant')->with('error', 'Data Restaurant Succesffully Updated !!!');
+        }
+
     }
 
     /**
@@ -165,27 +225,27 @@ class RestaurantController extends Controller
     public function destroy(string $id)
     {
         $restaurant = Restaurant::findOrFail($id);
-        
-        if(!empty($restaurant->photo_path)){
+
+        if (!empty($restaurant->photo_path)) {
             Storage::disk('public')->delete($restaurant->photo_path);
         }
 
         // Hapus Foto Restaurant
-        foreach($restaurant->restaurant_photos as $restaurant_photo){
-            if(!empty($restaurant_photo->photo_path)){
+        foreach ($restaurant->restaurant_photos as $restaurant_photo) {
+            if (!empty($restaurant_photo->photo_path)) {
                 Storage::disk('public')->delete($restaurant_photo->photo_path);
             }
             $restaurant_photo->delete();
         }
 
         // Hapus Menus 
-        foreach($restaurant->menus as $menu){
+        foreach ($restaurant->menus as $menu) {
             $menu->delete();
         }
 
         $restaurant->delete();
 
-        if($restaurant){
+        if ($restaurant) {
             return redirect('/restaurant')->with('success', 'Data Restaurant Successfully Deleted !!!');
         } else {
             return redirect('/restaurant')->with('error', 'Data Restaurant Failed To Deleted !!!');

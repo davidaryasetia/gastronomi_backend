@@ -87,7 +87,7 @@
                                 <div class="mb-2 col-lg-6">
                                     <label for="ingredients" class="form-label">Detail Culture Photo</label>
                                     <div class="file-input-container">
-                                        <input type="file" name="detail_culture_photosc[]" id="fileInput3"
+                                        <input type="file" name="detail_culture_photos[]" id="fileInput3"
                                             class="file-input" multiple />
                                         <label for="fileInput3" class="file-input-label">
                                             Drag & Drop your files or <span>Browse</span>

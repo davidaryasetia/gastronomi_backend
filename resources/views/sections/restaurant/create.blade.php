@@ -21,7 +21,7 @@
                                 </div>
 
                                 <div>
-                                    <span class="card-title fw-semibold me-3">Tambah Data Menu</span>
+                                    <span class="card-title fw-semibold me-3">Tambah Data Menu Restaurant</span>
                                 </div>
 
 
@@ -174,7 +174,8 @@
                                             <select id="is_traditional" name="is_traditional[]"
                                                 class="form-select @error('is_traditional') is-invalid @enderror">
                                                 <option value="">Select Option....</option>
-                                                <option value="1" {{ old('is_traditional') == true ? 'selected' : '' }}>
+                                                <option value="1"
+                                                    {{ old('is_traditional') == true ? 'selected' : '' }}>
                                                     True
                                                 </option>
                                                 <option value="0"
@@ -260,5 +261,7 @@
         </script>
         <script src="{{ asset('assets/js/customize-input-image.js') }}"></script>
         <script src="{{ asset('assets/js/customize-form-repeater.js') }}"></script>
+
+      
     @endpush
 @endsection

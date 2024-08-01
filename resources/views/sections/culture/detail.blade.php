@@ -1,6 +1,6 @@
-{{-- @php 
+@php 
 dump($culture->toArray())
-@endphp --}}
+@endphp
 
 @push('css')
     <style>
