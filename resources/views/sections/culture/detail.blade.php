@@ -1,6 +1,3 @@
-@php 
-dump($culture->toArray())
-@endphp
 
 @push('css')
     <style>
