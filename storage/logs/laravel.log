@@ -12017,3 +12017,7 @@ Did you mean one of these?
 #56 C:\\Users\\evane\\Documents\\gastronomi_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\Users\\\\evane\\\\...')
 #57 {main}
 "} 
+[2024-08-02 14:10:07] local.ERROR: Maximum execution time of 60 seconds exceeded {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 60 seconds exceeded at D:\\Gapulo_Project_Web\\gastronomi_backend\\vendor\\symfony\\translation\\Loader\\LoaderInterface.php:33)
+[stacktrace]
+#0 {main}
+"} 
