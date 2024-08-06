@@ -175,9 +175,8 @@
                                     <div class="file-input-container">
                                         <input type="file" name="detail_historical_photos[]" id="fileInput1"
                                             class="file-input" multiple />
-                                        <label for="fileInput1" class="file-input-label">
-                                            Drag & Drop your files or <span>Browse</span>
-                                        </label>
+                                        <label for="fileInput1" class="file-input-label">Drag & Drop your files or
+                                            <span>Browse</span></label>
                                     </div>
                                     <div id="fileList1" class="file-list">
                                         @foreach ($food->photos as $historical_photo)
@@ -192,20 +191,18 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                    <input type="hidden" name="delete_photos" id="deletePhotosInput" value="[]">
+                                    <input type="hidden" name="delete_historical_photos" id="deletePhotosInput1"
+                                        value="[]">
                                 </div>
                                 <div class="row mb-3">
-                                    {{-- Input File Image --}}
                                     <div class="mb-2 col-lg-6">
                                         <label for="ingredients" class="form-label">Food Cover Photo</label>
                                         <div class="file-input-container">
                                             <input type="file" name="photo_path" id="fileInput2"
                                                 class="file-input" />
-                                            <label for="fileInput2" class="file-input-label">
-                                                Drag & Drop your files or <span>Browse</span>
-                                            </label>
+                                            <label for="fileInput2" class="file-input-label">Drag & Drop your files or
+                                                <span>Browse</span></label>
                                         </div>
-
                                         <div id="fileList2" class="file-list"></div>
                                     </div>
                                     <div class="mb-2 col-lg-6">
@@ -213,14 +210,26 @@
                                         <div class="file-input-container">
                                             <input type="file" name="detail_food_photos[]" id="fileInput3"
                                                 class="file-input" multiple />
-                                            <label for="fileInput3" class="file-input-label">
-                                                Drag & Drop your files or <span>Browse</span>
-                                            </label>
+                                            <label for="fileInput3" class="file-input-label">Drag & Drop your files or
+                                                <span>Browse</span></label>
                                         </div>
-                                        <div id="fileList3" class="file-list"></div>
+                                        <div id="fileList3" class="file-list">
+                                            @foreach ($food->food_photos as $food_photo)
+                                                <div class="file-item existing-file-item"
+                                                    data-id="{{ $food_photo->food_photo_id }}">
+                                                    <img src="{{ asset('storage/' . $food_photo->photo_path) }}"
+                                                        alt="Detail Food Photo" width="164px">
+                                                    <button type="button" class="delete-btn"
+                                                        data-id="{{ $food_photo->food_photo_id }}">&times;</button>
+                                                    <input type="hidden" name="existing_food_photo[]"
+                                                        value="{{ $food_photo->food_photo_id }}">
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                        <input type="hidden" name="delete_food_photos" id="deletePhotosInput3"
+                                            value="[]">
                                     </div>
                                 </div>
-
 
                                 {{-- Upload Image File --}}
 
@@ -301,12 +310,14 @@
                 const fileInputsState = {};
 
                 document.querySelectorAll('.file-input').forEach(input => {
+                    const fileListId = 'fileList' + input.id.replace('fileInput', '');
+                    const fileList = document.getElementById(fileListId);
+                    const deletePhotosInputId = 'deletePhotosInput' + input.id.replace('fileInput', '');
+                    const deletePhotosInput = document.getElementById(deletePhotosInputId);
+
                     fileInputsState[input.id] = [];
 
                     input.addEventListener('change', function() {
-                        const fileListId = 'fileList' + this.id.replace('fileInput', '');
-                        const fileList = document.getElementById(fileListId);
-
                         Array.from(this.files).forEach(file => {
                             if (file.type.startsWith('image/')) {
                                 fileInputsState[this.id].push(file);
@@ -314,6 +325,21 @@
                         });
 
                         renderFileList(fileList, fileInputsState[this.id]);
+                    });
+
+                    fileList.addEventListener('click', function(event) {
+                        if (event.target.classList.contains('delete-btn')) {
+                            const fileId = event.target.getAttribute('data-id');
+                            let deletePhotos = JSON.parse(deletePhotosInput.value);
+                            if (!Array.isArray(deletePhotos)) {
+                                deletePhotos = [];
+                            }
+                            deletePhotos.push(parseInt(fileId)); // Convert to integer
+                            deletePhotosInput.value = JSON.stringify(deletePhotos);
+
+                            const itemToRemove = event.target.closest('.existing-file-item');
+                            itemToRemove.parentNode.removeChild(itemToRemove);
+                        }
                     });
                 });
 
@@ -343,24 +369,11 @@
                         fileList.appendChild(fileItem);
                     });
                 }
-
-                document.querySelectorAll('.existing-file-item .delete-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const fileId = this.getAttribute('data-id');
-                        const deletePhotosInput = document.getElementById('deletePhotosInput');
-                        let deletePhotos = JSON.parse(deletePhotosInput.value);
-                        if (!Array.isArray(deletePhotos)) {
-                            deletePhotos = [];
-                        }
-                        deletePhotos.push(parseInt(fileId)); // Convert to integer
-                        deletePhotosInput.value = JSON.stringify(deletePhotos);
-
-                        const itemToRemove = this.closest('.existing-file-item');
-                        itemToRemove.parentNode.removeChild(itemToRemove);
-                    });
-                });
             });
         </script>
+
+
+
         {{-- JS For Image Process  --}}
     @endpush
 @endsection

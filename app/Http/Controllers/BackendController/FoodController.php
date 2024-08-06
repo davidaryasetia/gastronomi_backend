@@ -182,19 +182,15 @@ class FoodController extends Controller
             'directions' => 'required',
             'nutrition' => 'required',
 
-            // 'existing_photos' => 'nullable|array',
-            // 'existing_photos.*' => 'integer',
-            'delete_photos' => 'nullable|string',
-            'delete_photos.*' => 'integer',
-            // 'detail_historical_photos*' => 'nullable',
-            // 'detail_food_photos.*' => 'nullable', 
+            'delete_historical_photos' => 'nullable|string',
+            'detail_historical_photos.*' => 'nullable',
+
+            'delete_food_photos' => 'nullable|string',
+            'detail_food_photos.*' => 'nullable',
+            
             'tag_foods' => 'required',
         ]);
 
-        // Konversi delete_photos 
-
-
-        // dd($delete_photos);
         $food = Food::findOrFail($id);
         $food->update([
             'name' => $request->input('name'),
@@ -224,14 +220,14 @@ class FoodController extends Controller
             ]);
         }
 
-        // Hapus Foto yang Dihapus Pengguna
-        if ($request->has('delete_photos')) {
+        // Hapus Foto Historical
+        if ($request->has('delete_historical_photos')) {
             // Decode JSON string menjadi array
-            $delete_photos = json_decode($request->input('delete_photos'), true);
+            $delete_historical_photos = json_decode($request->input('delete_historical_photos'), true);
 
             // Periksa apakah decoding berhasil dan apakah hasilnya adalah array
-            if (is_array($delete_photos)) {
-                foreach ($delete_photos as $photoId) {
+            if (is_array($delete_historical_photos)) {
+                foreach ($delete_historical_photos as $photoId) {
                     $photo = Food_Historical_Photo::findOrFail($photoId);
                     if ($photo) {
                         Storage::delete('public/' . $photo->photo);
@@ -239,20 +235,48 @@ class FoodController extends Controller
                     }
                 }
             } else {
-                return redirect()->back()->with('error', 'Invalid data format for delete_photos');
+                return redirect('/food')->with('error', 'Invalid data format for delete historical photos');
             }
         }
 
-        // Tambah atau ubah foto
-        // if ($request->hasFile('detail_historical_photos')) {
-        //     foreach ($request->file('detail_historical_photos') as $photo) {
-        //         $path = $photo->store('historical_food_photo', 'public');
-        //         Food_Historical_Photo::create([
-        //             'food_id' => $food->food_id,
-        //             'photo' => $path,
-        //         ]);
-        //     }
-        // }
+        // Hapus Foto Detail Food 
+        if ($request->has('delete_food_photos')){
+            $delete_food_photos = json_decode($request->input('delete_food_photos'), true);
+
+            if(is_array($delete_food_photos)){
+                foreach($delete_food_photos as $photoId){
+                    $photo = Food_Photo::findOrFail($photoId);
+                    if($photo){
+                        Storage::delete('public/' . $photo->photo_path);
+                        $photo->delete();
+                    }
+                }
+            } else {
+                return redirect('/food')->with('error', 'Invalid data format for delete detail photos');
+            }
+        }
+
+        // Tambah detail historical photos
+        if ($request->hasFile('detail_historical_photos')) {
+            foreach ($request->file('detail_historical_photos') as $photo) {
+                $path = $photo->store('historical_food_photo', 'public');
+                Food_Historical_Photo::create([
+                    'food_id' => $food->food_id,
+                    'photo' => $path,
+                ]);
+            }
+        }
+
+        // Tambah detail food
+        if ($request->hasFile('detail_food_photos')){
+            foreach($request->file('detail_food_photos') as $photo){
+                $path = $photo->store('detail_food_photo', 'public');
+                Food_Photo::create([
+                    'food_id' => $food->food_id, 
+                    'photo_path' => $path,
+                ]);
+            }
+        }
 
         if ($food) {
             return redirect('/food')->with('success', 'Data Food berhasil Di Update !!!');
