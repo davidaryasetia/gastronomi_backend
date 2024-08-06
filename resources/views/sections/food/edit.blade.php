@@ -4,7 +4,7 @@
 
 @push('css')
     <style>
-      
+
     </style>
 @endpush
 
@@ -169,7 +169,7 @@
                                     </div>
                                 </div>
 
-                                {{-- Input File Image --}}
+                                {{-- Edit File Image --}}
                                 <div class="mb-2 col-lg-6">
                                     <label for="ingredients" class="form-label">History Foods Fotos</label>
                                     <div class="file-input-container">
@@ -180,57 +180,55 @@
                                         </label>
                                     </div>
                                     <div id="fileList1" class="file-list">
-                                        {{-- @foreach ($food->photos as $historical_photo)
-                                            <div class="file-item existing-file-item">
+                                        @foreach ($food->photos as $historical_photo)
+                                            <div class="file-item existing-file-item"
+                                                data-id="{{ $historical_photo->food_historical_photo_id }}">
                                                 <img src="{{ asset('storage/' . $historical_photo->photo) }}"
                                                     alt="Food Photo" width="164px">
                                                 <button type="button" class="delete-btn"
-                                                    data-id="{{ $historical_photo->id }}">&times;</button>
-                                                <button type="button" class="edit-btn"
-                                                    data-id="{{ $historical_photo->id }}"><i
-                                                        class="ti ti-pencil"></i></button>
+                                                    data-id="{{ $historical_photo->food_historical_photo_id }}">&times;</button>
                                                 <input type="hidden" name="existing_photos[]"
-                                                    value="{{ $historical_photo->id }}">
+                                                    value="{{ $historical_photo->food_historical_photo_id }}">
                                             </div>
-                                        @endforeach --}}
+                                        @endforeach
+                                    </div>
+                                    <input type="hidden" name="delete_photos" id="deletePhotosInput" value="[]">
+                                </div>
+                                <div class="row mb-3">
+                                    {{-- Input File Image --}}
+                                    <div class="mb-2 col-lg-6">
+                                        <label for="ingredients" class="form-label">Food Cover Photo</label>
+                                        <div class="file-input-container">
+                                            <input type="file" name="photo_path" id="fileInput2"
+                                                class="file-input" />
+                                            <label for="fileInput2" class="file-input-label">
+                                                Drag & Drop your files or <span>Browse</span>
+                                            </label>
+                                        </div>
+
+                                        <div id="fileList2" class="file-list"></div>
+                                    </div>
+                                    <div class="mb-2 col-lg-6">
+                                        <label for="ingredients" class="form-label">Detail Food Photo</label>
+                                        <div class="file-input-container">
+                                            <input type="file" name="detail_food_photos[]" id="fileInput3"
+                                                class="file-input" multiple />
+                                            <label for="fileInput3" class="file-input-label">
+                                                Drag & Drop your files or <span>Browse</span>
+                                            </label>
+                                        </div>
+                                        <div id="fileList3" class="file-list"></div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="row mb-3">
-                                {{-- Input File Image --}}
-                                <div class="mb-2 col-lg-6">
-                                    <label for="ingredients" class="form-label">Food Cover Photo</label>
-                                    <div class="file-input-container">
-                                        <input type="file" name="photo_path" id="fileInput2" class="file-input" />
-                                        <label for="fileInput2" class="file-input-label">
-                                            Drag & Drop your files or <span>Browse</span>
-                                        </label>
-                                    </div>
 
-                                    <div id="fileList2" class="file-list"></div>
+                                {{-- Upload Image File --}}
+
+                                <hr>
+
+                                <div class="mt-3">
+                                    <button type="submit" class="btn btn-primary">Update</button>
                                 </div>
-                                <div class="mb-2 col-lg-6">
-                                    <label for="ingredients" class="form-label">Detail Food Photo</label>
-                                    <div class="file-input-container">
-                                        <input type="file" name="detail_food_photos[]" id="fileInput3"
-                                            class="file-input" multiple />
-                                        <label for="fileInput3" class="file-input-label">
-                                            Drag & Drop your files or <span>Browse</span>
-                                        </label>
-                                    </div>
-                                    <div id="fileList3" class="file-list"></div>
-                                </div>
-                            </div>
-
-
-                            {{-- Upload Image File --}}
-
-                            <hr>
-
-                            <div class="mt-3">
-                                <button type="submit" class="btn btn-primary">Update</button>
-                            </div>
                         </form>
                         {{-- END Main Section --}}
 
@@ -299,129 +297,70 @@
         {{-- JS For Image Process --}}
         {{-- <script src="{{ asset('assets/js/customize-edit-image.js') }}"></script> --}}
         <script>
-            document.addEventListener('DOMContentLoaded', () => {
+            document.addEventListener('DOMContentLoaded', function() {
                 const fileInputsState = {};
 
-                // Initialize fileInputsState with existing files
                 document.querySelectorAll('.file-input').forEach(input => {
-                    const fileListId = 'fileList' + input.id.replace('fileInput', '');
-                    fileInputsState[input.id] = Array.from(document.querySelectorAll(
-                            `#${fileListId} .existing-file-item img`))
-                        .map(img => ({
-                            name: img.src.split('/').pop(), // Get the filename from the URL
-                            url: img.src
-                        }));
+                    fileInputsState[input.id] = [];
 
-                    input.addEventListener('change', () => handleFileInputChange(input));
+                    input.addEventListener('change', function() {
+                        const fileListId = 'fileList' + this.id.replace('fileInput', '');
+                        const fileList = document.getElementById(fileListId);
+
+                        Array.from(this.files).forEach(file => {
+                            if (file.type.startsWith('image/')) {
+                                fileInputsState[this.id].push(file);
+                            }
+                        });
+
+                        renderFileList(fileList, fileInputsState[this.id]);
+                    });
                 });
 
-                function handleFileInputChange(input) {
-                    const fileListId = 'fileList' + input.id.replace('fileInput', '');
-                    const fileList = document.getElementById(fileListId);
-
-                    // Add new files to fileInputsState without removing existing ones
-                    Array.from(input.files).forEach(file => {
-                        if (file.type.startsWith('image/') && !fileInputsState[input.id].some(existingFile =>
-                                existingFile.name === file.name)) {
-                            fileInputsState[input.id].push({
-                                name: file.name,
-                                url: URL.createObjectURL(file)
-                            });
-                        }
-                    });
-
-                    renderFileList(fileList, fileInputsState[input.id]);
-                }
-
                 function renderFileList(fileList, files) {
+                    const existingItems = fileList.querySelectorAll('.existing-file-item');
                     fileList.innerHTML = '';
+                    existingItems.forEach(item => fileList.appendChild(item));
 
                     files.forEach((file, index) => {
                         const fileItem = document.createElement('div');
                         fileItem.className = 'file-item';
 
                         const img = document.createElement('img');
-                        img.src = file.url;
-                        img.onload = () => URL.revokeObjectURL(img.src); // Clean up URL after load
+                        img.src = URL.createObjectURL(file);
+                        img.onload = () => URL.revokeObjectURL(img.src);
 
-                        const deleteBtn = createButton('delete-btn', '&times;', () => {
+                        const deleteBtn = document.createElement('button');
+                        deleteBtn.className = 'delete-btn';
+                        deleteBtn.innerHTML = '&times;';
+                        deleteBtn.addEventListener('click', () => {
                             files.splice(index, 1);
                             renderFileList(fileList, files);
                         });
 
-                        const editBtn = createButton('edit-btn', '✎', () => {
-                            promptForFile().then(newFile => {
-                                files[index] = {
-                                    name: newFile.name,
-                                    url: URL.createObjectURL(newFile)
-                                };
-                                renderFileList(fileList, files);
-                            });
-                        });
-
-                        fileItem.append(img, deleteBtn, editBtn);
+                        fileItem.appendChild(img);
+                        fileItem.appendChild(deleteBtn);
                         fileList.appendChild(fileItem);
                     });
                 }
 
-                function createButton(className, innerHTML, onClick) {
-                    const button = document.createElement('button');
-                    button.className = className;
-                    button.innerHTML = innerHTML;
-                    button.addEventListener('click', onClick);
-                    return button;
-                }
+                document.querySelectorAll('.existing-file-item .delete-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const fileId = this.getAttribute('data-id');
+                        const deletePhotosInput = document.getElementById('deletePhotosInput');
+                        let deletePhotos = JSON.parse(deletePhotosInput.value);
+                        if (!Array.isArray(deletePhotos)) {
+                            deletePhotos = [];
+                        }
+                        deletePhotos.push(parseInt(fileId)); // Convert to integer
+                        deletePhotosInput.value = JSON.stringify(deletePhotos);
 
-                function promptForFile() {
-                    return new Promise(resolve => {
-                        const input = document.createElement('input');
-                        input.type = 'file';
-                        input.accept = 'image/*';
-                        input.style.display = 'none';
-                        document.body.appendChild(input);
-
-                        input.addEventListener('change', () => {
-                            const file = input.files[0];
-                            document.body.removeChild(input);
-                            if (file && file.type.startsWith('image/')) {
-                                resolve(file);
-                            }
-                        });
-
-                        input.click();
+                        const itemToRemove = this.closest('.existing-file-item');
+                        itemToRemove.parentNode.removeChild(itemToRemove);
                     });
-                }
-
-                function setupExistingFileListeners() {
-                    document.querySelectorAll('.existing-file-item .delete-btn').forEach(button => {
-                        button.addEventListener('click', function() {
-                            const fileId = this.getAttribute('data-id');
-                            this.parentElement.remove();
-                            const hiddenInput = document.createElement('input');
-                            hiddenInput.type = 'hidden';
-                            hiddenInput.name = 'delete_photos[]';
-                            hiddenInput.value = fileId;
-                            document.querySelector('form').appendChild(hiddenInput);
-                        });
-                    });
-
-                    document.querySelectorAll('.existing-file-item .edit-btn').forEach(button => {
-                        button.addEventListener('click', function() {
-                            const fileId = this.getAttribute('data-id');
-                            promptForFile().then(file => {
-                                const img = this.parentElement.querySelector('img');
-                                img.src = URL.createObjectURL(file);
-                                img.onload = () => URL.revokeObjectURL(img.src);
-                                // Update the file state if needed
-                            });
-                        });
-                    });
-                }
-
-                setupExistingFileListeners();
+                });
             });
         </script>
-
         {{-- JS For Image Process  --}}
     @endpush
 @endsection

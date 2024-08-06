@@ -35,7 +35,7 @@ class FoodController extends Controller
         ]);
     }
 
-      /**
+    /**
      * Suggestion Recomendation For Form
      */
     public function suggestion(Request $request)
@@ -181,15 +181,20 @@ class FoodController extends Controller
             'url_youtube' => 'nullable',
             'directions' => 'required',
             'nutrition' => 'required',
-            'existing_photos' => 'nullable|array',
-            'existing_photos.*' => 'integer', 
-            'delete_photos' => 'nullable|array', 
-            'delete_photos.*' => 'integer', 
-            'detail_historical_photos*' => 'nullable', 
+
+            // 'existing_photos' => 'nullable|array',
+            // 'existing_photos.*' => 'integer',
+            'delete_photos' => 'nullable|string',
+            'delete_photos.*' => 'integer',
+            // 'detail_historical_photos*' => 'nullable',
             // 'detail_food_photos.*' => 'nullable', 
             'tag_foods' => 'required',
         ]);
 
+        // Konversi delete_photos 
+
+
+        // dd($delete_photos);
         $food = Food::findOrFail($id);
         $food->update([
             'name' => $request->input('name'),
@@ -205,41 +210,49 @@ class FoodController extends Controller
 
         // Update Tags
         $tagArray = json_decode($validated['tag_foods'], true);
-        if (!is_array($tagArray)){
+        if (!is_array($tagArray)) {
             return redirect()->back()->withErrors(['error' => 'Invalid Format A Tags']);
         }
         // Hapus Tag Lama
         Tag_Food::where('food_id', $food->food_id)->delete();
 
         // Simpan Tag Baru 
-        foreach($tagArray as $tag){
+        foreach ($tagArray as $tag) {
             Tag_Food::create([
-                'food_id' => $food->food_id, 
-                'nametag' => $tag['value'], 
+                'food_id' => $food->food_id,
+                'nametag' => $tag['value'],
             ]);
         }
 
-        // Hapus Foto yang Dihapus Pengguna 
-        if ($request->has('delete_photos')){
-            foreach($request->input('delete_photos') as $photoId){
-                $photo = Food_Historical_Photo::find($photoId);
-                if($photo){
-                    Storage::delete('public/' . $photo->photo);
-                    $photo->delete();
+        // Hapus Foto yang Dihapus Pengguna
+        if ($request->has('delete_photos')) {
+            // Decode JSON string menjadi array
+            $delete_photos = json_decode($request->input('delete_photos'), true);
+
+            // Periksa apakah decoding berhasil dan apakah hasilnya adalah array
+            if (is_array($delete_photos)) {
+                foreach ($delete_photos as $photoId) {
+                    $photo = Food_Historical_Photo::findOrFail($photoId);
+                    if ($photo) {
+                        Storage::delete('public/' . $photo->photo);
+                        $photo->delete();
+                    }
                 }
+            } else {
+                return redirect()->back()->with('error', 'Invalid data format for delete_photos');
             }
         }
 
-        // Tambah atau ubah photo 
-       if($request->hasFile('detail_historical_photos')){
-        foreach($request->file('detail_historical_photos') as $photo){
-            $path = $photo->store('historical_food_photo', 'public');
-            Food_Historical_Photo::create([
-                'food_id' => $food->food_id, 
-                'photo' => $path, 
-            ]);
-        }
-       }
+        // Tambah atau ubah foto
+        // if ($request->hasFile('detail_historical_photos')) {
+        //     foreach ($request->file('detail_historical_photos') as $photo) {
+        //         $path = $photo->store('historical_food_photo', 'public');
+        //         Food_Historical_Photo::create([
+        //             'food_id' => $food->food_id,
+        //             'photo' => $path,
+        //         ]);
+        //     }
+        // }
 
         if ($food) {
             return redirect('/food')->with('success', 'Data Food berhasil Di Update !!!');
