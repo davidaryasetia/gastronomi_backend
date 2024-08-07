@@ -173,7 +173,7 @@ class FoodController extends Controller
         // dd($request->all());
         $validated = $request->validate([
             'name' => 'required',
-            // 'photo_path' => 'nullable', 
+            'photo_path' => 'nullable', 
             'category' => 'required|string',
             'description' => 'required',
             'food_historical' => 'nullable',
@@ -218,6 +218,17 @@ class FoodController extends Controller
                 'food_id' => $food->food_id,
                 'nametag' => $tag['value'],
             ]);
+        }
+
+        // Check jika ada update Cover Photo
+        if ($request->hasFile('photo_path')){
+            if ($food->photo_path && Storage::exists('public/'. $food->photo_path)){
+                Storage::delete('public/' . $food->photo_path);
+            }
+
+            $filePath = $request->file('photo_path')->store('food_photo', 'public');
+            $food->photo_path = $filePath;
+            $food->save();
         }
 
         // Hapus Foto Historical

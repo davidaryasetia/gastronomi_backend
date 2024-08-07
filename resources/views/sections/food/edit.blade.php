@@ -159,8 +159,8 @@
                                 </div>
                             </div>
 
-                            {{-- Add Taggination --}}
                             <div class="row mb-3">
+                                {{-- Add Taggination --}}
                                 <div class="mb-2 col-lg-6">
                                     <label for="ingredients" class="form-label">Foods Tags</label>
                                     <div class="galery-container">
@@ -169,7 +169,7 @@
                                     </div>
                                 </div>
 
-                                {{-- Edit File Image --}}
+                                {{-- History Food Image --}}
                                 <div class="mb-2 col-lg-6">
                                     <label for="ingredients" class="form-label">History Foods Fotos</label>
                                     <div class="file-input-container">
@@ -194,17 +194,27 @@
                                     <input type="hidden" name="delete_historical_photos" id="deletePhotosInput1"
                                         value="[]">
                                 </div>
+
+
                                 <div class="row mb-3">
+
+                                    {{-- Food Cover secion --}}
                                     <div class="mb-2 col-lg-6">
-                                        <label for="ingredients" class="form-label">Food Cover Photo</label>
-                                        <div class="file-input-container">
-                                            <input type="file" name="photo_path" id="fileInput2"
-                                                class="file-input" />
-                                            <label for="fileInput2" class="file-input-label">Drag & Drop your files or
-                                                <span>Browse</span></label>
+                                        <label for="cover_photo_path" class="form-label">Food Cover Photo</label>
+                                        <div class="cover-file-input-container mb-3">
+                                            <input type="file" name="photo_path" id="coverFileInput"
+                                                class="cover-file-input" />
+                                            <label for="coverFileInput" class="cover-file-input-label">
+                                                Drag & Drop your files or <span>Browse</span>
+                                            </label>
                                         </div>
-                                        <div id="fileList2" class="file-list"></div>
+                                        <div id="coverFileList" class="cover-file-list">
+                                            <img src="{{ asset('storage/' . $food->photo_path) }}" alt="Food Cover Photo"
+                                                width="164px" id="coverCurrentPhoto">
+                                        </div>
                                     </div>
+
+                                    {{-- Detail Food Section --}}
                                     <div class="mb-2 col-lg-6">
                                         <label for="ingredients" class="form-label">Detail Food Photo</label>
                                         <div class="file-input-container">
@@ -234,7 +244,6 @@
                                 {{-- Upload Image File --}}
 
                                 <hr>
-
                                 <div class="mt-3">
                                     <button type="submit" class="btn btn-primary">Update</button>
                                 </div>
@@ -372,7 +381,18 @@
             });
         </script>
 
-
+        <script>
+            document.getElementById('coverFileInput').addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('coverCurrentPhoto').src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        </script>
 
         {{-- JS For Image Process  --}}
     @endpush
