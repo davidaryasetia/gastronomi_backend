@@ -45,8 +45,7 @@ class RestaurantController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->toArray());    
-
+        // dd($request->toArray());        
         $restaurant = $request->validate([
             'name_restaurant' => 'required|string',
             'description' => 'required',
@@ -142,7 +141,7 @@ class RestaurantController extends Controller
     public function edit(string $id)
     {
         $restaurant = Restaurant::with([
-            'restaurant_photos:restaurant_photo_id,photo_path',
+            'restaurant_photos:restaurant_photo_id,restaurant_id,photo_path',
             'menus:menu_id,restaurant_id,food_id,name,type_food,is_traditional',
             'menus.foods:food_id,name,category',
         ])->findOrFail($id);
@@ -159,7 +158,6 @@ class RestaurantController extends Controller
     public function update(Request $request, string $id)
     {
         // dd($request->toArray());
-
         $validated = $request->validate([
             'name_restaurant' => 'required',
             'description' => 'required',
@@ -169,13 +167,15 @@ class RestaurantController extends Controller
             'url_link_map' => 'required',
             'open_at' => 'required',
             'close_at' => 'required',
-            // 'photo_path' => 'nullable',
-            // 'detail_restaurant_photos.*' => 'nullable',
+            'photo_path' => 'nullable',
+
+            'delete_restaurant_photos.*' => 'nullable',
+            'detail_restaurant_photos.*' => 'nullable',
 
             // Update Menu
-            'menu' => 'required|array',
-            'type_food' => 'required|array',
-            'is_tradition' => 'required|array',
+            // 'menu' => 'required|array',
+            // 'type_food' => 'required|array',
+            // 'is_tradition' => 'required|array',
         ]);
 
         $restaurant = Restaurant::findOrFail($id);
@@ -211,12 +211,49 @@ class RestaurantController extends Controller
 
         // $insert_menu = Menu::insert($data_menu);
 
-        if ($restaurant)     {
+        // Check jika ada perubahan cover photo
+        if ($request->hasFile('photo_path')) {
+            if ($restaurant->photo_path && Storage::exists('/public' . $restaurant->photo_path)) {
+                Storage::delete('public/' . $restaurant->photo_path);
+            }
+
+            $filePath = $request->file('photo_path')->store('restaurant_photo', 'public');
+            $restaurant->photo_path = $filePath;
+            $restaurant->save();
+        }
+
+        // Hapus Detail Restaurant
+        if ($request->has('delete_restaurant_photos')) {
+            $delete_restaurant_photos = json_decode($request->input('delete_restaurant_photos'), true);
+            if (is_array($delete_restaurant_photos)) {
+                foreach ($delete_restaurant_photos as $photoId) {
+                    $photo = Restaurant_Photo::findOrFail($photoId);
+                    if ($photo) {
+                        Storage::delete(('public/' . $photo->photo_path));
+                        $photo->delete();
+                    }
+                }
+            } else {
+                return redirect('/restaurant')->with('error', 'Invalid data format for photo');
+            }
+        }
+
+        // Tambah Detail Photos
+        if ($request->hasFile('detail_restaurant_photos')) {
+            foreach ($request->file('detail_restaurant_photos') as $photo) {
+                $path = $photo->store('detail_restaurant_photo', 'public');
+                Restaurant_Photo::create([
+                    'restaurant_id' => $restaurant->restaurant_id,
+                    'photo_path' => $path,
+                ]);
+            }
+        }
+
+        if ($restaurant) {
             return redirect('/restaurant')->with('success', 'Data Restaurant Successfully Addeed !!!');
         } else {
             return redirect('restaurant')->with('error', 'Data Restaurant Succesffully Updated !!!');
         }
-
     }
 
     /**
@@ -250,6 +287,5 @@ class RestaurantController extends Controller
         } else {
             return redirect('/restaurant')->with('error', 'Data Restaurant Failed To Deleted !!!');
         }
-
     }
 }

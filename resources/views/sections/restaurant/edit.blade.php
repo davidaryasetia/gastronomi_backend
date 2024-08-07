@@ -2,12 +2,6 @@
     dump($restaurant->toArray());
 @endphp --}}
 
-@push('css')
-    <style>
-    </style>
-@endpush
-
-
 @extends('layouts.main')
 @section('row')
     <div class="container-fluid background-color">
@@ -212,31 +206,49 @@
                             <div class="row mb-3">
                                 {{-- Input File Image --}}
                                 <div class="mb-2 col-lg-6">
-                                    <label for="photo_path" class="form-label">Restaurant Cover Photo</label>
-                                    <div class="file-input-container">
-                                        <input type="file" name="photo_path" id="fileInput2" class="file-input" />
-                                        <label for="fileInput2" class="file-input-label">
+                                    <label for="cover_photo_path" class="form-label">Restaurant Cover Photo</label>
+                                    <div class="cover-file-input-container mb-3">
+                                        <input type="file" name="photo_path" id="coverFileInput"
+                                            class="cover-file-input" />
+                                        <label for="coverFileInput" class="cover-file-input-label">
                                             Drag & Drop your files or <span>Browse</span>
                                         </label>
                                     </div>
-                                    <div id="fileList2" class="file-list"></div>
+                                    <div id="coverFileList" class="cover-file-list">
+                                        <img src="{{ asset('storage/' . $restaurant->photo_path) }}"
+                                            alt="Restaurant Cover Photo" width="164px" id="coverCurrentPhoto">
+                                    </div>
                                 </div>
+
                                 <div class="mb-2 col-lg-6">
-                                    <label for="detail_restaurant_photos" class="form-label">Detail Restaurant
-                                        Photo</label>
+                                    <label for="ingredients" class="form-label">Detail Restaurant Photo</label>
                                     <div class="file-input-container">
                                         <input type="file" name="detail_restaurant_photos[]" id="fileInput3"
                                             class="file-input" multiple />
-                                        <label for="fileInput3" class="file-input-label">
-                                            Drag & Drop your files or <span>Browse</span>
-                                        </label>
+                                        <label for="fileInput3" class="file-input-label">Drag & Drop your files or
+                                            <span>Browse</span></label>
                                     </div>
-                                    <div id="fileList3" class="file-list"></div>
+                                    <div id="fileList3" class="file-list">
+                                        @foreach ($restaurant->restaurant_photos as $restaurant_photo)
+                                            <div class="file-item existing-file-item"
+                                                data-id="{{ $restaurant_photo->restaurant_photo_id }}">
+                                                <img src="{{ asset('storage/' . $restaurant_photo->photo_path) }}"
+                                                    alt="Restaurant Photo" width="128px">
+                                                <button type="button" class="delete-btn"
+                                                    data-id="{{ $restaurant_photo->restaurant_photo_id }}">&times;</button>
+                                                <input type="hidden" name="existing_restaurant_photo[]"
+                                                    value="{{ $restaurant_photo->restaurant_photo_id }}">
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <input type="hidden" name="delete_restaurant_photos" id="deletePhotosInput3"
+                                        value="[]">
                                 </div>
-                                <hr>
-                                <div class="mt-3">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </div>
+                            </div>
+                            <hr>
+                            <div class="mt-3">
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </div>
                         </form>
                         {{-- END Main Section --}}
 
@@ -249,29 +261,11 @@
     </div>
 
     @push('script')
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $('#timepicker1, #timepicker2, #timepicker3').each(function() {
-                    var $this = $(this);
-                    var timepickerInput = $this.find('input');
-
-                    $this.timepicker({
-                        showMeridian: false,
-                        minuteStep: 1,
-                        secondStep: 1,
-                        showSeconds: true,
-                        defaultTime: 'current',
-                        icons: {
-                            up: 'ti ti-chevron-up',
-                            down: 'ti ti-chevron-down'
-                        }
-                    }).on('changeTime.timepicker', function(e) {
-                        timepickerInput.val(e.time.value);
-                    });
-                });
-            });
-        </script>
-        <script src="{{ asset('assets/js/customize-input-image.js') }}"></script>
         <script src="{{ asset('assets/js/customize-form-repeater.js') }}"></script>
+
+        {{-- Logic For Update Image --}}
+        <script src="{{ asset('assets/js/customize-edit-cover-image.js') }}"></script>
+        <script src="{{ asset('assets/js/customize-edit-detail-image.js') }}"></script>
+        <script src="{{ asset('assets/js/customize-time-picker.js') }}"></script>
     @endpush
 @endsection

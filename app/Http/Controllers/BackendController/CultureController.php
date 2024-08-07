@@ -120,6 +120,10 @@ class CultureController extends Controller
             'name_culture' => 'required', 
             'url_youtube' => 'required', 
             'description' => 'required', 
+            'photo_path' => 'nullable',
+
+            'delete_culture_photos' => 'nullable|string', 
+            'detail_culture_photos.*' => 'nullable', 
         ]);
 
         $culture = Culture::findOrFail($id);
@@ -128,6 +132,46 @@ class CultureController extends Controller
             'url_youtube' => $request->input('url_youtube'), 
             'description' => $request->input('description'), 
         ]);
+
+        // Check jika ada update Cover Photo
+        if ($request->hasFile('photo_path')){
+            if ($culture->photo_path && Storage::exists('public/' . $culture->photo_path)){
+                Storage::delete('public/' . $culture->photo_path);
+            }
+
+            $filePath = $request->file('photo_path')->store('culture_photo', 'public');
+            $culture->photo_path = $filePath;
+            $culture->save();
+        }
+
+        // Hapus Detail Culture
+        if ($request->has('delete_culture_photos')){
+            $delete_culture_photos = json_decode($request->input('delete_culture_photos'), true);
+
+            if(is_array($delete_culture_photos)){
+                foreach($delete_culture_photos as $photoId){
+                    $photo = Culture_Photo::findOrFail($photoId);
+                    if($photo){
+                        Storage::delete('public/' . $photo->photo_path);
+                        $photo->delete();
+                    }
+                }
+            } else {
+                return redirect('/culture')->with('error', 'Invalid data format for delete detail photos');
+            }
+        }
+
+
+        // Tambah Culture Photo 
+        if ($request->hasFile('detail_culture_photos')){
+            foreach ($request->file('detail_culture_photos') as $photo){
+                $path = $photo->store('detail_culture_photo', 'public');
+                Culture_Photo::create([
+                    'culture_id' => $culture->culture_id, 
+                    'photo_path' => $path, 
+                ]);
+            }
+        }
 
         if($culture){
             return redirect('/culture')->with('success', 'Data Culture Successfully Updated !!!');

@@ -312,8 +312,8 @@
             })
         </script>
 
-        {{-- JS For Image Process --}}
-        <script src="{{ asset('assets/js/customize-edit-detail-image.js') }}"></script>
+        {{-- Logic For Update Image --}}
         <script src="{{ asset('assets/js/customize-edit-cover-image.js') }}"></script>
+        <script src="{{ asset('assets/js/customize-edit-detail-image.js') }}"></script>
     @endpush
 @endsection

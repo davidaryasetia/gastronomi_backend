@@ -1,4 +1,3 @@
-
 @extends('layouts.main')
 @section('row')
     <div class="container-fluid background-color">
@@ -31,7 +30,8 @@
                                     <label for="name_culture" class="form-label">Culture Name</label>
                                     <input type="text" class="form-control @error('name_culture') is-invalid @enderror"
                                         id="name_culture" name="name_culture" aria-describedby="emailHelp"
-                                        value="{{ $culture->name_culture }}" placeholder="Input Culture Name..." required autofocus>
+                                        value="{{ $culture->name_culture }}" placeholder="Input Culture Name..." required
+                                        autofocus>
                                     @error('name_culture')
                                         <div class="invalid-feedback"> {{ $message }} </div>
                                     @enderror
@@ -41,7 +41,8 @@
                                     <label for="unit" class="form-label">URL Youtube Culture</label>
                                     <input type="text" class="form-control @error('url_youtube') is-invalid @enderror"
                                         id="url_youtube" name="url_youtube" aria-describedby="emailHelp"
-                                        value="{{ $culture->url_youtube }}" placeholder="Input URL Youtube About Culture..." required autofocus>
+                                        value="{{ $culture->url_youtube }}" placeholder="Input URL Youtube About Culture..."
+                                        required autofocus>
                                     @error('url_youtube')
                                         <div class="invalid-feedback"> {{ $message }} </div>
                                     @enderror
@@ -63,21 +64,51 @@
                                 </div>
                             </div>
 
-                            
-                            {{-- Add Taggination --}}
-                                {{-- Input File Image --}}
+
+                            <div class="row mb-3">
+
+                                {{-- Food Cover secion --}}
                                 <div class="mb-2 col-lg-6">
-                                    <label for="ingredients" class="form-label">Detail Culture Fotos</label>
-                                    <div class="file-input-container">
-                                        <input type="file" name="detail_culture_photos[]" id="fileInput1"
-                                            class="file-input" multiple />
-                                        <label for="fileInput1" class="file-input-label">
+                                    <label for="cover_photo_path" class="form-label">Culture Cover Photo</label>
+                                    <div class="cover-file-input-container mb-3">
+                                        <input type="file" name="photo_path" id="coverFileInput"
+                                            class="cover-file-input" />
+                                        <label for="coverFileInput" class="cover-file-input-label">
                                             Drag & Drop your files or <span>Browse</span>
                                         </label>
                                     </div>
-                                    <div id="fileList1" class="file-list"></div>
+                                    <div id="coverFileList" class="cover-file-list">
+                                        <img src="{{ asset('storage/' . $culture->photo_path) }}" alt="Culter Cover Photo"
+                                            width="164px" id="coverCurrentPhoto">
+                                    </div>
+                                </div>
+
+                                {{-- Detail Culture Section --}}
+                                <div class="mb-2 col-lg-6">
+                                    <label for="ingredients" class="form-label">Detail Culture Photo</label>
+                                    <div class="file-input-container">
+                                        <input type="file" name="detail_culture_photos[]" id="fileInput3" class="file-input"
+                                            multiple />
+                                        <label for="fileInput3" class="file-input-label">Drag & Drop your files or
+                                            <span>Browse</span></label>
+                                    </div>
+                                    <div id="fileList3" class="file-list">
+                                        @foreach ($culture->culture_photos as $culture_photo)
+                                            <div class="file-item existing-file-item"
+                                                data-id="{{ $culture_photo->culture_photo_id }}">
+                                                <img src="{{ asset('storage/' . $culture_photo->photo_path) }}"
+                                                    alt="Detail Culture Photo" width="164px">
+                                                <button type="button" class="delete-btn"
+                                                    data-id="{{ $culture_photo->culture_photo_id }}">&times;</button>
+                                                <input type="hidden" name="existing_culture_photo[]"
+                                                    value="{{ $culture_photo->culture_photo_id }}">
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <input type="hidden" name="delete_culture_photos" id="deletePhotosInput3" value="[]">
                                 </div>
                             </div>
+
 
                             {{-- Upload Image File --}}
                             <hr>
@@ -96,83 +127,8 @@
     </div>
 
     @push('script')
-        {{-- Quill Text Editor --}}
-       
-        <script>
-            const fileInputsState = {};
-
-            document.querySelectorAll('.file-input').forEach(input => {
-                fileInputsState[input.id] = [];
-
-                input.addEventListener('change', function() {
-                    const fileListId = 'fileList' + this.id.replace('fileInput', '');
-                    const fileList = document.getElementById(fileListId);
-
-                    Array.from(this.files).forEach(file => {
-                        if (file.type.startsWith('image/')) {
-                            fileInputsState[this.id].push(file);
-                        }
-                    });
-
-                    renderFileList(fileList, fileInputsState[this.id]);
-                });
-            });
-
-            function renderFileList(fileList, files) {
-                fileList.innerHTML = '';
-
-                files.forEach((file, index) => {
-                    const fileItem = document.createElement('div');
-                    fileItem.className = 'file-item';
-
-                    const img = document.createElement('img');
-                    img.src = URL.createObjectURL(file);
-                    img.onload = () => URL.revokeObjectURL(img.src);
-
-                    const fileName = document.createElement('span');
-                    fileName.textContent = file.name;
-
-                    const deleteBtn = document.createElement('button');
-                    deleteBtn.className = 'delete-btn';
-                    deleteBtn.innerHTML = '&times;';
-                    deleteBtn.addEventListener('click', () => {
-                        files.splice(index, 1);
-                        renderFileList(fileList, files);
-                    });
-
-                    const editBtn = document.createElement('button');
-                    editBtn.className = 'edit-btn';
-                    editBtn.innerHTML = '✎';
-                    editBtn.addEventListener('click', () => {
-                        const newFile = promptForFile();
-                        if (newFile) {
-                            files[index] = newFile;
-                            renderFileList(fileList, files);
-                        }
-                    });
-
-                    fileItem.appendChild(img);
-                    fileItem.appendChild(fileName);
-                    fileItem.appendChild(deleteBtn);
-                    fileItem.appendChild(editBtn);
-                    fileList.appendChild(fileItem);
-                });
-            }
-
-            function promptForFile() {
-                const input = document.createElement('input');
-                input.type = 'file';
-                input.accept = 'image/*';
-                input.click();
-                return new Promise(resolve => {
-                    input.onchange = () => {
-                        const file = input.files[0];
-                        if (file && file.type.startsWith('image/')) {
-                            resolve(file);
-                        }
-                    };
-                });
-            }
-        </script>
+         {{-- Logic For Update Image --}}
+         <script src="{{ asset('assets/js/customize-edit-cover-image.js') }}"></script>
+         <script src="{{ asset('assets/js/customize-edit-detail-image.js') }}"></script>
     @endpush
 @endsection
