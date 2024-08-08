@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\FoodController;
 use App\Http\Controllers\Api\FoodRestaurantController;
 use App\Http\Controllers\Api\RestaurantController;
 use App\Http\Controllers\Api\VillageController;
+use App\Http\Controllers\Api\VisitorController;
 use App\Http\Controllers\TestingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,7 +26,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
-Route::get( '/testing', [TestingController::class, 'index']);
+Route::get('/testing', [TestingController::class, 'index']);
 
 // Food 
 Route::get('/food', [FoodController::class, 'index']);
@@ -35,7 +36,7 @@ Route::delete('/food/{id}', [FoodController::class, 'destroy']);
 Route::patch('/food/{id}', [FoodController::class, 'update']);
 
 // FoodRestaurant 
-Route::get('/foodRestaurant', [FoodRestaurantController::class, 'index']); 
+Route::get('/foodRestaurant', [FoodRestaurantController::class, 'index']);
 Route::get('/foodRestaurant/{id}', [FoodRestaurantController::class, 'show']);
 
 // Restaurant 
@@ -59,3 +60,11 @@ Route::get('/village/{id}', [VillageController::class, 'show']);
 Route::post('/village', [VillageController::class, 'store']);
 Route::delete('/village/{id}', [VillageController::class, 'destroy']);
 Route::patch('/village/{id}', [VillageController::class, 'update']);
+
+// Visitor
+Route::get('/visitor', [VisitorController::class, 'index']);
+Route::post('/visitor', [VisitorController::class, 'store']);
+Route::get('/visitor/{id}', [VisitorController::class, 'show']);
+Route::get('/visitors/daily', [VisitorController::class, 'dailyVisitors']);
+Route::get('/visitors/monthly-average', [VisitorController::class, 'monthlyAverageVisitors']);
+Route::get('/visitors/monthly/{year}/{month}', [VisitorController::class, 'monthlyVisitors']);
