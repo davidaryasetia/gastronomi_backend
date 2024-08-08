@@ -138,8 +138,8 @@ class VillageController extends Controller
         $request->validate([
             'name_village' => 'required',
             'address' => 'required',
-            'open_at' => 'required|date_format:h:i:s',
-            'close_at' => 'required|date_format:h:i:s',
+            'open_at' => 'required',
+            'close_at' => 'required',
             'description' => 'required',
             'fasility' => 'required',
             'mandatory_equipment' => 'required',
@@ -149,6 +149,7 @@ class VillageController extends Controller
             'url_facebook' => 'nullable',
             'url_instagram' => 'nullable',
             'url_twitter' => 'nullable',
+
             'delete_village_photos' => 'nullable|string',
             'detail_village_photos.*' => 'nullable', 
         ]);
@@ -163,14 +164,11 @@ class VillageController extends Controller
             'description' => $request->input('description'),
             'fasility' => $request->input('fasility'),
             'mandatory_equipment' => $request->input('mandatory_equipment'),
-            'contact' => $request->input('contact'),
+            // 'contact' => $request->input('contact'),
             'url_website' => $request->input('url_website'),
             'url_facebook' => $request->input('url_facebook'),
             'url_instagram' => $request->input('url_instagram'),
             'url_twitter' => $request->input('url_twitter'),
-
-            'delete_village_photos' => 'nullable|string',
-            'detail_village_photos.*' => 'nullable',
         ]);
 
         // Check jika ada update Cover Photo 
