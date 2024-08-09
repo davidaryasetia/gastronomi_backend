@@ -1,4 +1,16 @@
 
+ 
+<?php
+@dump($visitor->toArray());
+@dump($amount_daily_visitor);
+@dump($amount_weekly_visitor);
+@dump($amount_monthly_visitor);
+
+@dump($monthly_average_visitor);
+@dump($monthly_visitors->toArray());
+?>
+
+
 
 <?php $__env->startSection('row'); ?>
 <div class="container-fluid">
@@ -30,23 +42,19 @@
                     <!-- Yearly Breakup -->
                     <div class="card overflow-hidden">
                         <div class="card-body p-4">
-                            <h5 class="card-title mb-9 fw-semibold">Annual Number Visitors</h5>
+                            <h5 class="card-title mb-9 fw-semibold">Weekly Number Of Visitors</h5>
                             <div class="row align-items-center">
                                 <div class="col-8">
-                                    <h4 class="fw-semibold mb-3">2</h4>
+                                    <h4 class="fw-semibold mb-3"> <?php echo e($amount_weekly_visitor); ?> </h4>
                                     <div class="d-flex align-items-center mb-3">
-                                        <span
-                                            class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
-                                            <i class="ti ti-arrow-up-left text-success"></i>
-                                        </span>
-                                        <p class="text-dark me-1 fs-3 mb-0">+9%</p>
-                                        <p class="fs-3 mb-0">last year</p>
+                                        
+                                        
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <div class="me-4">
                                             <span
                                                 class="round-8 bg-primary rounded-circle me-2 d-inline-block"></span>
-                                            <span class="fs-2">2024</span>
+                                            <span class="fs-2"> <?php echo e($date); ?> </span>
                                         </div>
                                     </div>
                                 </div>
@@ -66,14 +74,14 @@
                             <div class="row alig n-items-start">
                                 <div class="col-8">
                                     <h5 class="card-title mb-9 fw-semibold"> Mountly Number Of Visitors</h5>
-                                    <h4 class="fw-semibold mb-3">3</h4>
+                                    <h4 class="fw-semibold mb-3"> <?php echo e($amount_monthly_visitor); ?> </h4>
                                     <div class="d-flex align-items-center pb-1">
                                         <span
                                             class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
                                             <i class="ti ti-arrow-down-right text-danger"></i>
                                         </span>
-                                        <p class="text-dark me-1 fs-3 mb-0">+9%</p>
-                                        <p class="fs-3 mb-0">last year</p>
+                                        
+                                        <p class="fs-3 mb-0"> <?php echo e($date); ?> </p>
                                     </div>
                                 </div>
                                 <div class="col-4">

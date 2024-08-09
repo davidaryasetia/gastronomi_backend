@@ -4,6 +4,7 @@ use App\Http\Controllers\BackendController\CultureController;
 use App\Http\Controllers\BackendController\FoodController;
 use App\Http\Controllers\BackendController\RestaurantController;
 use App\Http\Controllers\BackendController\VillageController;
+use App\Http\Controllers\BackendController\VisitorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,11 +18,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('sections.dashboard.dashboard', [
-        'title' => 'Dashboard', 
-    ]);
-});
+// Route::get('/', function () {
+//     return view('sections.dashboard.dashboard', [
+//         'title' => 'Dashboard', 
+//     ]);
+// });
+
+// Dashboard Controller 
+Route::get('/', [VisitorController::class, 'index']);
 
 Route::resource('/food', FoodController::class);
 Route::resource('/restaurant', RestaurantController::class);
