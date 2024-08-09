@@ -20,7 +20,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
 
 
-
     <style>
         .alert-container {
             position: fixed;
@@ -76,10 +75,12 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="<?php echo e(asset('node_modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js')); ?>"></script>
-
-   
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.7/css/dataTables.dataTables.css" />
+    <script src="https://cdn.datatables.net/2.0.7/js/dataTables.js"></script>
     
     <?php echo $__env->yieldPushContent('script'); ?>;
+
+
 </body>
 
 </html>

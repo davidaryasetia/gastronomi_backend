@@ -130,4 +130,8 @@
 
         </div>
     </div>
+
+    @push('script')
+   
+    @endpush
 @endsection
