@@ -1,5 +1,5 @@
 {{-- @dump($visitor->toArray()); --}}
- 
+{{--  
 @php
 @dump($visitor->toArray());
 @dump($amount_daily_visitor);
@@ -8,7 +8,7 @@
 
 @dump($monthly_average_visitor);
 @dump($monthly_visitors->toArray());
-@endphp
+@endphp --}}
 
 @extends('layouts.main')
 
