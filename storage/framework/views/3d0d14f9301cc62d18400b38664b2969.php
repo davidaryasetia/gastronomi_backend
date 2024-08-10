@@ -1,3 +1,15 @@
+<?php $__env->startPush('css'); ?>
+<style>
+   #myChart {
+    width: 100%;
+    height: 100%; /* Atur tinggi myChart agar memenuhi container */
+}
+    .card-body{
+        height: 100%;
+    }
+</style>
+<?php $__env->stopPush(); ?>
+
 <?php $__env->startSection('row'); ?>
     <div class="container-fluid">
         <!--  Row 1 -->
@@ -7,20 +19,20 @@
                     <div class="card-body">
                         <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
                             <div class="mb-3 mb-sm-0">
-                                <h5 class="card-title fw-semibold">Touris Overview Visitors</h5>
+                                <h5 class="card-title fw-semibold">Tourist Overview Visitors</h5>
                             </div>
                             <div>
-                                <select class="form-select">
-                                    <option value="1">All Month</option>
-                                    <option value="1">January 2024</option>
-                                    <option value="2">February 2024</option>
-                                    <option value="3">March 2024</option>
+                                <select id="monthSelector" class="form-select">
+                                    <option value="all">Semua Bulan</option>
+                                    <option value="1">Januari 2024</option>
+                                    <option value="2">Februari 2024</option>
+                                    <option value="3">Maret 2024</option>
                                     <option value="4">April 2024</option>
                                 </select>
                             </div>
                         </div>
                         <div>
-                            <canvas id="myChart"></canvas>
+                            <canvas id="myChart" style="height: 380px"></canvas>
                         </div>
                     </div>
                 </div>
