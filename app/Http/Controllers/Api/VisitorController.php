@@ -7,6 +7,7 @@ use App\Http\Resources\VisitorResource;
 use App\Models\Visitor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class VisitorController extends Controller
 {
@@ -19,21 +20,46 @@ class VisitorController extends Controller
     public function store(Request $request)
     {
         $ipAddress = $request->ip();
-        $visitDate = Carbon::today()->toDateString();
+        $visitDateTime = Carbon::now();
+
+        $locationData = $this->getLocationFromIp($ipAddress);
 
         // Cek apakah sudah ada record untuk ip ini
         $visitor = Visitor::where('ip_address', $ipAddress)
-            ->where('visit_date', $visitDate)
+            ->where('visit_date', $visitDateTime->toDateString())
             ->first();
 
         if (!$visitor) {
             $visitor = Visitor::create([
-                'visit_date' => $visitDate,
+                'visit_date' => $visitDateTime,
                 'ip_address' => $ipAddress,
+                'city' => $locationData['city'], 
+                'country' => $locationData['country'], 
+                'region' => $locationData['region'], 
+                'timezone' => $locationData['timezone'], 
             ]);
         }
-
         return new VisitorResource($visitor);
+    }
+
+    // Fungsi GetLocation IP Address dengan IP Info
+    private function getLocationFromIp($ip)
+    {
+        $response = Http::get("https://ipinfo.io/{$ip}?token=12d62dc0bbfec9");
+        if ($response->successful()){
+            return [
+                'city' => $response->json()['city'] ?? 'Unknown City', 
+                'country' => $response->json()['country'] ?? 'Unknown Country', 
+                'region' => $response->json()['region'] ?? 'Unknown Region', 
+                'timezone' => $response->json()['timezone'] ?? 'Unknown Timezone', 
+            ];
+        }
+
+        return [
+            'city' => 'Unknown City', 
+            'country' => 'Unknown Country', 
+            'region' => 'Unknown Region', 
+        ];
     }
 
 

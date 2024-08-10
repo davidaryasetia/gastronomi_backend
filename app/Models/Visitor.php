@@ -14,5 +14,9 @@ class Visitor extends Model
         'visitor_id',
         'visit_date',
         'ip_address',
+        'city', 
+        'region', 
+        'country', 
+        'timezone'
     ];
 }

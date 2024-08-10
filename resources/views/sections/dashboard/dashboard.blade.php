@@ -126,8 +126,8 @@
                             <table id="table-visitors"
                                 class="table table-hover table-bordered text-nowrap mb-0 align-middle">
                                 <thead class="text-dart fs-4">
-                                    <tr>
-                                        <th class="border-bottom-0 text-center" style="width: 10px">
+                                    <tr style="color: black">
+                                        <th class="border-bottom-0 text-center">
                                             <h6 class="fw-semibold mb-0">No</h6>
                                         </th>
                                         <th class="border-bottom-0">
@@ -138,6 +138,21 @@
                                         <th class="border-bottom-0">
                                             <div class="fw-semibold mb-0 text-center">
                                                 Visit Date
+                                            </div>
+                                        </th>
+                                        <th class="border-bottom-0">
+                                            <div class="fw-semibold mb-0 text-center">
+                                                Location
+                                            </div>
+                                        </th>
+                                        <th class="border-bottom-0">
+                                            <div class="fw-semibold mb-0 text-center">
+                                                Country
+                                            </div>
+                                        </th>
+                                        <th class="border-bottom-0">
+                                            <div class="fw-semibold mb-0 text-center">
+                                                Timezone
                                             </div>
                                         </th>
 
@@ -157,6 +172,15 @@
                                             </td>
                                             <td class="border-bottom-0 text-center">
                                                 <h6 class="fw-semibold mb-0"> {{ $data_visitor->visit_date }} </h6>
+                                            </td>
+                                            <td class="border-bottom-0 text-center">
+                                                <h6 class="fw-semibold mb-0"> {{ $data_visitor->location }} </h6>
+                                            </td>
+                                            <td class="border-bottom-0 text-center">
+                                                <h6 class="fw-semibold mb-0"> {{ $data_visitor->location }} </h6>
+                                            </td>
+                                            <td class="border-bottom-0 text-center">
+                                                <h6 class="fw-semibold mb-0"> {{ $data_visitor->location }} </h6>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -178,6 +202,15 @@
 
                 columns: [{
                         width: '4px'
+                    },
+                    {
+                        width: '32px'
+                    },
+                    {
+                        width: '32px'
+                    },
+                    {
+                        width: '32px'
                     },
                     {
                         width: '32px'

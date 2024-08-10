@@ -59,6 +59,7 @@
 
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="<?php echo e(asset('assets/libs/jquery/dist/jquery.min.js')); ?>"></script>
     <script src="<?php echo e(asset('assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js')); ?>"></script>
     <script src="<?php echo e(asset('assets/js/sidebarmenu.js')); ?>"></script>

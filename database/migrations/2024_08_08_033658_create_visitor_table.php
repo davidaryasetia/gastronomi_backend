@@ -13,8 +13,12 @@ return new class extends Migration
     {
         Schema::create('visitor', function (Blueprint $table) {
             $table->id('visitor_id');
-            $table->date('visit_date');
+            $table->datetime('visit_date');
             $table->string('ip_address');
+            $table->string('city')->nullable();
+            $table->string('region')->nullable();
+            $table->string('country')->nullable();
+            $table->string('timezone')->nullable();
             $table->timestamps();
         });
     }

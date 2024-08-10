@@ -18,6 +18,10 @@ class VisitorResource extends JsonResource
             'visitor_id' => $this->visitor_id, 
             'visit_date' => $this->visit_date, 
             'ip_address' => $this->ip_address, 
+            'city' => $this->city, 
+            'country' => $this->country, 
+            'region' => $this->region, 
+            'timezone' => $this->timezone, 
             'created_at' => $this->created_at, 
             'updated_at' => $this->updated_at, 
         ];

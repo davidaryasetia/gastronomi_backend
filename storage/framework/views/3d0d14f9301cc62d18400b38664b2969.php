@@ -1,8 +1,3 @@
-
-
-
-
-
 <?php $__env->startSection('row'); ?>
     <div class="container-fluid">
         <!--  Row 1 -->
@@ -16,14 +11,17 @@
                             </div>
                             <div>
                                 <select class="form-select">
-                                    <option value="1">March 2023</option>
-                                    <option value="2">April 2023</option>
-                                    <option value="3">May 2023</option>
-                                    <option value="4">June 2023</option>
+                                    <option value="1">All Month</option>
+                                    <option value="1">January 2024</option>
+                                    <option value="2">February 2024</option>
+                                    <option value="3">March 2024</option>
+                                    <option value="4">April 2024</option>
                                 </select>
                             </div>
                         </div>
-                        <div id="chart"></div>
+                        <div>
+                            <canvas id="myChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -99,7 +97,9 @@
                         <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
                             <div class="mb-3 mb-sm-0">
                                 <div class="card-title fw-semibold">
-                                    Tracking Access Of IP Address Data Visitors in : <a href="https://gastronomi.projectbase.site/" target="_blank">https://gastronomi.projectbase.site/</a>
+                                    Tracking Access Of IP Address Data Visitors in : <a
+                                        href="https://gastronomi.projectbase.site/"
+                                        target="_blank">https://gastronomi.projectbase.site/</a>
                                 </div>
                             </div>
                         </div>
@@ -108,8 +108,8 @@
                             <table id="table-visitors"
                                 class="table table-hover table-bordered text-nowrap mb-0 align-middle">
                                 <thead class="text-dart fs-4">
-                                    <tr>
-                                        <th class="border-bottom-0 text-center" style="width: 10px">
+                                    <tr style="color: black">
+                                        <th class="border-bottom-0 text-center">
                                             <h6 class="fw-semibold mb-0">No</h6>
                                         </th>
                                         <th class="border-bottom-0">
@@ -122,6 +122,21 @@
                                                 Visit Date
                                             </div>
                                         </th>
+                                        <th class="border-bottom-0">
+                                            <div class="fw-semibold mb-0 text-center">
+                                                Location
+                                            </div>
+                                        </th>
+                                        <th class="border-bottom-0">
+                                            <div class="fw-semibold mb-0 text-center">
+                                                Country
+                                            </div>
+                                        </th>
+                                        <th class="border-bottom-0">
+                                            <div class="fw-semibold mb-0 text-center">
+                                                Timezone
+                                            </div>
+                                        </th>
 
 
 
@@ -130,17 +145,26 @@
                                 <tbody>
                                     <?php $no = 1; ?>
                                     <?php $__currentLoopData = $visitor; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data_visitor): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <tr>
-                                        <td class="border-bottom-0 text-center">
-                                            <h6 class="fw-semibold mb-0"> <?php echo e($no++); ?> </h6>
-                                        </td>
-                                        <td class="border-bottom-0 text-center">
-                                            <h6 class="fw-semibold mb-0"> <?php echo e($data_visitor->ip_address); ?> </h6>
-                                        </td>
-                                        <td class="border-bottom-0 text-center">
-                                            <h6 class="fw-semibold mb-0"> <?php echo e($data_visitor->visit_date); ?> </h6>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td class="border-bottom-0 text-center">
+                                                <h6 class="fw-semibold mb-0"> <?php echo e($no++); ?> </h6>
+                                            </td>
+                                            <td class="border-bottom-0 text-center">
+                                                <h6 class="fw-semibold mb-0"> <?php echo e($data_visitor->ip_address); ?> </h6>
+                                            </td>
+                                            <td class="border-bottom-0 text-center">
+                                                <h6 class="fw-semibold mb-0"> <?php echo e($data_visitor->visit_date); ?> </h6>
+                                            </td>
+                                            <td class="border-bottom-0 text-center">
+                                                <h6 class="fw-semibold mb-0"> <?php echo e($data_visitor->location); ?> </h6>
+                                            </td>
+                                            <td class="border-bottom-0 text-center">
+                                                <h6 class="fw-semibold mb-0"> <?php echo e($data_visitor->location); ?> </h6>
+                                            </td>
+                                            <td class="border-bottom-0 text-center">
+                                                <h6 class="fw-semibold mb-0"> <?php echo e($data_visitor->location); ?> </h6>
+                                            </td>
+                                        </tr>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </tbody>
                             </table>
@@ -153,24 +177,34 @@
     </div>
 
     <?php $__env->startPush('script'); ?>
-    <script>
-        //    ----------- Home ------------------------------
-        $('#table-visitors').DataTable({
-            responsive: true,
+        <script>
+            //    ----------- Home ------------------------------
+            $('#table-visitors').DataTable({
+                responsive: true,
 
-            columns: [{
-                    width: '4px'
-                },
-                {
-                    width: '32px'
-                },
-                {
-                    width: '32px'
-                },
+                columns: [{
+                        width: '4px'
+                    },
+                    {
+                        width: '32px'
+                    },
+                    {
+                        width: '32px'
+                    },
+                    {
+                        width: '32px'
+                    },
+                    {
+                        width: '32px'
+                    },
+                    {
+                        width: '32px'
+                    },
 
-            ]
-        });
-    </script>
+                ]
+            });
+        </script>
+         <script src="<?php echo e(asset('assets/js/customize-line-chart.js')); ?>"></script>
     <?php $__env->stopPush(); ?>
 <?php $__env->stopSection(); ?>
 
