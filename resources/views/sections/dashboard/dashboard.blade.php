@@ -25,14 +25,17 @@
                             </div>
                             <div>
                                 <select class="form-select">
-                                    <option value="1">March 2023</option>
-                                    <option value="2">April 2023</option>
-                                    <option value="3">May 2023</option>
-                                    <option value="4">June 2023</option>
+                                    <option value="1">All Month</option>
+                                    <option value="1">January 2024</option>
+                                    <option value="2">February 2024</option>
+                                    <option value="3">March 2024</option>
+                                    <option value="4">April 2024</option>
                                 </select>
                             </div>
                         </div>
-                        <div id="chart"></div>
+                        <div>
+                            <canvas id="myChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -112,7 +115,9 @@
                         <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
                             <div class="mb-3 mb-sm-0">
                                 <div class="card-title fw-semibold">
-                                    Tracking Access Of IP Address Data Visitors in : <a href="https://gastronomi.projectbase.site/" target="_blank">https://gastronomi.projectbase.site/</a>
+                                    Tracking Access Of IP Address Data Visitors in : <a
+                                        href="https://gastronomi.projectbase.site/"
+                                        target="_blank">https://gastronomi.projectbase.site/</a>
                                 </div>
                             </div>
                         </div>
@@ -142,18 +147,18 @@
                                 </thead>
                                 <tbody>
                                     <?php $no = 1; ?>
-                                    @foreach($visitor as $data_visitor)
-                                    <tr>
-                                        <td class="border-bottom-0 text-center">
-                                            <h6 class="fw-semibold mb-0"> {{$no++}} </h6>
-                                        </td>
-                                        <td class="border-bottom-0 text-center">
-                                            <h6 class="fw-semibold mb-0"> {{$data_visitor->ip_address}} </h6>
-                                        </td>
-                                        <td class="border-bottom-0 text-center">
-                                            <h6 class="fw-semibold mb-0"> {{$data_visitor->visit_date}} </h6>
-                                        </td>
-                                    </tr>
+                                    @foreach ($visitor as $data_visitor)
+                                        <tr>
+                                            <td class="border-bottom-0 text-center">
+                                                <h6 class="fw-semibold mb-0"> {{ $no++ }} </h6>
+                                            </td>
+                                            <td class="border-bottom-0 text-center">
+                                                <h6 class="fw-semibold mb-0"> {{ $data_visitor->ip_address }} </h6>
+                                            </td>
+                                            <td class="border-bottom-0 text-center">
+                                                <h6 class="fw-semibold mb-0"> {{ $data_visitor->visit_date }} </h6>
+                                            </td>
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -166,23 +171,24 @@
     </div>
 
     @push('script')
-    <script>
-        //    ----------- Home ------------------------------
-        $('#table-visitors').DataTable({
-            responsive: true,
+        <script>
+            //    ----------- Home ------------------------------
+            $('#table-visitors').DataTable({
+                responsive: true,
 
-            columns: [{
-                    width: '4px'
-                },
-                {
-                    width: '32px'
-                },
-                {
-                    width: '32px'
-                },
+                columns: [{
+                        width: '4px'
+                    },
+                    {
+                        width: '32px'
+                    },
+                    {
+                        width: '32px'
+                    },
 
-            ]
-        });
-    </script>
+                ]
+            });
+        </script>
+         <script src="{{ asset('assets/js/customize-line-chart.js') }}"></script>
     @endpush
 @endsection
