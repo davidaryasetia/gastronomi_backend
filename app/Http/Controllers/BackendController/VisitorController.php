@@ -16,7 +16,7 @@ class VisitorController extends Controller
         $month = Carbon::now()->month();
         $date = Carbon::now()->translatedFormat('d F Y');
 
-        $visitor = $this->Visitors();
+        $visitor = $this->visitors();
         $amount_daily_visitor = $this->DailyVisitors();
         $amount_week_visitor = $this->WeeklyVisitors();
         $amount_monthly_visitor = $this->MonthlyVisitors();
@@ -40,7 +40,13 @@ class VisitorController extends Controller
     // Semua Data Visitor 
     private function Visitors()
     {
-        return Visitor::all();
+        $visitors = Visitor::all();
+        $visitors = $visitors->map(function ($visitor) {
+            $visitor->visit_date = Carbon::parse($visitor->visit_date)->translatedFormat('l, d F Y');
+            return $visitor;
+        });
+
+        return $visitors;
     }
 
     // Total Daily Visitors
