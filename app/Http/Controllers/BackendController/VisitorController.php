@@ -15,6 +15,8 @@ class VisitorController extends Controller
         $year = Carbon::now()->year();
         $month = Carbon::now()->month();
         $date = Carbon::now()->translatedFormat('d F Y');
+        $visitDateTime = Carbon::now();
+
 
         $visitor = $this->visitors();
         $amount_daily_visitor = $this->DailyVisitors();
@@ -34,6 +36,7 @@ class VisitorController extends Controller
             'monthly_average_visitor' => $monthly_average_visitor,
             'monthly_visitors' => $monthly_visitors,
             'date' => $date,
+            'time' => $visitDateTime,
         ]);
     }
 

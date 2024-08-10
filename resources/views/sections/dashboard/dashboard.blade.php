@@ -9,6 +9,9 @@
 @dump($monthly_average_visitor);
 @dump($monthly_visitors->toArray());
 @endphp --}}
+{{-- @php 
+@dd($time)
+@endphp --}}
 
 @extends('layouts.main')
 
@@ -177,10 +180,10 @@
                                                 <h6 class="fw-semibold mb-0"> {{ $data_visitor->location }} </h6>
                                             </td>
                                             <td class="border-bottom-0 text-center">
-                                                <h6 class="fw-semibold mb-0"> {{ $data_visitor->location }} </h6>
+                                                <h6 class="fw-semibold mb-0"> {{ $data_visitor->country }} </h6>
                                             </td>
                                             <td class="border-bottom-0 text-center">
-                                                <h6 class="fw-semibold mb-0"> {{ $data_visitor->location }} </h6>
+                                                <h6 class="fw-semibold mb-0"> {{ $data_visitor->timezone }} </h6>
                                             </td>
                                         </tr>
                                     @endforeach

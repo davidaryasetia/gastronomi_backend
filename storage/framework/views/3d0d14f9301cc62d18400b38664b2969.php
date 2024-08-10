@@ -159,10 +159,10 @@
                                                 <h6 class="fw-semibold mb-0"> <?php echo e($data_visitor->location); ?> </h6>
                                             </td>
                                             <td class="border-bottom-0 text-center">
-                                                <h6 class="fw-semibold mb-0"> <?php echo e($data_visitor->location); ?> </h6>
+                                                <h6 class="fw-semibold mb-0"> <?php echo e($data_visitor->country); ?> </h6>
                                             </td>
                                             <td class="border-bottom-0 text-center">
-                                                <h6 class="fw-semibold mb-0"> <?php echo e($data_visitor->location); ?> </h6>
+                                                <h6 class="fw-semibold mb-0"> <?php echo e($data_visitor->timezone); ?> </h6>
                                             </td>
                                         </tr>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

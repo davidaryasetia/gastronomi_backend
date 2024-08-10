@@ -20,9 +20,9 @@ class VisitorController extends Controller
     public function store(Request $request)
     {
         $ipAddress = $request->ip();
-        $visitDateTime = Carbon::now();
 
         $locationData = $this->getLocationFromIp($ipAddress);
+        $visitDateTime = Carbon::now($locationData['timezone']);
 
         // Cek apakah sudah ada record untuk ip ini
         $visitor = Visitor::where('ip_address', $ipAddress)
@@ -39,6 +39,7 @@ class VisitorController extends Controller
                 'timezone' => $locationData['timezone'], 
             ]);
         }
+
         return new VisitorResource($visitor);
     }
 
@@ -51,7 +52,7 @@ class VisitorController extends Controller
                 'city' => $response->json()['city'] ?? 'Unknown City', 
                 'country' => $response->json()['country'] ?? 'Unknown Country', 
                 'region' => $response->json()['region'] ?? 'Unknown Region', 
-                'timezone' => $response->json()['timezone'] ?? 'Unknown Timezone', 
+                'timezone' => $response->json()['timezone'] ?? 'UTC', 
             ];
         }
 
@@ -59,6 +60,7 @@ class VisitorController extends Controller
             'city' => 'Unknown City', 
             'country' => 'Unknown Country', 
             'region' => 'Unknown Region', 
+            'timezone' => 'Unknown Timezone', 
         ];
     }
 
