@@ -45,7 +45,7 @@ class VisitorController extends Controller
     {
         $visitors = Visitor::all();
         $visitors = $visitors->map(function ($visitor) {
-            $visitor->visit_date = Carbon::parse($visitor->visit_date)->translatedFormat('l, d F Y');
+            $visitor->visit_date = Carbon::parse($visitor->visit_date)->translatedFormat('l, d F Y, H:i:s');
             return $visitor;
         });
 

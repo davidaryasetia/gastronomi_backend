@@ -135,7 +135,7 @@
                                         </th>
                                         <th class="border-bottom-0">
                                             <div class="fw-semibold mb-0 text-center">
-                                                IP Address Visitors
+                                                IP Address
                                             </div>
                                         </th>
                                         <th class="border-bottom-0">
@@ -143,6 +143,7 @@
                                                 Visit Date
                                             </div>
                                         </th>
+                                      
                                         <th class="border-bottom-0">
                                             <div class="fw-semibold mb-0 text-center">
                                                 Location
@@ -176,6 +177,7 @@
                                             <td class="border-bottom-0 text-center">
                                                 <h6 class="fw-semibold mb-0"> {{ $data_visitor->visit_date }} </h6>
                                             </td>
+                                            
                                             <td class="border-bottom-0 text-center">
                                                 <h6 class="fw-semibold mb-0"> {{$data_visitor->city}}, {{$data_visitor->region}} </h6>
                                             </td>
@@ -204,8 +206,9 @@
                 responsive: true,
 
                 columns: [{
-                        width: '4px'
+                        width: '2px'
                     },
+                   
                     {
                         width: '32px'
                     },
@@ -216,7 +219,7 @@
                         width: '32px'
                     },
                     {
-                        width: '32px'
+                        width: '12px'
                     },
                     {
                         width: '32px'
