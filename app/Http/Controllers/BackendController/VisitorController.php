@@ -24,6 +24,8 @@ class VisitorController extends Controller
         $amount_monthly_visitor = $this->MonthlyVisitors();
 
         $monthly_average_visitor = $this->CalculateMonthlyAverageVisitors();
+
+        // Logic untuk set date&time
         $monthly_visitors = $this->getMonthlyVisitors($year, $month);
 
         return view('sections.dashboard.dashboard', [
@@ -86,15 +88,32 @@ class VisitorController extends Controller
     }
 
     private function getMonthlyVisitors($year, $month)
-{
-    $startDate = Carbon::createFromDate($year, $month, 1)->startOfMonth();
-    $endDate = Carbon::createFromDate($year, $month, 1)->endOfMonth();
-
-    return Visitor::whereBetween('visit_date', [$startDate, $endDate])
-        ->selectRaw('DATE(visit_date) as date, count(*) as count')
-        ->groupBy('date')
-        ->orderBy('date')
-        ->get();
-}
-
+    {
+        // Mendapatkan awal bulan dan akhir bulan
+        $startDate = Carbon::createFromDate($year, $month, 1)->startOfMonth();
+        $endDate = Carbon::createFromDate($year, $month, 1)->endOfMonth();
+    
+        // Ambil data pengunjung yang ada
+        $visitors = Visitor::whereBetween('visit_date', [$startDate, $endDate])
+            ->selectRaw('DATE(visit_date) as date, count(*) as count')
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get()
+            ->keyBy('date'); // Mengubah hasil menjadi keyed collection berdasarkan tanggal
+    
+        // Inisialisasi array untuk menyimpan hasil akhir
+        $results = [];
+    
+        // Iterasi dari awal bulan hingga akhir bulan
+        for ($date = $startDate; $date->lte($endDate); $date->addDay()) {
+            $formattedDate = $date->format('Y-m-d');
+            $results[] = [
+                'date' => $formattedDate,
+                'count' => $visitors->get($formattedDate)->count ?? 0, // Ambil jumlah jika ada, jika tidak, 0
+            ];
+        }
+    
+        return collect($results); // Mengembalikan hasil dalam bentuk koleksi
+    }
+    
 }

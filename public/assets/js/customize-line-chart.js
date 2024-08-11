@@ -29,7 +29,7 @@ let myChart = new Chart(ctx, {
             x: {
                 title: {
                     display: true,
-                    text: 'Tanggal/Bulan',
+                    text: 'Date/Month',
                     font: {
                         size: 16
                     }

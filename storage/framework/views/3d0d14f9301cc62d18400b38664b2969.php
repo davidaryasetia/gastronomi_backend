@@ -1,3 +1,8 @@
+<?php 
+@dd($monthly_visitors->toArray());
+?>
+
+
 <?php $__env->startPush('css'); ?>
 <style>
    #myChart {

@@ -1,17 +1,6 @@
-{{-- @dump($visitor->toArray()); --}}
-{{--  
-@php
-@dump($visitor->toArray());
-@dump($amount_daily_visitor);
-@dump($amount_weekly_visitor);
-@dump($amount_monthly_visitor);
-
-@dump($monthly_average_visitor);
-@dump($monthly_visitors->toArray());
-@endphp --}}
-{{-- @php 
-@dd($time)
-@endphp --}}
+@php 
+@dd($monthly_visitors->toArray());
+@endphp
 
 @extends('layouts.main')
 @push('css')
