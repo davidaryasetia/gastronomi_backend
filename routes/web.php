@@ -33,3 +33,4 @@ Route::resource('/village', VillageController::class);
 Route::resource('/culture', CultureController::class);
 
 Route::get('/food-suggestion', [FoodController::class, 'suggestion']);
+Route::post('/visitor', [VisitorController::class, 'store'])->name('visitor.store');

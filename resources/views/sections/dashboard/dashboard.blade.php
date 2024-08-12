@@ -1,16 +1,19 @@
- 
-
+@php
+    // @dd($monthly_visitors->toArray());
+@endphp
 @extends('layouts.main')
 @push('css')
-<style>
-   #myChart {
-    width: 100%;
-    height: 100%; /* Atur tinggi myChart agar memenuhi container */
-}
-    .card-body{
-        height: 100%;
-    }
-</style>
+    <style>
+        #myChart {
+            width: 100%;
+            height: 100%;
+            /* Atur tinggi myChart agar memenuhi container */
+        }
+
+        .card-body {
+            height: 100%;
+        }
+    </style>
 @endpush
 
 @section('row')
@@ -21,18 +24,31 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+      
                             <div class="mb-3 mb-sm-0">
                                 <h5 class="card-title fw-semibold">Tourist Overview Visitors</h5>
                             </div>
-                            <div>
-                                <select id="monthSelector" class="form-select">
-                                    <option value="all">Semua Bulan</option>
-                                    <option value="1">Januari 2024</option>
-                                            <option value="2">Februari 2024</option>
-                                    <option value="3">Maret 2024</option>
-                                    <option value="4">April 2024</option>
-                                </select>
-                            </div>
+                            <form id="filterForm" action="{{ route('visitor.store') }}" method="POST" class="d-flex">
+                                @csrf
+                                <div class="me-1">
+                                    <select id="yearSelector" name="year" class="form-select">
+                                        <option value="2024">2024</option>
+                                        <option value="2025">2025</option>
+                                        <option value="2026">2026</option>
+                                    </select>
+                                </div>
+                                <div class="me-1">
+                                    <select id="monthSelector" name="month" class="form-select">
+                                        <option value="all">Semua Bulan</option>
+                                        @for ($i = 1; $i <= 12; $i++)
+                                            <option value="{{ $i }}">
+                                                {{ DateTime::createFromFormat('!m', $i)->format('F') }}</option>
+                                        @endfor
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+
                         </div>
                         <div>
                             <canvas id="myChart" style="height: 380px"></canvas>
@@ -61,7 +77,7 @@
                                         <div class="d-flex align-items-center">
                                             <div class="me-4">
                                                 <span class="round-8 bg-primary rounded-circle me-2 d-inline-block"></span>
-                                                <span class="fs-2"> {{$amount_weekly_visitor['range']}} </span>
+                                                <span class="fs-2"> {{ $amount_weekly_visitor['range'] }} </span>
                                             </div>
                                         </div>
                                     </div>
@@ -88,7 +104,7 @@
                                                 <i class="ti ti-arrow-down-right text-danger"></i>
                                             </span>
                                             {{-- <p class="text-dark me-1 fs-3 mb-0">+9%</p> --}}
-                                            <p class="fs-3 mb-0"> {{$amount_monthly_visitor['range']}} </p>
+                                            <p class="fs-3 mb-0"> {{ $amount_monthly_visitor['range'] }} </p>
                                         </div>
                                     </div>
                                     <div class="col-4">
@@ -141,7 +157,7 @@
                                                 Visit Date
                                             </div>
                                         </th>
-                                      
+
                                         <th class="border-bottom-0">
                                             <div class="fw-semibold mb-0 text-center">
                                                 Location
@@ -175,9 +191,10 @@
                                             <td class="border-bottom-0 text-center">
                                                 <h6 class="fw-semibold mb-0"> {{ $data_visitor->visit_date }} </h6>
                                             </td>
-                                            
+
                                             <td class="border-bottom-0 text-center">
-                                                <h6 class="fw-semibold mb-0"> {{$data_visitor->city}}, {{$data_visitor->region}} </h6>
+                                                <h6 class="fw-semibold mb-0"> {{ $data_visitor->city }},
+                                                    {{ $data_visitor->region }} </h6>
                                             </td>
                                             <td class="border-bottom-0 text-center">
                                                 <h6 class="fw-semibold mb-0"> {{ $data_visitor->country }} </h6>
@@ -206,7 +223,7 @@
                 columns: [{
                         width: '2px'
                     },
-                   
+
                     {
                         width: '32px'
                     },
@@ -226,6 +243,6 @@
                 ]
             });
         </script>
-         <script src="{{ asset('assets/js/customize-line-chart.js') }}"></script>
+        <script src="{{ asset('assets/js/customize-line-chart.js') }}"></script>
     @endpush
 @endsection

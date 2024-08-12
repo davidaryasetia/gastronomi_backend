@@ -9,8 +9,9 @@ use Illuminate\Http\Request;
 
 class VisitorController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        // dd($request->all());
         // Tahun dan bulan
         $year = Carbon::now()->year();
         $month = Carbon::now()->month();
@@ -39,6 +40,27 @@ class VisitorController extends Controller
             'monthly_visitors' => $monthly_visitors,
             'date' => $date,
             'time' => $visitDateTime,
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        dd($request->all());
+        $year = $request->input('year', Carbon::now()->year());
+        $month = $request->input('month', Carbon::now()->month());
+
+        // Fetch monthly visitors based on selected month and year
+        $monthly_visitors = $this->getMonthlyVisitors($year, $month);
+
+        if ($request->ajax()) {
+            return response()->json(['monthly_visitors' => $monthly_visitors]);
+        }
+
+        return view('sections.dashboard.dashboard', [
+            'title' => 'Dashboard Ok',
+            'monthly_visitors' => $monthly_visitors,
+            'selectedYear' => $year,
+            'selectedMonth' => $month,
         ]);
     }
 
