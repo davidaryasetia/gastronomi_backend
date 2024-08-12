@@ -64,20 +64,37 @@ class VisitorController extends Controller
     // Total Weeks Visitors
     private function WeeklyVisitors()
     {
-        $startOfWeek = Carbon::now()->startOfWeek()->toDateString();
-        $endOfWeek = Carbon::now()->endOfWeek()->toDateString();
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $endOfWeek = Carbon::now()->endOfWeek();
 
-        return Visitor::whereBetween('visit_date', [$startOfWeek, $endOfWeek])->count();
+        $visitorCount = Visitor::whereBetween('visit_date', [$startOfWeek->toDateString(), $endOfWeek->toDateString()])->count();
+        $formattedStartOfWeek = $startOfWeek->format('d F Y');
+        $formattedEndOfWeek = $endOfWeek->format('d F Y');
+
+        return [
+            'count' => $visitorCount,
+            'range' => $formattedStartOfWeek . ' - ' . $formattedEndOfWeek,
+        ];
     }
+
 
     // Total Monthly Visitors 
+    // Total Monthly Visitors
     private function MonthlyVisitors()
     {
-        $startOfMonth = Carbon::now()->startOfMonth()->toDateString();
-        $endOfMonth = Carbon::now()->endOfMonth()->toDateString();
+        $startOfMonth = Carbon::now()->startOfMonth();
+        $endOfMonth = Carbon::now()->endOfMonth();
 
-        return Visitor::whereBetween('visit_date', [$startOfMonth, $endOfMonth])->count();
+        $visitorCount = Visitor::whereBetween('visit_date', [$startOfMonth->toDateString(), $endOfMonth->toDateString()])->count();
+        $formattedStartOfMonth = $startOfMonth->format('d F Y');
+        $formattedEndOfMonth = $endOfMonth->format('d F Y');
+
+        return [
+            'count' => $visitorCount,
+            'range' => $formattedStartOfMonth . ' - ' . $formattedEndOfMonth,
+        ];
     }
+
 
     private function CalculateMonthlyAverageVisitors()
     {
@@ -92,7 +109,7 @@ class VisitorController extends Controller
         // Mendapatkan awal bulan dan akhir bulan
         $startDate = Carbon::createFromDate($year, $month, 1)->startOfMonth();
         $endDate = Carbon::createFromDate($year, $month, 1)->endOfMonth();
-    
+
         // Ambil data pengunjung yang ada
         $visitors = Visitor::whereBetween('visit_date', [$startDate, $endDate])
             ->selectRaw('DATE(visit_date) as date, count(*) as count')
@@ -100,10 +117,10 @@ class VisitorController extends Controller
             ->orderBy('date')
             ->get()
             ->keyBy('date'); // Mengubah hasil menjadi keyed collection berdasarkan tanggal
-    
+
         // Inisialisasi array untuk menyimpan hasil akhir
         $results = [];
-    
+
         // Iterasi dari awal bulan hingga akhir bulan
         for ($date = $startDate; $date->lte($endDate); $date->addDay()) {
             $formattedDate = $date->format('Y-m-d');
@@ -112,8 +129,7 @@ class VisitorController extends Controller
                 'count' => $visitors->get($formattedDate)->count ?? 0, // Ambil jumlah jika ada, jika tidak, 0
             ];
         }
-    
+
         return collect($results); // Mengembalikan hasil dalam bentuk koleksi
     }
-    
 }

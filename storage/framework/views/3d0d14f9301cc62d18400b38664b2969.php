@@ -1,6 +1,4 @@
-<?php 
-@dd($monthly_visitors->toArray());
-?>
+ 
 
 
 <?php $__env->startPush('css'); ?>
@@ -30,7 +28,7 @@
                                 <select id="monthSelector" class="form-select">
                                     <option value="all">Semua Bulan</option>
                                     <option value="1">Januari 2024</option>
-                                    <option value="2">Februari 2024</option>
+                                            <option value="2">Februari 2024</option>
                                     <option value="3">Maret 2024</option>
                                     <option value="4">April 2024</option>
                                 </select>
@@ -51,7 +49,7 @@
                                 <h5 class="card-title mb-9 fw-semibold">Weekly Number Of Visitors</h5>
                                 <div class="row align-items-center">
                                     <div class="col-8">
-                                        <h4 class="fw-semibold mb-3"> <?php echo e($amount_weekly_visitor); ?> </h4>
+                                        <h4 class="fw-semibold mb-3"> <?php echo e($amount_weekly_visitor['count']); ?> </h4>
                                         <div class="d-flex align-items-center mb-3">
                                             
                                             
@@ -59,7 +57,7 @@
                                         <div class="d-flex align-items-center">
                                             <div class="me-4">
                                                 <span class="round-8 bg-primary rounded-circle me-2 d-inline-block"></span>
-                                                <span class="fs-2"> <?php echo e($date); ?> </span>
+                                                <span class="fs-2"> <?php echo e($amount_weekly_visitor['range']); ?> </span>
                                             </div>
                                         </div>
                                     </div>
@@ -79,14 +77,14 @@
                                 <div class="row alig n-items-start">
                                     <div class="col-8">
                                         <h5 class="card-title mb-9 fw-semibold"> Mountly Number Of Visitors</h5>
-                                        <h4 class="fw-semibold mb-3"> <?php echo e($amount_monthly_visitor); ?> </h4>
+                                        <h4 class="fw-semibold mb-3"> <?php echo e($amount_monthly_visitor['count']); ?> </h4>
                                         <div class="d-flex align-items-center pb-1">
                                             <span
                                                 class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
                                                 <i class="ti ti-arrow-down-right text-danger"></i>
                                             </span>
                                             
-                                            <p class="fs-3 mb-0"> <?php echo e($date); ?> </p>
+                                            <p class="fs-3 mb-0"> <?php echo e($amount_monthly_visitor['range']); ?> </p>
                                         </div>
                                     </div>
                                     <div class="col-4">
