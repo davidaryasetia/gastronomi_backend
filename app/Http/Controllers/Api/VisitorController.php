@@ -21,46 +21,50 @@ class VisitorController extends Controller
     {
         $ipAddress = $request->ip();
 
+        // Get location data from IP address
         $locationData = $this->getLocationFromIp($ipAddress);
         $visitDateTime = Carbon::now($locationData['timezone']);
+        $visitDate = $visitDateTime->toDateString();
 
-        // Cek apakah sudah ada record untuk ip ini
+        // Check if a record for this IP address exists for the current day
         $visitor = Visitor::where('ip_address', $ipAddress)
-            ->where('visit_date', $visitDateTime->toDateString())
+            ->whereDate('visit_date', $visitDate) // Check within the same day
             ->first();
 
+        // If no record exists for this IP on the current day, create a new one
         if (!$visitor) {
             $visitor = Visitor::create([
                 'visit_date' => $visitDateTime,
                 'ip_address' => $ipAddress,
-                'city' => $locationData['city'], 
-                'country' => $locationData['country'], 
-                'region' => $locationData['region'], 
-                'timezone' => $locationData['timezone'], 
+                'city' => $locationData['city'],
+                'country' => $locationData['country'],
+                'region' => $locationData['region'],
+                'timezone' => $locationData['timezone'],
             ]);
         }
 
         return new VisitorResource($visitor);
     }
 
+
     // Fungsi GetLocation IP Address dengan IP Info
     private function getLocationFromIp($ip)
     {
         $response = Http::get("https://ipinfo.io/{$ip}?token=12d62dc0bbfec9");
-        if ($response->successful()){
+        if ($response->successful()) {
             return [
-                'city' => $response->json()['city'] ?? 'Unknown City', 
-                'country' => $response->json()['country'] ?? 'Unknown Country', 
-                'region' => $response->json()['region'] ?? 'Unknown Region', 
-                'timezone' => $response->json()['timezone'] ?? 'UTC', 
+                'city' => $response->json()['city'] ?? 'Unknown City',
+                'country' => $response->json()['country'] ?? 'Unknown Country',
+                'region' => $response->json()['region'] ?? 'Unknown Region',
+                'timezone' => $response->json()['timezone'] ?? 'UTC',
             ];
         }
 
         return [
-            'city' => 'Unknown City', 
-            'country' => 'Unknown Country', 
-            'region' => 'Unknown Region', 
-            'timezone' => 'Unknown Timezone', 
+            'city' => 'Unknown City',
+            'country' => 'Unknown Country',
+            'region' => 'Unknown Region',
+            'timezone' => 'Unknown Timezone',
         ];
     }
 
