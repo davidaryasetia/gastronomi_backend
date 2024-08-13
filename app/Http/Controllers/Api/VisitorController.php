@@ -42,7 +42,6 @@ class VisitorController extends Controller
                 'timezone' => $locationData['timezone'],
             ]);
         }
-
         return new VisitorResource($visitor);
     }
 

@@ -58,7 +58,7 @@ class VisitorController extends Controller
 
         return view('sections.dashboard.dashboard', [
             'title' => 'Dashboard Ok',
-            'monthly_visitors' => $monthly_visitors,
+            'count_monthly_visitors' => $monthly_visitors,
             'selectedYear' => $year,
             'selectedMonth' => $month,
         ]);

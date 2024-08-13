@@ -1,5 +1,5 @@
 @php
-    // @dd($monthly_visitors->toArray());
+    @dd($monthly_visitors->toArray());
 @endphp
 @extends('layouts.main')
 @push('css')
