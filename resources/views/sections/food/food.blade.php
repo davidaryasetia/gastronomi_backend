@@ -58,7 +58,7 @@
                                                     <h5 class="card-title" style="font-weight: 400"> {{ $data_food->name }}
                                                     </h5>
                                                 </div>
-                                                <p class="card-text"> {{ Str::limit($data_food->description, 140) }} </p>
+                                                <p class="card-text"> {{ Str::limit($data_food->description, 200) }} </p>
                                                 <span><a href="{{ route('food.show', $data_food->food_id) }}">Detail
                                                         Food......</a></span>
                                             </div>
