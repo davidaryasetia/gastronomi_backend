@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 // Dashboard Controller 
-Route::get('/', [VisitorController::class, 'index']);
+Route::get('/', [VisitorController::class, 'index'])->name('home');
 
 Route::resource('/food', FoodController::class);
 Route::resource('/restaurant', RestaurantController::class);

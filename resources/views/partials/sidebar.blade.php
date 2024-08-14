@@ -3,7 +3,7 @@
     <!-- Sidebar scroll-->
     <div>
         <div class="brand-logo d-flex align-items-center justify-content-bentween mt-3">
-            <a href="./index.html" class="text-nowrap logo-img me-2">
+            <a href="{{route('home')}}" class="text-nowrap logo-img me-2">
                 <img src="{{asset('assets/images/asset_gastronomi/ic_icon.png')}}" width="86" style="" alt="" />
             </a>
             <div>
