@@ -26,13 +26,8 @@ class VisitorController extends Controller
         $visitDateTime = Carbon::now($locationData['timezone']);
         $visitDate = $visitDateTime->toDateString();
 
-        // Check if a record for this IP address exists for the current day
-        $visitor = Visitor::where('ip_address', $ipAddress)
-            ->whereDate('visit_date', $visitDate) // Check within the same day
-            ->first();
 
         // If no record exists for this IP on the current day, create a new one
-        if (!$visitor) {
             $visitor = Visitor::create([
                 'visit_date' => $visitDateTime,
                 'ip_address' => $ipAddress,
@@ -41,7 +36,7 @@ class VisitorController extends Controller
                 'region' => $locationData['region'],
                 'timezone' => $locationData['timezone'],
             ]);
-        }
+
         return new VisitorResource($visitor);
     }
 

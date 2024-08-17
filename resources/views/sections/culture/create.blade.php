@@ -16,7 +16,7 @@
                         <div class="d-sm-flex d-block align-items-center justify-content-between align-items-center mb-9">
                             <div class="d-flex align-items-center mb-4">
                                 <div>
-                                    <a href="route('culture.index')" class="d-flex align-items-center"><i class="ti ti-arrow-left me-3"
+                                    <a href="{{route('culture.index')}}" class="d-flex align-items-center"><i class="ti ti-arrow-left me-3"
                                             style="font-size: 20px; color: black"></i>
                                     </a>
                                 </div>
