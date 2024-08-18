@@ -8,7 +8,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>Login - Toefl</title>
-    <link rel="shortcut icon" type="image/png" href="{{ asset('assets/images/logos/short-logo.png') }}" />
+    <link rel="shortcut icon" type="image/png" href="{{asset('assets/images/asset_gastronomi/ic_icon.png')}}" />
     <link rel="stylesheet" href="{{ asset('assets/css/styles.min.css') }}" />
 </head>
 
@@ -25,11 +25,11 @@
                         <div class="card mb-0">
                             <div class="card-body">
                                 <a href="/" class="text-nowrap logo-img text-center d-block py-3 w-100">
-                                    <img src="{{ asset('assets/images/logos/long-logo.png') }}" width="180"
+                                    <img src="{{asset('assets/images/asset_gastronomi/ic_icon.png')}}" width="128px"
                                         alt="">
                                 </a>
-                                <p class="text-center">Hello Welcome To Gastronomi</p>
-                                <form action="" method="POST">
+                                <p class="text-center">Hello Welcome To GapuloApp</p>
+                                <form action="{{route('home')}}" method="">
                                     @csrf
                                     <div class="mb-3">
                                         <label for="exampleInputEmail1" class="form-label">Username</label>

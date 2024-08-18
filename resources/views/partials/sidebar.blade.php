@@ -21,7 +21,7 @@
                     <span class="hide-menu">Home</span>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link {{ Request::is('/home') ? 'active' : '' }}" href="/" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('/home*') ? 'active' : '' }}" href="/home" aria-expanded="false">
                         <span>
                             <i class="ti ti-layout-dashboard"></i>
                         </span>
@@ -70,7 +70,7 @@
                     <span class="hide-menu">AUTH</span>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link {{ Request::is('DataUser*') ? 'active' : '' }}" href=""
+                    <a class="sidebar-link {{ Request::is('DataUser*') ? 'active' : '' }}" href="/admin"
                         aria-expanded="false">
                         <span>
                             <i class="ti ti-users-group"></i>
@@ -87,7 +87,7 @@
                         <span class="hide-menu">Logout</span>
                     </a>
 
-                    <form id="logout-form" action="" method="POST" style="display: none;">
+                    <form id="logout-form" action="/" method="" style="display: none;">
                         @csrf
                     </form>
                 </li>
