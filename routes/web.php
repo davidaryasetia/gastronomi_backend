@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticateController;
 use App\Http\Controllers\BackendController\CultureController;
 use App\Http\Controllers\BackendController\FoodController;
 use App\Http\Controllers\BackendController\RestaurantController;
@@ -24,8 +25,12 @@ use Illuminate\Support\Facades\Route;
 //     ]);
 // });
 
+
+// Login Controller
+Route::get("/", [AuthenticateController::class, "showLoginForm"])->name("login");
+
 // Dashboard Controller 
-Route::get('/', [VisitorController::class, 'index'])->name('home');
+Route::get('/home', [VisitorController::class, 'index'])->name('home');
 
 Route::resource('/food', FoodController::class);
 Route::resource('/restaurant', RestaurantController::class);

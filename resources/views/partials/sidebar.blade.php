@@ -21,7 +21,7 @@
                     <span class="hide-menu">Home</span>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link {{ Request::is('/') ? 'active' : '' }}" href="/" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('/home') ? 'active' : '' }}" href="/" aria-expanded="false">
                         <span>
                             <i class="ti ti-layout-dashboard"></i>
                         </span>
@@ -63,6 +63,33 @@
                         </span>
                         <span class="hide-menu">List Village</span>
                     </a>
+                </li>
+
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">AUTH</span>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{ Request::is('DataUser*') ? 'active' : '' }}" href=""
+                        aria-expanded="false">
+                        <span>
+                            <i class="ti ti-users-group"></i>
+                        </span>
+                        <span class="hide-menu">User Admin</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="#" aria-expanded="false"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <span>
+                            <i class="ti ti-logout "></i>
+                        </span>
+                        <span class="hide-menu">Logout</span>
+                    </a>
+
+                    <form id="logout-form" action="" method="POST" style="display: none;">
+                        @csrf
+                    </form>
                 </li>
 
             </ul>
