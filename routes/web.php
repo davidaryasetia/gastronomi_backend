@@ -28,7 +28,8 @@ use Illuminate\Support\Facades\Route;
 
 
 // Login Controller
-Route::get("/", [AuthenticateController::class, "showLoginForm"])->name("login");
+Route::get('/', [AuthenticateController::class, "showLoginForm"])->name('login');
+Route::get('/secret-registration', [AuthenticateController::class, "showRegisterForm"])->name('register');
 
 // Dashboard Controller 
 Route::get('/home', [VisitorController::class, 'index'])->name('home');

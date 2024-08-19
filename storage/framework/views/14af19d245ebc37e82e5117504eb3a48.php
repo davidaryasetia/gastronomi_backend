@@ -3,7 +3,7 @@
     <!-- Sidebar scroll-->
     <div>
         <div class="brand-logo d-flex align-items-center justify-content-bentween mt-3">
-            <a href="./index.html" class="text-nowrap logo-img me-2">
+            <a href="<?php echo e(route('home')); ?>" class="text-nowrap logo-img me-2">
                 <img src="<?php echo e(asset('assets/images/asset_gastronomi/ic_icon.png')); ?>" width="86" style="" alt="" />
             </a>
             <div>
@@ -21,7 +21,7 @@
                     <span class="hide-menu">Home</span>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link <?php echo e(Request::is('/') ? 'active' : ''); ?>" href="/" aria-expanded="false">
+                    <a class="sidebar-link <?php echo e(Request::is('/home*') ? 'active' : ''); ?>" href="/home" aria-expanded="false">
                         <span>
                             <i class="ti ti-layout-dashboard"></i>
                         </span>
@@ -63,6 +63,33 @@
                         </span>
                         <span class="hide-menu">List Village</span>
                     </a>
+                </li>
+
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">AUTH</span>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link <?php echo e(Request::is('daftar-user*') ? 'active' : ''); ?>" href="/daftar-user"
+                        aria-expanded="false">
+                        <span>
+                            <i class="ti ti-users-group"></i>
+                        </span>
+                        <span class="hide-menu">User Admin</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="#" aria-expanded="false"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <span>
+                            <i class="ti ti-logout "></i>
+                        </span>
+                        <span class="hide-menu">Logout</span>
+                    </a>
+
+                    <form id="logout-form" action="/" method="" style="display: none;">
+                        <?php echo csrf_field(); ?>
+                    </form>
                 </li>
 
             </ul>

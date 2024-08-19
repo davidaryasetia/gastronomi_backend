@@ -31,7 +31,6 @@
                         <form action="{{ route('food.store') }}" method="POST" enctype="multipart/form-data"
                             id="FoodForm">
                             @csrf
-
                             <div class="row mb-2">
                                 <div class="mb-2 col-lg-6">
                                     <label for="name" class="form-label">Food Name</label>

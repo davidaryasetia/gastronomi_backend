@@ -70,7 +70,7 @@
                     <span class="hide-menu">AUTH</span>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link {{ Request::is('DataUser*') ? 'active' : '' }}" href="/admin"
+                    <a class="sidebar-link {{ Request::is('daftar-user*') ? 'active' : '' }}" href="/daftar-user"
                         aria-expanded="false">
                         <span>
                             <i class="ti ti-users-group"></i>

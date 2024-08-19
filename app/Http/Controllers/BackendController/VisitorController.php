@@ -45,7 +45,7 @@ class VisitorController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         $year = $request->input('year', Carbon::now()->year());
         $month = $request->input('month', Carbon::now()->month());
 
