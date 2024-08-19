@@ -20595,3 +20595,12 @@ DST Off\">2024-08-18 16:02:55.220020 UTC (+00:00)</span>
 #69 C:\\Users\\evane\\Documents\\gastronomi_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\Users\\\\evane\\\\...')
 #70 {main}
 "} 
+[2024-08-18 22:46:12] local.ERROR: There are no commands defined in the "controller" namespace. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\NamespaceNotFoundException(code: 0): There are no commands defined in the \"controller\" namespace. at C:\\Users\\evane\\Documents\\gastronomi_backend\\vendor\\symfony\\console\\Application.php:669)
+[stacktrace]
+#0 C:\\Users\\evane\\Documents\\gastronomi_backend\\vendor\\symfony\\console\\Application.php(720): Symfony\\Component\\Console\\Application->findNamespace('controller')
+#1 C:\\Users\\evane\\Documents\\gastronomi_backend\\vendor\\symfony\\console\\Application.php(266): Symfony\\Component\\Console\\Application->find('controller:list')
+#2 C:\\Users\\evane\\Documents\\gastronomi_backend\\vendor\\symfony\\console\\Application.php(175): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 C:\\Users\\evane\\Documents\\gastronomi_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 C:\\Users\\evane\\Documents\\gastronomi_backend\\artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#5 {main}
+"} 

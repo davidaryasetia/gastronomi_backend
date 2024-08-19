@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthenticateController;
 use App\Http\Controllers\BackendController\CultureController;
 use App\Http\Controllers\BackendController\FoodController;
 use App\Http\Controllers\BackendController\RestaurantController;
+use App\Http\Controllers\BackendController\UserController;
 use App\Http\Controllers\BackendController\VillageController;
 use App\Http\Controllers\BackendController\VisitorController;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +37,7 @@ Route::resource('/food', FoodController::class);
 Route::resource('/restaurant', RestaurantController::class);
 Route::resource('/village', VillageController::class);
 Route::resource('/culture', CultureController::class);
+Route::resource('/daftar-user', UserController::class);
 
 Route::get('/food-suggestion', [FoodController::class, 'suggestion']);
 Route::post('/visitor', [VisitorController::class, 'store'])->name('visitor.store');
