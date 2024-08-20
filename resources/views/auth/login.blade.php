@@ -8,7 +8,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>Login - GapuloApp</title>
-    <link rel="shortcut icon" type="image/png" href="{{asset('assets/images/asset_gastronomi/ic_icon.png')}}" />
+    <link rel="shortcut icon" type="image/png" href="{{ asset('assets/images/asset_gastronomi/ic_icon.png') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/styles.min.css') }}" />
 </head>
 
@@ -25,11 +25,11 @@
                         <div class="card mb-0">
                             <div class="card-body">
                                 <a href="/" class="text-nowrap logo-img text-center d-block py-3 w-100">
-                                    <img src="{{asset('assets/images/asset_gastronomi/ic_icon.png')}}" width="128px"
+                                    <img src="{{ asset('assets/images/asset_gastronomi/ic_icon.png') }}" width="128px"
                                         alt="">
                                 </a>
                                 <p class="text-center">Hello Welcome To GapuloApp</p>
-                                <form action="{{route('home')}}" method="">
+                                <form action="{{ route('login') }}" method="POST">
                                     @csrf
                                     <div class="mb-3">
                                         <label for="exampleInputEmail1" class="form-label">Email</label>

@@ -14,11 +14,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = User::get();
+        $datauser = User::get();
 
         return view('sections.daftar_user.user', [
-            'title' => 'Daftar User Admin', 
-            'user' => $user, 
+            'title' => 'Daftar User Admin',
+            'dataUser' => $datauser,
         ]);
     }
 
@@ -37,26 +37,30 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-
         $request->validate([
-            'name' => 'required|string|max:255', 
-            'email' => 'required|string|max:255', 
-            'password' => 'required|string|max:255', 
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|max:255',
+            'password' => 'required|string|max:255',
         ]);
 
+        $exist_email = User::where('email', $request->input('email'))->first();
+
+        if ($exist_email){
+            return redirect('/')->with(['error' => 'Username Email Alredy Exist !!!']);
+        }
+
         $data_user = [
-            'name' => $request->input('name'), 
-            'email' => $request->input('email'), 
-            'password' => Hash::make($request->password), 
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->password),
         ];
 
         $insert_data_user = User::create($data_user);
 
-        if ($insert_data_user){
-            return redirect('/daftar-user')->with(['success', 'Successful register user']);
+        if ($insert_data_user) {
+            return redirect('/daftar-user')->with(['success' => 'Successful register user !!!!']);
         } else {
-            return redirect('/daftar-user')->with(['error', 'Error Register User']);
+            return redirect('/daftar-user')->with(['error' => 'Error Register User !!!']);
         }
     }
     /**

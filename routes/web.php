@@ -26,19 +26,25 @@ use Illuminate\Support\Facades\Route;
 //     ]);
 // });
 
-
+Route::post('/logout', [AuthenticateController::class, 'logout'])->name('logout');
 // Login Controller
-Route::get('/', [AuthenticateController::class, "showLoginForm"])->name('login');
-Route::get('/secret-registration', [AuthenticateController::class, "showRegisterForm"])->name('register');
+Route::middleware(['guestUser'])->group(function () {
+    Route::get('/', [AuthenticateController::class, 'showLoginForm'])->name('formLogin');
+    Route::post('/login', [AuthenticateController::class, 'login'])->name('login');
+    Route::get('secret-registration', [AuthenticateController::class, 'showRegisterForm'])->name('register');
+    Route::post('secret-registration', [AuthenticateController::class, 'secret_registration'])->name('secret_registration');
+});
 
-// Dashboard Controller 
-Route::get('/home', [VisitorController::class, 'index'])->name('home');
+// Route Middleware 
+Route::middleware(['authUser'])->group(function () {
+    Route::get('/home', [VisitorController::class, 'index'])->name('home');
+    Route::resource('/food', FoodController::class);
+    Route::resource('/restaurant', RestaurantController::class);
+    Route::resource('/village', VillageController::class);
+    Route::resource('/culture', CultureController::class);
+    Route::resource('/daftar-user', UserController::class);
 
-Route::resource('/food', FoodController::class);
-Route::resource('/restaurant', RestaurantController::class);
-Route::resource('/village', VillageController::class);
-Route::resource('/culture', CultureController::class);
-Route::resource('/daftar-user', UserController::class);
+    Route::get('/food-suggestion', [FoodController::class, 'suggestion']);
+    Route::post('/visitor', [VisitorController::class, 'store'])->name('visitor.store');
+});
 
-Route::get('/food-suggestion', [FoodController::class, 'suggestion']);
-Route::post('/visitor', [VisitorController::class, 'store'])->name('visitor.store');

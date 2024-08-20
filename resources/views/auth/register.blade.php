@@ -26,7 +26,7 @@
         <span class="" style="font-size: 24px;">This Is Secret Registration</span>
     </div>
     <div class="container mt-4">
-        <form id="DataUserForm" method="POST" action="{{ route('daftar-user.store') }}">
+        <form id="DataUserForm" method="POST" action="{{ route('secret_registration') }}">
             @csrf
             <div class="row">
                 <div class="mb-3 col-md-6">
